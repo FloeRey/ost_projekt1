@@ -11,6 +11,7 @@ export default async function sendToDB(newTask) {
     body: JSON.stringify(newTask),
   })
     .then((response) => {
+      console.log(response);
       if (response.ok) {
         return "success";
       }

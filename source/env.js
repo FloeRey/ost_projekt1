@@ -1,6 +1,6 @@
 const env = {
   baseUrl: "http://localhost:3000/",
-  MODE: "db",
+  MODE: "local",
 };
 
 export default env;
