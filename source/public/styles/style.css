@@ -1,0 +1,95 @@
+:root {
+  --dark: #374151;
+  --darker: #1f2937;
+  --darkest: #111827;
+  --gray: #6b7280;
+  --light: #eee;
+  --pink: #ec4899;
+  --purple: #8b5cf6;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Fira sans", sans-serif;
+  font-size: 20px;
+}
+body {
+  margin: 0;
+}
+
+.darkTheme {
+  color: rgb(163, 163, 163);
+  background-color: rgb(43, 43, 43);
+}
+.lightTheme {
+  color: #1a1a1a;
+  background-color: rgb(202, 200, 200);
+}
+
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 2rem;
+  transition: letter-spacing 2s, opacity 1s;
+  opacity: 0;
+  cursor: pointer;
+  flex: 1 1 0%;
+  text-indent: 2rem;
+  background-color: #d4d4d49f;
+  display: flex;
+}
+#loading.isShow {
+  opacity: 1;
+}
+
+#loading.hidden {
+  display: none;
+}
+
+#loading.loadingZoom {
+  letter-spacing: 4rem;
+  opacity: 0.5;
+}
+.dotdotDown {
+  position: absolute;
+  top: 40%;
+}
+.dotdotUp {
+  position: absolute;
+  bottom: 40%;
+}
+
+.task {
+  display: grid;
+  grid-template-areas:
+    "header header header header header header"
+    "menu main main main right right"
+    "menu footer footer footer footer footer";
+  gap: 10px;
+  background-color: #2196f3;
+  padding: 10px;
+}
+.item1 {
+  grid-area: header;
+  font-size: 1.5rem;
+}
+.item2 {
+  grid-area: right;
+}
+.item3 {
+  grid-area: main;
+}
+
+.task > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+}
