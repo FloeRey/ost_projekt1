@@ -29,7 +29,7 @@ createDB.addEventListener("click", createEntry);
 async function createEntry() {
   const task = {
     id: "figglegägglefigglegägglefigglegäggle",
-    title: "figglegägglefigglegägglefigglegäggle",
+    title: "123213",
   };
   await fetch("http://localhost:3000/task", {
     method: "POST",

@@ -1,12 +1,9 @@
 import express from "express";
+import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
 import taskrouter from "./api/task_routes.js";
-
-const require = createRequire(import.meta.url);
-
-const cors = require("cors");
+import cors from "cors";
 
 const app = express();
 const port = 3000;
@@ -18,9 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-
 app.use("/", express.static(path.join(dirname, "source", "public")));
-
 app.use(cors());
 app.use("/task", taskrouter);
 

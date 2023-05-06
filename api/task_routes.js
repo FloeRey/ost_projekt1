@@ -1,5 +1,5 @@
 import express from "express";
-import mysql from "./sql_db.js";
+import pool from "./sql_pool.js";
 
 const router = express.Router();
 
@@ -11,13 +11,12 @@ router.use((req, res, next) => {
 
 // define the home page route
 router.get("/", async (req, res) => {
-  console.log("get");
-  const [rows, fields] = await mysql.execute("SELECT * from TODO");
+  const [rows, fields] = await pool.execute("SELECT * from TODO");
   res.send(rows);
 });
 router.post("/", async (req, res) => {
   try {
-    await mysql.execute("INSERT INTO TODO (title) VALUES (:title)", {
+    await pool.execute("INSERT INTO TODO (title) VALUES (:title)", {
       title: req.body.title,
     });
     res.send("update db success");

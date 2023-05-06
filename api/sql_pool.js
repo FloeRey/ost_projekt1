@@ -1,14 +1,12 @@
-import { createRequire } from "module";
+import { createPool } from "mysql2/promise";
 
-const require = createRequire(import.meta.url);
+const pool = createPool({
+  host: "reyflori.mysql.db.hostpoint.ch",
+  user: "reyflori_ost",
+  database: "reyflori_OSTCAS",
+  password: process.env.pw,
+  namedPlaceholders: true,
+  connectionLimit: 10,
+});
 
-const mysql = require("mysql2/promise");
-
-export default async function init() {
-  const connection = await mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: "test",
-  });
-  return connection;
-}
+export default pool;
