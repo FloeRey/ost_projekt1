@@ -1,0 +1,53 @@
+<html>
+  <!DOCTYPE html>
+  <html lang="de">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Wireframe</title>
+      <style>
+        #buttons {
+          display: flex;
+          flex-direction: column;
+          background-color: rgba(99, 99, 236, 0.692);
+          padding: 5rem 0;
+        }
+        #buttons > div {
+          flex-direction: row;
+          justify-content: space-around;
+        }
+        #body {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          justify-content: space-around;
+        }
+        #body > div {
+          margin: 1rem 0;
+          background-color: rgb(193, 193, 115);
+          padding: 1rem 0;
+        }
+        #form {
+          background-color: rgb(190, 85, 85);
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="buttons">
+        <div><button>create new task</button></div>
+        <div><button>filter 1</button><button>filter2</button></div>
+      </div>
+      <div id="body">
+        <div>task</div>
+        <div>task</div>
+        <div>task</div>
+        <div>task</div>
+      </div>
+      <hr />
+      <div id="form">form</div>
+    </body>
+  </html>
+</html>

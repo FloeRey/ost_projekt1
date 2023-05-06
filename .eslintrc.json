@@ -4,18 +4,18 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["airbnb-base", "prettier", "eslint:recommended"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "rules": {
-    "indent": "off",
-    "no-plusplus": "off",
-    "import/extensions": "off",
-    "object-curly-newline": "off",
-    "object-curly-spacing": "off",
-    "linebreak-style": "off"
+    "indent": "warn",
+    "no-plusplus": "warn",
+    "import/extensions": "warn",
+    "object-curly-newline": "warn",
+    "object-curly-spacing": "warn",
+    "linebreak-style": "warn"
   },
   "globals": {
     "Handlebars": true
