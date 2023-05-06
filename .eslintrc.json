@@ -15,9 +15,12 @@
     "import/extensions": "warn",
     "object-curly-newline": "warn",
     "object-curly-spacing": "warn",
-    "linebreak-style": "warn"
+    "linebreak-style": "off"
   },
   "globals": {
     "Handlebars": true
+  },
+  "resolve": {
+    "extensions": [".js", ".ts"]
   }
 }

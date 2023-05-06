@@ -20,3 +20,24 @@ class App {
 }
 
 document.addEventListener("DOMContentLoaded", () => new App());
+
+/* DEBUG */
+const createDB = document.getElementById("sendNew");
+console.log(createDB);
+createDB.addEventListener("click", createEntry);
+
+async function createEntry() {
+  const task = {
+    id: "figglegägglefigglegägglefigglegäggle",
+    title: "figglegägglefigglegägglefigglegäggle",
+  };
+  await fetch("http://localhost:3000/task", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(task),
+  });
+  // console.log(mysql);
+}

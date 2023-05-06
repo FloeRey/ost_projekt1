@@ -11,30 +11,19 @@ router.use((req, res, next) => {
 
 // define the home page route
 router.get("/", async (req, res) => {
-  // res.send("Received a GET HTTP method");
-  mysql.query("SELECT * from TODO", (err, results) => {
-    console.log(results);
-    res.send(results);
-  });
+  console.log("get");
+  const [rows, fields] = await mysql.execute("SELECT * from TODO");
+  res.send(rows);
 });
-
-router.post("/", (req, res) => {
-  mysql.query(
-    "INSERT TODO  SET ?",
-    {
-      id: req.body.id,
-      name: req.body.name,
-      Description: req.body.Description,
-      importance: req.body.importance,
-    },
-    (err) => {
-      if (err) {
-        res.status(404).send("db not working");
-      } else {
-        res.send("update db success");
-      }
-    }
-  );
+router.post("/", async (req, res) => {
+  try {
+    await mysql.execute("INSERT INTO TODO (title) VALUES (:title)", {
+      title: req.body.title,
+    });
+    res.send("update db success");
+  } catch (e) {
+    res.status(404).send("db not working");
+  }
 });
 
 router.put("/", (req, res) => {
