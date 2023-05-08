@@ -1,23 +1,24 @@
 import BaseComponent from "./base.component.js";
+import ServiceRegistry from "../services/serviceRegistry.js";
+
+import LoadingModel from "../models/loading.model.js";
+import LoadingView from "../views/loading.view.js";
 
 export default class LoadingComponent extends BaseComponent {
   constructor(app) {
     super(app);
-    this.loadingService = app.loadingService;
+    this.loadingService = ServiceRegistry.getService("loadingService");
     this.loadingService.addObserver(this);
-    this.text = "loading";
+    this.loadingModel = LoadingModel;
   }
 
   initialize() {
-    this.container = this.getElement("loading");
-    this.loadingTemplate = this.template("loading");
+    this.container = this.getElement();
+    this.loadingTemplate = this.template();
     this.container.addEventListener("mouseenter", this);
     this.container.addEventListener("mouseleave", this);
-    this.container.addEventListener("transitionend", () => {
-      if (!this.loadingService.isLoading) {
-        this.container.classList.add("hidden");
-      }
-    });
+    this.dotdotUp = document.querySelector(".dotdotUp");
+    this.loadingView = new LoadingView(this.container, this.loadingTemplate);
     this.loadingService.stateChange(true);
     this.startInterval();
   }
@@ -37,30 +38,19 @@ export default class LoadingComponent extends BaseComponent {
   }
 
   mouseEnter() {
-    if (this.loadingService.isLoading)
+    if (this.loadingModel.isLoading)
       this.container.classList.add("loadingZoom");
   }
 
   mouseLeave() {
-    if (this.loadingService.isLoading)
+    if (this.loadingModel.isLoading)
       this.container.classList.remove("loadingZoom");
   }
 
   startInterval() {
     this.stopInterval();
     this.interval = setInterval(() => {
-      if (!this.addText) this.addText = "";
-      if (!this.beforeText) this.beforeText = "";
-      if (this.addText.length < this.text.length) {
-        this.addText += ".";
-      } else if (this.beforeText.length < this.text.length) {
-        this.beforeText += ".";
-      } else {
-        this.beforeText = "";
-        this.addText = "";
-      }
-      this.loadingService.onlyContent = true;
-      this.renderLoadingView(this.loadingService);
+      this.loadingService.updateContent();
     }, 1000);
   }
 
@@ -70,25 +60,12 @@ export default class LoadingComponent extends BaseComponent {
     this.addText = "";
   }
 
-  renderLoadingView(data) {
+  ObsLoading(data) {
     if (data.isLoading) {
-      if (!data.onlyContent) {
-        this.container.classList.remove("hidden");
-
-        setTimeout(() => {
-          this.container.classList.add("isShow");
-        }, 100);
-      }
-      this.container.innerHTML = "";
-      this.container.innerHTML = this.loadingTemplate({
-        text: this.text,
-        addText: this.addText,
-        beforeText: this.beforeText,
-      });
+      this.loadingView.show(data);
     } else {
       this.stopInterval();
-      this.container.classList.remove("loadingZoom");
-      this.container.classList.remove("isShow");
+      this.loadingView.remove();
     }
   }
 }

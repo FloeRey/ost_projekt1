@@ -33,7 +33,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -45,13 +45,12 @@ body {
   text-indent: 2rem;
   background-color: #d4d4d49f;
   display: flex;
+  height: 0;
+  overflow: hidden;
 }
 #loading.isShow {
   opacity: 1;
-}
-
-#loading.hidden {
-  display: none;
+  height: 100vh;
 }
 
 #loading.loadingZoom {
