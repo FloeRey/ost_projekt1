@@ -1,14 +1,10 @@
 import express from "express";
 import path from "path";
+import "dotenv/config";
 import { fileURLToPath } from "url";
-import { createRequire } from "module";
+import cors from "cors";
+
 import taskrouter from "./api/task_routes.js";
-
-import { init } from "./api/sql_db.js";
-
-const require = createRequire(import.meta.url);
-
-const cors = require("cors");
 
 const app = express();
 const port = 3000;
@@ -32,7 +28,13 @@ app.use("/", express.static(path.join(dirname, "source", "public")));
 
 app.use(cors());
 app.use("/task", taskrouter);
-
+/*
 init()
   .then(() => startServer())
   .catch(() => "fail connection to db, check credentials");
+*/
+
+app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Example app listening at http://localhost:${port}`);
+});

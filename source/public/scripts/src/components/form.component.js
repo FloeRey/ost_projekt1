@@ -12,7 +12,7 @@ export default class FormComponent extends BaseComponent {
 
     this.formModel = FormModel;
     this.createTask = false;
-    this.editTask = false;
+    this.editTask = null;
   }
 
   initialize() {
@@ -27,19 +27,46 @@ export default class FormComponent extends BaseComponent {
     Handlebars.registerHelper("add", (a, b) => a + b);
     Handlebars.registerHelper("eq", (a, b) => a === b);
 
+    Handlebars.registerHelper("selected", (option, value) => {
+      if (option + 1 === value) {
+        return "selected";
+      }
+      return "";
+    });
+
     this.formView = new FormView(this.container, this.formTemplate);
     this.container.addEventListener("submit", this);
+    this.container.addEventListener("click", this);
   }
 
   OnSubmit(e) {
     e.preventDefault();
     this.formData = document.getElementById("formCreate");
+    if (this.editTask) {
+      this.taskService
+        .editTask(this.formData, this.editTask.id)
+        .then(() => {
+          console.log("successd edited");
+          this.statusService.homeView();
+        })
+        .catch((error) => console.log(error));
+    } else {
+      this.taskService
+        .createNewTask(this.formData)
+        .then(() => this.statusService.homeView())
+        .catch((error) => console.log(error));
+    }
+  }
 
-    this.taskService.createNewTask(this.formData);
+  OnclickButton(e) {
+    console.log(e.type);
+    if (e.target.id === "cancel") {
+      this.statusService.homeView();
+    }
   }
 
   renderForm() {
-    this.formView.render(this.formModel);
+    this.formView.render(this.formModel, this.editTask);
   }
 
   hideForm() {
@@ -47,10 +74,17 @@ export default class FormComponent extends BaseComponent {
   }
 
   ObsStatus(data) {
-    console.log(data.createTask);
     if (this.createTask !== data.createTask) {
       this.createTask = data.createTask;
-      if (data.createTask) this.renderForm(data);
+
+      if (data.edit) {
+        console.log("write edittask");
+        this.editTask = this.taskService.getTaskById(data.edit);
+      } else {
+        this.editTask = null;
+      }
+
+      if (data.createTask) this.renderForm();
       if (!data.createTask) this.hideForm();
     }
   }

@@ -1,45 +1,60 @@
-import { createRequire } from "module";
-
 import { createPool, Pool } from "mysql2";
 
-const require = createRequire(import.meta.url);
+class PoolPromise {
+  constructor() {
+    this.pool = createPool({
+      host: "reyflori.mysql.db.hostpoint.ch",
+      user: "reyflori_ost",
+      database: "reyflori_OSTCAS",
+      password: process.env.pw,
+      // namedPlaceholders: true,
+      connectionLimit: 10,
+    });
+    this.poolPromise = this.pool.promise();
+  }
 
-require("dotenv").config();
+  async execute(query, params) {
+    // console.log("execute", this.poolPromise);
+    if (!this.poolPromise)
+      throw new Error(
+        "Pool was not created. Ensure pool is created when running the app."
+      );
 
-const mysql = require("mysql2/promise");
+    const [rows] = await this.poolPromise.query(query, params);
 
-const mysql_easy = require("mysql2");
+    /*if (rows.length === 0) {
+      throw new Error("no entry found");
+    }*/
+    if (rows.length === 0) {
+      return rows;
+    }
+    return rows;
+  }
+}
 
-let connection;
-
-export const init = async () => {
-  connection = await mysql.createConnection({
-    host: "reyflori.mysql.db.hostpoint.ch",
-    user: "reyflori_ost",
-    password: process.env.pw,
-    port: 3306,
-    database: "reyflori_OSTCAS",
-  });
-  console.log("connection");
-  return connection;
-};
-
-export const connection2 = mysql_easy.createConnection({
+export default new PoolPromise();
+/*
+const pool = createPool({
   host: "reyflori.mysql.db.hostpoint.ch",
   user: "reyflori_ost",
-  password: process.env.pw,
-  port: 3306,
   database: "reyflori_OSTCAS",
+  password: process.env.pw,
+  namedPlaceholders: true,
+  connectionLimit: 10,
 });
+const poolPromise = pool.promise();
+export default poolPromise;
 
-connection2.connect();
-
-export const execute2 = async (query, params, emptyAllowed) => {
-  const [rows] = await connection.execute(query, params);
+const execute = async (query, params) => {
+  console.log("promise is set=> ", poolPromise);
+  if (!poolPromise)
+    throw new Error(
+      "Pool was not created. Ensure pool is created when running the app."
+    );
+  const [rows] = await poolPromise.query(query, params);
   if (rows.length === 0) {
-    if (!emptyAllowed) throw new Error("no records found");
+    throw new Error("no entry found");
   }
   return rows;
 };
-
-export default connection;
+*/

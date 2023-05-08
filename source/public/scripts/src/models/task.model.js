@@ -4,6 +4,7 @@ export default class TaskModel {
     this.title = title;
     this.importance = importance;
     this.description = description;
+    this.generateDate = new Date().getTime();
   }
 
   static fromJSON(json) {

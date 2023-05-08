@@ -26,8 +26,6 @@ export default class BaseComponent {
   }
 
   handleEvent(e) {
-    e.preventDefault();
-
     switch (e.type) {
       case "click":
         this.OnclickButton(e);
@@ -35,7 +33,6 @@ export default class BaseComponent {
       case "submit":
         this.OnSubmit(e);
         break;
-
       default:
         break;
     }

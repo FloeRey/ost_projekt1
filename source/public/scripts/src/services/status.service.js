@@ -6,9 +6,17 @@ export default class StatusService extends BaseService {
     this.observers = [];
   }
 
+  editTask(taskId) {
+    this.showTasks = false;
+    this.createTask = true;
+    this.edit = taskId;
+    this.update(this);
+  }
+
   createNewTask() {
     this.showTasks = false;
     this.createTask = true;
+    this.edit = null;
     this.update(this);
   }
 

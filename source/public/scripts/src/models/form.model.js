@@ -9,9 +9,11 @@ class FormModel {
     };
   }
 
-  createTask(form) {
+  createTask(form, editId) {
+    console.log("id", editId);
     const formData = new FormData(form);
-    const id = this.uuidv4;
+    const id = editId || this.uuidv4;
+    console.log("id", editId);
     formData.append("task-id", id);
     const title = formData.get("title");
     const description = formData.get("description");

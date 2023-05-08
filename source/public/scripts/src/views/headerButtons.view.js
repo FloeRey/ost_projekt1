@@ -1,4 +1,4 @@
-export default class FormView {
+export default class HeaderButtonsView {
   constructor(container, template) {
     this.container = container;
     this.template = template;
@@ -8,12 +8,11 @@ export default class FormView {
     this.container.innerHTML = "";
   }
 
-  render(data, editTask) {
+  render(data) {
+    console.log(data);
     this.container.innerHTML = "";
-    console.log(editTask);
     this.container.innerHTML = this.template({
-      formData: data.formData,
-      editTask,
+      filterButtons: data.HeaderButtons,
     });
   }
 }

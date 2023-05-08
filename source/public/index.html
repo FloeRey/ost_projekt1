@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./styles/style.css" />
     <script src="./scripts/src/app.js" type="module" defer></script>
   </head>
+
   <body>
     <!-- loading Window -->
     <script id="loading-template" type="text/x-handlebars-template">
@@ -31,7 +32,7 @@
     </script>
     <!-- task list -->
     <script id="tasks-template" type="text/x-handlebars-template">
-      <div class="task">
+      <div class="task" data-id="{{task.id}}">
         <div class="item1">
           {{task.title}}
         </div>
@@ -41,32 +42,48 @@
         <div class="item3">
           {{task.importance}}
         </div>
+        <button class="editTask">edit</button>
+        <button class="removeTask">remove</button>
       </div>
     </script>
     <!-- create / edit task -->
     <script id="form-template" type="text/x-handlebars-template">
       <form id="formCreate" enctype="multipart/form-data">
-        <input type="text" name="title" placeholder="{{formData.createText}}" />
         <input
-          value="asd"
+          value="{{editTask.title}}"
+          type="text"
+          name="title"
+          placeholder="{{formData.createText}}"
+        />
+        <input
+          value="{{editTask.description}}"
           type="text"
           name="description"
           placeholder="{{formData.description}}"
         />
         <select name="importance" id="importance">
           {{#times 10}}
-            <option value="{{add 1 this}}">{{add 1 this}}</option>
+            <option
+              {{selected this ../editTask.importance}}
+              value="{{add 1 this}}"
+            >{{add 1 this}}</option>
           {{/times}}
         </select>
 
         <input
-          value=""
+           value="{{editTask.dueDate}}"
           type="datetime"
           name="dueDate"
           placeholder="{{formData.dueData}}"
         />
+        {{#if editTask}}
+          <button type="submit">edit task</button>
+        <button type="reset" id="cancel">Cancel</button>
+        {{else}}
+          <button type="submit">create new task</button>
+        <button type="reset" id="cancel">Cancel</button>
+        {{/if}}
 
-        <button type="submit">create new task</button>
       </form>
     </script>
     <div id="loading"></div>

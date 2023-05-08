@@ -10,12 +10,12 @@
     "sourceType": "module"
   },
   "rules": {
-    "indent": "warn",
-    "no-plusplus": "warn",
-    "import/extensions": "warn",
+    "indent": "off",
+    "no-plusplus": "off",
+    "import/extensions": "off",
     "object-curly-newline": "warn",
     "object-curly-spacing": "warn",
-    "linebreak-style": "warn"
+    "linebreak-style": "off"
   },
   "globals": {
     "Handlebars": true
