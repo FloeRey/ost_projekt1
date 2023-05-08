@@ -1,23 +1,29 @@
-export default class LoadingService {
-  constructor() {
-    this.observers = [];
-  }
+import LoadingModel from "../models/loading.model.js";
+import BaseService from "./base.service.js";
 
-  addObserver(observer) {
-    this.observers.push(observer);
+export default class LoadingService extends BaseService {
+  constructor() {
+    super();
+    this.observers = [];
+    this.model = LoadingModel;
   }
 
   stateChange(state) {
     if (this.isLoading !== state) {
-      this.onlyContent = false;
-      this.isLoading = state;
-      this.updateObserver(this);
+      if (state === false) this.model.makeHide();
+      if (state === true) this.model.makeShow();
+      this.updateObserver(this.model);
     }
+  }
+
+  updateContent() {
+    this.model.updateContent();
+    this.updateObserver(this.model);
   }
 
   updateObserver(data) {
     if (this.observers.length > 0) {
-      this.observers.forEach((observer) => observer.renderLoadingView(data));
+      this.observers.forEach((observer) => observer.ObsLoading(data));
     }
   }
 }

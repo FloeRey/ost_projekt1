@@ -24,4 +24,20 @@ export default class BaseComponent {
       : `#${this.componentName}-template`;
     return Handlebars.compile(document.querySelector(templateName).innerHTML);
   }
+
+  handleEvent(e) {
+    e.preventDefault();
+
+    switch (e.type) {
+      case "click":
+        this.OnclickButton(e);
+        break;
+      case "submit":
+        this.OnSubmit(e);
+        break;
+
+      default:
+        break;
+    }
+  }
 }

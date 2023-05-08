@@ -1,5 +1,7 @@
 import express from "express";
-import mysql from "./sql_db.js";
+import { execute2 } from "./sql_db.js";
+
+import { connection2 } from "./sql_db.js";
 
 const router = express.Router();
 
@@ -11,30 +13,43 @@ router.use((req, res, next) => {
 
 // define the home page route
 router.get("/", async (req, res) => {
-  // res.send("Received a GET HTTP method");
-  mysql.query("SELECT * from TODO", (err, results) => {
-    console.log(results);
-    res.send(results);
-  });
+  const response = await execute2(`SELECT * from TODO`, null, true);
+
+  res.send(response);
 });
 
-router.post("/", (req, res) => {
-  mysql.query(
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  const response = await execute2(
     "INSERT TODO  SET ?",
     {
       id: req.body.id,
-      name: req.body.name,
-      Description: req.body.Description,
+      title: req.body.title,
+      description: req.body.description,
+      importance: req.body.importance,
+    },
+    true
+  );
+
+  console.log(response);
+  /*
+  connection2.query(
+    "INSERT TODO  SET ?",
+    {
+      id: req.body.id,
+      title: req.body.title,
+      description: req.body.description,
       importance: req.body.importance,
     },
     (err) => {
+      console.log(err);
       if (err) {
         res.status(404).send("db not working");
       } else {
-        res.send("update db success");
+        res.send({ msg: "update db success" });
       }
     }
-  );
+  );*/
 });
 
 router.put("/", (req, res) => {
