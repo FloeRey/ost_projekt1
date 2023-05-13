@@ -18,7 +18,7 @@ export default class TasksComponent extends BaseComponent {
     this.container = this.getElement("tasks");
     this.taskTemplate = this.template("tasks");
     /* load tasks to tasks in taskService */
-    await this.taskService.fetchTasks();
+    // await this.taskService.fetchTasks();
     /* set loading to false */
     this.loadingService.stateChange(false);
     this.container.addEventListener("click", this);
@@ -31,7 +31,9 @@ export default class TasksComponent extends BaseComponent {
       //  console.log(e.target.parentNode);
       const taskId = e.target.parentNode.getAttribute("data-id");
       console.log(taskId);
+
       this.statusService.editTask(taskId);
+
       // this.taskService.removeTask(e.target);
     } else if (e.target.classList.contains("removeTask")) {
       const taskId = e.target.parentNode.getAttribute("data-id");
@@ -61,11 +63,14 @@ export default class TasksComponent extends BaseComponent {
 
   ObsStatus(data) {
     console.log(data);
+    console.log(data);
     /* status change = hide / show */
-    if (this.showTasks !== data.showTasks) {
-      this.showTasks = data.showTasks;
-      if (data.showTasks) this.renderTasks();
-      if (!data.showTasks) this.hideTasks();
+    if (data.showTasks !== undefined) {
+      if (this.showTasks !== data.showTasks) {
+        this.showTasks = data.showTasks;
+        if (data.showTasks) this.renderTasks();
+        if (!data.showTasks) this.hideTasks();
+      }
     }
   }
 

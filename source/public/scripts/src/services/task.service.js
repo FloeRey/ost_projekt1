@@ -6,7 +6,7 @@ export default class TaskService extends BaseService {
   constructor() {
     super();
     this.observers = [];
-    //  this.tasks = [];
+    this.tasks = [];
     this.formModel = FormModel;
     this.notUploadedTasks = [];
     this.url = {
@@ -17,15 +17,33 @@ export default class TaskService extends BaseService {
     };
   }
 
+  async initialize() {
+    await this.fetchTasks();
+    return this.tasks;
+  }
+
   update() {
     console.log(this.observers.length);
     if (this.observers.length > 0) {
-      this.observers.forEach((observer) => observer.ObsTasks(this.tasks));
+      this.observers.forEach((observer) => {
+        if (observer.ObsTasks) {
+          observer.ObsTasks(this.tasks);
+        }
+      });
     }
   }
 
   setWorkMode(mode) {
-    this.workMode = mode;
+    if (this.workMode !== mode) {
+      this.workMode = mode;
+      if (this.observers.length > 0) {
+        this.observers.forEach((observer) => {
+          if (observer.changeTasksMode) {
+            observer.changeTasksMode(this.workMode);
+          }
+        });
+      }
+    }
   }
 
   getFromLocalStorage() {
@@ -123,12 +141,16 @@ export default class TaskService extends BaseService {
     const editTask = TaskModel.fromJSON(
       this.formModel.createTask(form, taskId)
     );
-    try {
-      await this.httpRequest("POST", this.url.editTask, editTask);
-    } catch (e) {
-      console.log(e);
+    if (this.workMode === "local") {
+      this.replaceLocalStorage(editTask, taskId);
+    } else {
+      try {
+        await this.httpRequest("POST", this.url.editTask, editTask);
+      } catch (e) {
+        console.log(e);
+      }
+      this.replaceLocalStorage(editTask, taskId);
     }
-    this.replaceLocalStorage(editTask, taskId);
   }
 
   async createNewTask(form) {

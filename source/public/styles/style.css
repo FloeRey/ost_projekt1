@@ -28,6 +28,13 @@ body {
   background-color: rgb(202, 200, 200);
 }
 
+.dbMode {
+  color: green;
+}
+.localMode {
+  color: red;
+}
+
 #loading {
   position: fixed;
   top: 0;
@@ -43,7 +50,13 @@ body {
   cursor: pointer;
   flex: 1 1 0%;
   text-indent: 2rem;
-  background-color: #d4d4d49f;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    172deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(240, 240, 240, 1) 50%,
+    rgba(251, 251, 251, 1) 100%
+  );
   display: flex;
   height: 0;
   overflow: hidden;
@@ -55,7 +68,7 @@ body {
 
 #loading.loadingZoom {
   letter-spacing: 4rem;
-  opacity: 0.5;
+  /*opacity: 0.5;*/
 }
 .dotdotDown {
   position: absolute;
@@ -75,6 +88,20 @@ body {
   gap: 10px;
   background-color: #2196f3;
   padding: 10px;
+  border-radius: 10px;
+  margin: 20px 10px;
+}
+
+.darkTheme .task {
+  background-color: var(--dark);
+}
+.items {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.darkTheme .items {
+  background-color: rgba(27, 27, 27, 0.279);
+  color: var(--light);
 }
 .item1 {
   grid-area: header;
@@ -88,7 +115,28 @@ body {
 }
 
 .task > div {
-  background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 20px 0;
+}
+
+#info {
+  display: flex;
+  justify-content: center;
+  color: var(--dark);
+  background-color: var(--light);
+}
+.darkTheme #info {
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+#changeTheme {
+  position: fixed;
+  right: 0;
+  border: solid red 2px;
+}
+
+.darkTheme #changeTheme {
+  color: var(--light);
+  background-color: var(--dark);
 }

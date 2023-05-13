@@ -19,6 +19,11 @@
   </head>
 
   <body>
+    <!--info -->
+    <script id="info-template" type="text/x-handlebars-template">
+      <div class="{{mode}}Mode">{{infoText}}</div>
+      <button id="changeTheme">changeTheme</button>
+    </script>
     <!-- loading Window -->
     <script id="loading-template" type="text/x-handlebars-template">
       <div class="dotdotUp">{{beforeText}}</div>
@@ -33,13 +38,13 @@
     <!-- task list -->
     <script id="tasks-template" type="text/x-handlebars-template">
       <div class="task" data-id="{{task.id}}">
-        <div class="item1">
+        <div class="item1 items">
           {{task.title}}
         </div>
-        <div class="item2">
+        <div class="item2 items">
           {{task.description}}
         </div>
-        <div class="item3">
+        <div class="item3 items">
           {{task.importance}}
         </div>
         <button class="editTask">edit</button>
@@ -86,6 +91,8 @@
 
       </form>
     </script>
+
+    <div id="info"></div>
     <div id="loading"></div>
     <div id="headerButtons"></div>
     <div id="tasks"></div>

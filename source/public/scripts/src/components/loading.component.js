@@ -15,10 +15,12 @@ export default class LoadingComponent extends BaseComponent {
   initialize() {
     this.container = this.getElement();
     this.loadingTemplate = this.template();
+
     this.container.addEventListener("mouseenter", this);
     this.container.addEventListener("mouseleave", this);
     this.dotdotUp = document.querySelector(".dotdotUp");
     this.loadingView = new LoadingView(this.container, this.loadingTemplate);
+
     this.loadingService.stateChange(true);
     this.startInterval();
   }
@@ -61,8 +63,9 @@ export default class LoadingComponent extends BaseComponent {
   }
 
   ObsLoading(data) {
+    console.log("status loading", data);
     if (data.isLoading) {
-      this.loadingView.show(data);
+      this.loadingView.show(data, data.override);
     } else {
       this.stopInterval();
       this.loadingView.remove();

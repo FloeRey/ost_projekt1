@@ -6,6 +6,7 @@ import FormModel from "../models/form.model.js";
 export default class FormComponent extends BaseComponent {
   constructor() {
     super();
+    this.loadingService = ServiceRegistry.getService("loadingService");
     this.statusService = ServiceRegistry.getService("statusService");
     this.taskService = ServiceRegistry.getService("taskService");
     this.statusService.addObserver(this);
@@ -43,13 +44,15 @@ export default class FormComponent extends BaseComponent {
     e.preventDefault();
     this.formData = document.getElementById("formCreate");
     if (this.editTask) {
+      this.loadingService.smallLoader(1);
       this.taskService
         .editTask(this.formData, this.editTask.id)
         .then(() => {
           console.log("successd edited");
           this.statusService.homeView();
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
+        .finally(() => this.loadingService.smallLoader(0));
     } else {
       this.taskService
         .createNewTask(this.formData)

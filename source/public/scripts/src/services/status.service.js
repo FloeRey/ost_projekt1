@@ -1,9 +1,36 @@
 import BaseService from "./base.service.js";
 
+import env from "../../../../env.js";
+
 export default class StatusService extends BaseService {
   constructor() {
     super();
     this.observers = [];
+    this.theme = env.theme;
+    // this.showTasks = true;
+    this.url = {
+      getStatus: "http://localhost:3000/getStatus",
+    };
+  }
+
+  async initialize() {
+    console.log("get status from DB");
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    /* try {
+this.reponse = await this.httpRequest("GET", this.url.getStatus);
+    } catch (e) {
+
+    }
+
+    this.theme =*/
+    //this.update(this);
+  }
+
+  changeTheme() {
+    this.theme = this.theme === "dark" ? "light" : "dark";
+    this.update(this);
   }
 
   editTask(taskId) {
@@ -21,6 +48,7 @@ export default class StatusService extends BaseService {
   }
 
   homeView() {
+    console.log("home view");
     this.showTasks = true;
     this.createTask = false;
     this.update(this);

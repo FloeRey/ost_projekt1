@@ -8,6 +8,14 @@ export default class LoadingService extends BaseService {
     this.model = LoadingModel;
   }
 
+  smallLoader(inOut) {
+    console.log("inout", inOut);
+    if (inOut === 0) this.model.makeHide();
+    if (inOut === 1) this.model.makeShow();
+    this.model.override = "update";
+    this.updateObserver(this.model);
+  }
+
   stateChange(state) {
     if (this.isLoading !== state) {
       if (state === false) this.model.makeHide();
