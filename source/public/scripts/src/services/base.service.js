@@ -16,6 +16,7 @@ export default class BaseService {
     const headers = new Headers({
       "content-type": "application/json",
     });
+
     const response = await fetch(path, {
       method,
       headers,

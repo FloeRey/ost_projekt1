@@ -9,6 +9,7 @@ export default class HeaderButtonsComponent extends BaseComponent {
     super(app);
     this.loadingService = app.loadingService;
     this.statusService = ServiceRegistry.getService("statusService");
+    this.taskService = ServiceRegistry.getService("taskService");
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.headerButtonsModel = headerButtonsModel;
@@ -28,6 +29,45 @@ export default class HeaderButtonsComponent extends BaseComponent {
     switch (e.target.id) {
       case "create":
         this.statusService.createNewTask();
+        break;
+      case "name_filter":
+        this.headerButtonsModel.sort("name_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "date_filter":
+        this.headerButtonsModel.sort("date_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "creationDate_filter":
+        this.headerButtonsModel.sort("creationDate_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "importance_filter":
+        this.headerButtonsModel.sort("importance_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "completed_filter":
+        this.headerButtonsModel.sort("completed_filter");
+        this.taskService.toggleCompleteTasks(
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
         break;
       default:
         break;

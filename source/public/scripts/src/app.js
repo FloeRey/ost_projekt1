@@ -23,7 +23,7 @@ class App {
     this.statusService.addObserver(this);
 
     /*this.statusService.initialize().finally((e) => {
-      console.log(e);
+
       this.startAppliaction();
     });*/
 
@@ -37,7 +37,9 @@ class App {
 
         this.startAppliaction();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   chooseTheme() {
@@ -48,12 +50,9 @@ class App {
     }
   }
 
-  init() {
-    console.log("init");
-  }
+  init() {}
 
   ObsStatus() {
-    console.log("status changed => ", this.statusService.theme);
     this.theme = this.statusService.theme;
     this.chooseTheme();
 
@@ -61,8 +60,6 @@ class App {
   }
 
   startAppliaction() {
-    console.log("start");
-
     /* show info */
     this.infoComponent = new InfoComponent();
 

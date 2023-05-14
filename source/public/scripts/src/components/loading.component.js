@@ -63,7 +63,6 @@ export default class LoadingComponent extends BaseComponent {
   }
 
   ObsLoading(data) {
-    console.log("status loading", data);
     if (data.isLoading) {
       this.loadingView.show(data, data.override);
     } else {

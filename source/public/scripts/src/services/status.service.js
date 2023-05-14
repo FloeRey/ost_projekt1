@@ -14,9 +14,7 @@ export default class StatusService extends BaseService {
   }
 
   async initialize() {
-    console.log("get status from DB");
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     /* try {
 this.reponse = await this.httpRequest("GET", this.url.getStatus);
@@ -48,7 +46,6 @@ this.reponse = await this.httpRequest("GET", this.url.getStatus);
   }
 
   homeView() {
-    console.log("home view");
     this.showTasks = true;
     this.createTask = false;
     this.update(this);

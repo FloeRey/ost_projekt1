@@ -10,10 +10,11 @@ export default class FormView {
 
   render(data, editTask) {
     this.container.innerHTML = "";
-    console.log(editTask);
+
     this.container.innerHTML = this.template({
       formData: data.formData,
       editTask,
+      title: editTask ? "EDIT TASK" : "CREATE NEW TASK",
     });
   }
 }

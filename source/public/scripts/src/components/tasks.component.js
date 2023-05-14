@@ -25,19 +25,19 @@ export default class TasksComponent extends BaseComponent {
   }
 
   OnclickButton(e) {
-    console.log("onclick");
     if (e.target.classList.contains("editTask")) {
-      //  console.log(e.target);
-      //  console.log(e.target.parentNode);
       const taskId = e.target.parentNode.getAttribute("data-id");
-      console.log(taskId);
-
       this.statusService.editTask(taskId);
-
-      // this.taskService.removeTask(e.target);
     } else if (e.target.classList.contains("removeTask")) {
       const taskId = e.target.parentNode.getAttribute("data-id");
-      this.taskService.removeTask(taskId);
+
+      const text = "Are you sure to delete?";
+      if (window.confirm(text) === true) {
+        this.taskService.removeTask(taskId);
+      }
+    } else if (e.target.classList.contains("complete")) {
+      const taskId = e.target.parentNode.getAttribute("data-id");
+      this.taskService.toggleComplete(taskId);
     }
   }
 
@@ -62,8 +62,6 @@ export default class TasksComponent extends BaseComponent {
   }
 
   ObsStatus(data) {
-    console.log(data);
-    console.log(data);
     /* status change = hide / show */
     if (data.showTasks !== undefined) {
       if (this.showTasks !== data.showTasks) {
@@ -75,7 +73,6 @@ export default class TasksComponent extends BaseComponent {
   }
 
   ObsTasks() {
-    console.log("reRender");
     this.renderTasks();
   }
 }

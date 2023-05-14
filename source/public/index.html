@@ -14,7 +14,7 @@
       crossorigin="anonymous"
       defer
     ></script>
-    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/index.css" />
     <script src="./scripts/src/app.js" type="module" defer></script>
   </head>
 
@@ -37,7 +37,8 @@
     </script>
     <!-- task list -->
     <script id="tasks-template" type="text/x-handlebars-template">
-      <div class="task" data-id="{{task.id}}">
+      {{#if (noteq task.hideTask true)}}
+      <div class="task {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}"    >
         <div class="item1 items">
           {{task.title}}
         </div>
@@ -47,49 +48,78 @@
         <div class="item3 items">
           {{task.importance}}
         </div>
+        <div class="item4 items">
+          {{task.dueDate}}
+        </div>
         <button class="editTask">edit</button>
         <button class="removeTask">remove</button>
+        <input
+          type="checkbox"
+          {{#if task.complete}}checked{{/if}}
+          class="complete"
+          id="complete"
+        />
+        <label for="complete">completed</label>
       </div>
+      {{/if}}
     </script>
     <!-- create / edit task -->
     <script id="form-template" type="text/x-handlebars-template">
-      <form id="formCreate" enctype="multipart/form-data">
-        <input
-          value="{{editTask.title}}"
-          type="text"
-          name="title"
-          placeholder="{{formData.createText}}"
-        />
-        <input
-          value="{{editTask.description}}"
-          type="text"
-          name="description"
-          placeholder="{{formData.description}}"
-        />
-        <select name="importance" id="importance">
-          {{#times 10}}
-            <option
-              {{selected this ../editTask.importance}}
-              value="{{add 1 this}}"
-            >{{add 1 this}}</option>
-          {{/times}}
-        </select>
+      <div class="content_column">
+        <div class="formTitle">{{title}}</div>
+          <form id="formCreate" >
 
-        <input
-           value="{{editTask.dueDate}}"
-          type="datetime"
-          name="dueDate"
-          placeholder="{{formData.dueData}}"
-        />
-        {{#if editTask}}
-          <button type="submit">edit task</button>
-        <button type="reset" id="cancel">Cancel</button>
-        {{else}}
-          <button type="submit">create new task</button>
-        <button type="reset" id="cancel">Cancel</button>
-        {{/if}}
+            <div class="formInput">
+              <input id="title"
+                value="{{editTask.title}}"
+                type="text"
+                name="title"
+                placeholder="{{formData.createText}}"
+              />
+            </div>
+            <div class="formInput">
+              <textarea
+              rows="1" cols="50"
+                type="text"
+                name="description"
+                placeholder="{{formData.description}}"
+              />{{editTask.description}}</textarea>
+            </div>
+            <div class="formInput">
+              <label for="importance">weight</label>
+              <select name="importance" id="importance">
+                {{#times 10}}
+                  <option
+                    {{selected this ../editTask.importance}}
+                    value="{{add 1 this}}"
+                  >{{add 1 this}}</option>
+                {{/times}}
+              </select>
 
-      </form>
+            </div>
+            <div class="formInput">
+              <input type="checkbox"  {{#if editTask.complete}}checked{{/if}} name="complete" id="complete" value="true">
+              <label for="complete">complete</label>
+            </div>
+            <div class="formInput">
+              <input
+                value="{{editTask.dueDate}}"
+                type="date"
+                name="dueDate"
+                placeholder="{{formData.dueData}}"
+              />
+            </div>
+            {{#if editTask}}
+              <button type="submit">edit task</button>
+              <button type="reset" id="cancel">Cancel</button>
+            {{else}}
+              <button type="submit">create new task</button>
+              <button type="reset" id="cancel">Cancel</button>
+            {{/if}}
+
+          </form>
+
+          </div>
     </script>
 
     <div id="info"></div>

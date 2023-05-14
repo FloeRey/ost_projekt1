@@ -25,7 +25,6 @@ export default class InfoComponent extends BaseComponent {
   }
 
   render() {
-    console.log("****", this.mode);
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       infoText: `you working on ${this.mode}`,
@@ -34,7 +33,6 @@ export default class InfoComponent extends BaseComponent {
   }
 
   OnclickButton(e) {
-    console.log(e.target);
     if (e.target.id === "changeTheme") {
       this.statusService.changeTheme();
     }

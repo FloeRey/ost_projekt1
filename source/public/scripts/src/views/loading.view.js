@@ -5,11 +5,10 @@ export default class LoadingView {
   }
 
   show(data) {
-    console.log("show data", data.onlyContent);
     if (!data.onlyContent) {
       this.container.classList.add("isShow");
     }
-    console.log(data);
+
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       text: data.override ? data.override : data.text,

@@ -24,7 +24,6 @@ class LoadingModel {
   }
 
   makeShow() {
-    console.log("make show");
     this.onlyContent = false;
     this.isLoading = true;
   }

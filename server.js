@@ -12,7 +12,6 @@ const port = 3000;
 function startServer() {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
-    console.log(`Example app listening at http://localhost:${port}`);
   });
 }
 
@@ -36,5 +35,4 @@ init()
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`Example app listening at http://localhost:${port}`);
 });

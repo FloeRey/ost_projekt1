@@ -27,6 +27,8 @@ export default class FormComponent extends BaseComponent {
     });
     Handlebars.registerHelper("add", (a, b) => a + b);
     Handlebars.registerHelper("eq", (a, b) => a === b);
+    Handlebars.registerHelper("noteq", (a, b) => a !== b);
+    Handlebars.registerHelper("or", (a, b) => a !== b);
 
     Handlebars.registerHelper("selected", (option, value) => {
       if (option + 1 === value) {
@@ -46,7 +48,7 @@ export default class FormComponent extends BaseComponent {
     if (this.editTask) {
       this.loadingService.smallLoader(1);
       this.taskService
-        .editTask(this.formData, this.editTask.id)
+        .editTask(this.formData, this.editTask.id, this.editTask.generatteDate)
         .then(() => {
           console.log("successd edited");
           this.statusService.homeView();
@@ -83,6 +85,7 @@ export default class FormComponent extends BaseComponent {
       if (data.edit) {
         console.log("write edittask");
         this.editTask = this.taskService.getTaskById(data.edit);
+        console.log(this.editTask);
       } else {
         this.editTask = null;
       }
