@@ -17,6 +17,7 @@ body {
   margin: 0;
   font-family: "Fira sans", sans-serif;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 .darkTheme {
@@ -29,7 +30,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: blue;
   height: calc(100vh - var(--header-size));
 }
 
@@ -104,7 +104,7 @@ body {
   background-color: var(--dark);
 }
 #changeTheme {
-  position: fixed;
+  position: absolute;
   right: 0;
   border: solid red 2px;
 }
@@ -114,6 +114,21 @@ body {
   background-color: var(--dark);
 }
 /* INFO */
+
+.dbMode {
+  color: rgb(16, 228, 16);
+  text-shadow: white 1px 1px 10px;
+}
+.localMode {
+  color: red;
+  text-shadow: rgb(12, 12, 12) 1px 1px 10px;
+}
+.localMode::before {
+  content: "! ";
+}
+.localMode::after {
+  content: " !";
+}
 
 /*loading*/
 
@@ -168,22 +183,32 @@ body {
 /*loading*/
 
 /* task */
-
 .task {
+  overflow: hidden;
   display: grid;
+  /* grid-template-areas:
+    "title title title title title title"
+    "description description description description description importance"
+    "dueDate dueDate complete edit edit remove";*/
   grid-template-areas:
-    "header header header header header header"
-    "menu main main main right right"
-    "menu footer footer footer footer footer";
+    "title title title importance"
+    "description description description description"
+    "dueDate complete edit remove";
   gap: 10px;
   background-color: #2196f3;
   padding: 10px;
   border-radius: 10px;
   margin: 20px 10px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+}
+
+.task.completed {
+  border: green 2px solid;
 }
 
 .darkTheme .task {
-  background-color: var(--dark);
+  background-color: var(--darker);
 }
 .items {
   background-color: rgba(255, 255, 255, 0.8);
@@ -193,15 +218,28 @@ body {
   background-color: rgba(27, 27, 27, 0.279);
   color: var(--light);
 }
-.item1 {
-  grid-area: header;
+.task__title {
+  grid-area: title;
   font-size: 1.5rem;
+  text-align: center;
 }
-.item2 {
-  grid-area: right;
+.task__description {
+  grid-area: description;
 }
-.item3 {
-  grid-area: main;
+.task__importance {
+  grid-area: importance;
+}
+.task__dueDate {
+  grid-area: dueDate;
+}
+.task__complete {
+  grid-area: complete;
+}
+.task__edit {
+  grid-area: edit;
+}
+.task__remove {
+  grid-area: remove;
 }
 
 .task > div {

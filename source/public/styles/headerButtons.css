@@ -1,0 +1,23 @@
+#headerButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filterButtonsDiv {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#createNewTask {
+  padding: 24px 45px;
+}
+
+.darkTheme #createNewTask {
+  border: solid var(--light) 3px;
+}
+
+@media only screen and(min-width: 600px) {
+  #headerButtons {
+    flex-direction: row;
+  }
+}

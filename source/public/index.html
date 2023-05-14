@@ -15,6 +15,8 @@
       defer
     ></script>
     <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="stylesheet" href="./styles/headerButtons.css" />
+    <link rel="stylesheet" href="./styles/global.css" />
     <script src="./scripts/src/app.js" type="module" defer></script>
   </head>
 
@@ -22,7 +24,9 @@
     <!--info -->
     <script id="info-template" type="text/x-handlebars-template">
       <div class="{{mode}}Mode">{{infoText}}</div>
-      <button id="changeTheme">changeTheme</button>
+      <button class="btn noMargin" id="changeTheme">{{#if
+          (eq theme "dark")
+        }}&#x263C;{{else}} &#x263E;{{/if}}</button>
     </script>
     <!-- loading Window -->
     <script id="loading-template" type="text/x-handlebars-template">
@@ -32,34 +36,42 @@
     </script>
     <!-- top Buttons -->
     <script id="headerButtons-template" type="text/x-handlebars-template">
-      <button id="create">create new</button>
-      <div>{{filterButtons}}</div>
+      <button class="btn" id="createNewTask">create new</button>
+      <div class="filterButtonsDiv">
+        {{filterButtons}}{{showHideComplete}}</div>
     </script>
     <!-- task list -->
     <script id="tasks-template" type="text/x-handlebars-template">
-      {{#if (noteq task.hideTask true)}}
-      <div class="task {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}"    >
-        <div class="item1 items">
-          {{task.title}}
+        {{#if (noteq task.hideTask true)}}
+        <div class="task {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}"    >
+          <input class="task__title items noInput" disabled value="{{task.title}}" placeholder="title" >
+
+          <div class="task__description items">
+            {{task.description}}
+          </div>
+          <div class="task__importance items">
+            {{#times task.importance}}
+
+            &#8623;
+            {{/times}}
+
+          </div>
+          <div class="task__dueDate items">
+            {{task.dueDate}}
+          </div>
+
+          <div class="task__complete items">
+          <label for="complete_{{id}}">completed</label>
+          <input
+            type="checkbox"
+            {{#if task.complete}}checked{{/if}}
+            class="complete"
+            id="complete_{{id}}"
+          />
         </div>
-        <div class="item2 items">
-          {{task.description}}
-        </div>
-        <div class="item3 items">
-          {{task.importance}}
-        </div>
-        <div class="item4 items">
-          {{task.dueDate}}
-        </div>
-        <button class="editTask">edit</button>
-        <button class="removeTask">remove</button>
-        <input
-          type="checkbox"
-          {{#if task.complete}}checked{{/if}}
-          class="complete"
-          id="complete"
-        />
-        <label for="complete">completed</label>
+
+        <button class="btn editTask task__edit">edit</button>
+        <button class="btn removeTask task__remove">remove</button>
       </div>
       {{/if}}
     </script>
@@ -68,7 +80,6 @@
       <div class="content_column">
         <div class="formTitle">{{title}}</div>
           <form id="formCreate" >
-
             <div class="formInput">
               <input id="title"
                 value="{{editTask.title}}"
@@ -110,11 +121,11 @@
               />
             </div>
             {{#if editTask}}
-              <button type="submit">edit task</button>
-              <button type="reset" id="cancel">Cancel</button>
+              <button class="btn" type="submit">edit task</button>
+              <button class="btn" type="button" id="cancel">Cancel</button>
             {{else}}
-              <button type="submit">create new task</button>
-              <button type="reset" id="cancel">Cancel</button>
+              <button class="btn" type="submit">create new task</button>
+              <button class="btn" type="button" id="cancel">Cancel</button>
             {{/if}}
 
           </form>

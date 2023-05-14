@@ -1,0 +1,29 @@
+.btn {
+  background: none;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: var(--light);
+  color: var(--dark);
+  font-weight: bold;
+  border: outset black 2px;
+  cursor: pointer;
+  transition: all 50ms linear;
+}
+.btn:hover {
+  transform: scale(1.02);
+}
+
+.darkTheme .btn {
+  border: none;
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.noInput {
+  background: none;
+  border: none;
+}

@@ -18,11 +18,11 @@ export default class HeaderButtonsView {
     this.container.innerHTML = this.template({
       filterButtons: data.HeaderButtons,
       sortMethod: data.activeSort,
+      showHideComplete: data.completes ? data.showHideCompletes_button : "",
     });
   }
 
   updateFilter(data) {
-    console.log(data);
     if (data.activeFilter === "completed_filter") {
       document.getElementById("completed_filter").innerHTML =
         data.toggleCompleteFilterText[data.activeDirection];

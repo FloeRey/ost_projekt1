@@ -1,5 +1,6 @@
 import BaseComponent from "./base.component.js";
 import ServiceRegistry from "../services/serviceRegistry.js";
+import PubSub from "../utils/pubSub.js";
 
 export default class TasksComponent extends BaseComponent {
   constructor(app) {
@@ -10,13 +11,14 @@ export default class TasksComponent extends BaseComponent {
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.taskService.addObserver(this);
-
+    this.pubSub = PubSub;
     this.showTasks = true;
   }
 
   async initialize() {
     this.container = this.getElement("tasks");
     this.taskTemplate = this.template("tasks");
+
     /* load tasks to tasks in taskService */
     // await this.taskService.fetchTasks();
     /* set loading to false */
@@ -36,16 +38,21 @@ export default class TasksComponent extends BaseComponent {
         this.taskService.removeTask(taskId);
       }
     } else if (e.target.classList.contains("complete")) {
-      const taskId = e.target.parentNode.getAttribute("data-id");
-      this.taskService.toggleComplete(taskId);
+      const taskId = e.target.parentNode.parentNode.getAttribute("data-id");
+      this.updateDB(taskId);
     }
+  }
+
+  async updateDB(taskId) {
+    await this.taskService.toggleComplete(taskId);
+    this.pubSub.publish("changesFromTaskComponent");
   }
 
   renderTasks() {
     this.container.innerHTML = "";
     /* get tasks from taskService */
-    this.taskService.tasks.forEach((task) => {
-      const renderedTaskEntry = this.taskTemplate({ task });
+    this.taskService.tasks.forEach((task, index) => {
+      const renderedTaskEntry = this.taskTemplate({ task, id: index });
       this.container.insertAdjacentHTML("afterbegin", renderedTaskEntry);
     });
   }

@@ -20,23 +20,6 @@ export default class FormComponent extends BaseComponent {
     this.container = this.getElement();
     this.formTemplate = this.template();
 
-    Handlebars.registerHelper("times", (n, block) => {
-      let accum = "";
-      for (let i = 0; i < n; ++i) accum += block.fn(i);
-      return accum;
-    });
-    Handlebars.registerHelper("add", (a, b) => a + b);
-    Handlebars.registerHelper("eq", (a, b) => a === b);
-    Handlebars.registerHelper("noteq", (a, b) => a !== b);
-    Handlebars.registerHelper("or", (a, b) => a !== b);
-
-    Handlebars.registerHelper("selected", (option, value) => {
-      if (option + 1 === value) {
-        return "selected";
-      }
-      return "";
-    });
-
     this.formView = new FormView(this.container, this.formTemplate);
     this.container.addEventListener("submit", this);
     this.container.addEventListener("click", this);

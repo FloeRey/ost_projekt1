@@ -3,6 +3,7 @@ import ServiceRegistry from "../services/serviceRegistry.js";
 
 import headerButtonsModel from "../models/headerButtons.model.js";
 import HeaderButtonsView from "../views/headerButtons.view.js";
+import PubSub from "../utils/pubSub.js";
 
 export default class HeaderButtonsComponent extends BaseComponent {
   constructor(app) {
@@ -23,11 +24,22 @@ export default class HeaderButtonsComponent extends BaseComponent {
       this.container,
       this.buttonsTemplate
     );
+    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
+    this.pubSub = PubSub;
+    this.pubSub.subscribe(
+      "changesFromTaskComponent",
+      this.updateFormFromTasks.bind(this)
+    );
+  }
+
+  updateFormFromTasks() {
+    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
+    this.renderForm();
   }
 
   OnclickButton(e) {
     switch (e.target.id) {
-      case "create":
+      case "createNewTask":
         this.statusService.createNewTask();
         break;
       case "name_filter":

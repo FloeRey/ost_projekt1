@@ -24,6 +24,14 @@ export default class TaskService extends BaseService {
     await this.fetchTasks();
   }
 
+  get hasCompleteOne() {
+    console.log(
+      "has finished in",
+      this.tasks.some((task) => task.complete)
+    );
+    return this.tasks.some((task) => task.complete);
+  }
+
   update() {
     if (this.observers.length > 0) {
       this.observers.forEach((observer) => {
@@ -215,6 +223,7 @@ export default class TaskService extends BaseService {
         await this.httpRequest("post", this.url.completeTask, {
           id: taskId,
         });
+        console.log("db done");
       } catch (error) {
         console.log(error);
       }
