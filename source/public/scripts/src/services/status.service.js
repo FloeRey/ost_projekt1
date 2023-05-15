@@ -1,33 +1,44 @@
 import BaseService from "./base.service.js";
-
 import env from "../../../../env.js";
+import _UserData_ from "./utils/userData.js";
 
-export default class StatusService extends BaseService {
+class StatusService extends BaseService {
   constructor() {
     super();
     this.observers = [];
-    this.theme = env.theme;
-    // this.showTasks = true;
+    this.status = {};
+    this.userData = new _UserData_();
     this.url = {
-      getStatus: "http://localhost:3000/getStatus",
+      getUserSettings: `${env.baseUrl}/user/getUserData`,
     };
   }
 
+  get getData() {
+    return this.userData;
+  }
+
+  get readState() {
+    return this.status;
+  }
+
   async initialize() {
-    await new Promise((resolve) => setTimeout(resolve, 50));
-
-    /* try {
-this.reponse = await this.httpRequest("GET", this.url.getStatus);
+    try {
+      const userOptions = await this.httpRequest(
+        "POST",
+        this.url.getUserSettings,
+        {
+          userID: env.userID,
+        }
+      );
+      this.userData.addSettings(userOptions);
+      return this.userData;
     } catch (e) {
-
+      return this.userData;
     }
-
-    this.theme =*/
-    //this.update(this);
   }
 
   changeTheme() {
-    this.theme = this.theme === "dark" ? "light" : "dark";
+    this.userData.theme = this.userData.theme === "dark" ? "light" : "dark";
     this.update(this);
   }
 
@@ -57,3 +68,5 @@ this.reponse = await this.httpRequest("GET", this.url.getStatus);
     }
   }
 }
+
+export default new StatusService();

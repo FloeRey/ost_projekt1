@@ -1,8 +1,9 @@
 import BaseService from "./base.service.js";
 import TaskModel from "../models/task.model.js";
 import FormModel from "../models/form.model.js";
+import env from "../../../../env.js";
 
-export default class TaskService extends BaseService {
+class TaskService extends BaseService {
   constructor() {
     super();
     this.observers = [];
@@ -12,11 +13,11 @@ export default class TaskService extends BaseService {
     this.formModel = FormModel;
     this.notUploadedTasks = [];
     this.url = {
-      getTask: "http://localhost:3000/task",
-      updateTask: "http://localhost:3000/task",
-      editTask: "http://localhost:3000/task/edit",
-      completeTask: "http://localhost:3000/task/complete",
-      deleteTask: "http://localhost:3000/task/",
+      getTask: `${env.baseUrl}/task/getAllTasks`,
+      updateTask: `${env.baseUrl}/task/newTask`,
+      editTask: `${env.baseUrl}/task/editTask`,
+      completeTask: `${env.baseUrl}/task/complete`,
+      deleteTask: `${env.baseUrl}/task/deleteTask`,
     };
   }
 
@@ -25,10 +26,6 @@ export default class TaskService extends BaseService {
   }
 
   get hasCompleteOne() {
-    console.log(
-      "has finished in",
-      this.tasks.some((task) => task.complete)
-    );
     return this.tasks.some((task) => task.complete);
   }
 
@@ -236,16 +233,8 @@ export default class TaskService extends BaseService {
     const editTask = TaskModel.fromJSON(
       this.formModel.createTask(form, taskId, generateDate)
     );
-    if (this.workMode === "local") {
-      this.replaceLocalStorage(editTask, taskId);
-    } else {
-      try {
-        await this.httpRequest("POST", this.url.editTask, editTask);
-      } catch (error) {
-        console.log(error);
-      }
-      this.replaceLocalStorage(editTask, taskId);
-    }
+    this.replaceLocalStorage(editTask, taskId);
+    await this.httpRequest("POST", this.url.editTask, editTask);
   }
 
   async createNewTask(form) {
@@ -284,3 +273,5 @@ export default class TaskService extends BaseService {
     this.getFromLocalPending();
   }
 }
+
+export default new TaskService();

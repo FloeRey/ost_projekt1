@@ -1,6 +1,7 @@
 import BaseComponent from "./base.component.js";
-import ServiceRegistry from "../services/serviceRegistry.js";
-
+import LoadingService from "../services/loading.service.js";
+import StatusService from "../services/status.service.js";
+import TaskService from "../services/task.service.js";
 import headerButtonsModel from "../models/headerButtons.model.js";
 import HeaderButtonsView from "../views/headerButtons.view.js";
 import PubSub from "../utils/pubSub.js";
@@ -8,15 +9,12 @@ import PubSub from "../utils/pubSub.js";
 export default class HeaderButtonsComponent extends BaseComponent {
   constructor(app) {
     super(app);
-    this.loadingService = app.loadingService;
-    this.statusService = ServiceRegistry.getService("statusService");
-    this.taskService = ServiceRegistry.getService("taskService");
+    this.loadingService = LoadingService;
+    this.statusService = StatusService;
+    this.taskService = TaskService;
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.headerButtonsModel = headerButtonsModel;
-  }
-
-  initialize() {
     this.container = this.getElement();
     this.buttonsTemplate = this.template();
     this.container.addEventListener("click", this);
@@ -24,7 +22,6 @@ export default class HeaderButtonsComponent extends BaseComponent {
       this.container,
       this.buttonsTemplate
     );
-    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
     this.pubSub = PubSub;
     this.pubSub.subscribe(
       "changesFromTaskComponent",
@@ -32,9 +29,14 @@ export default class HeaderButtonsComponent extends BaseComponent {
     );
   }
 
+  initialize() {
+    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
+    this.render();
+  }
+
   updateFormFromTasks() {
     this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
-    this.renderForm();
+    this.render();
   }
 
   OnclickButton(e) {
@@ -86,13 +88,7 @@ export default class HeaderButtonsComponent extends BaseComponent {
     }
   }
 
-  ObsLoading(data) {
-    if (!data.isLoading) {
-      this.renderForm(this.headerButtons);
-    }
-  }
-
-  renderForm() {
+  render() {
     this.HeaderButtonsView.render(this.headerButtonsModel);
   }
 
@@ -101,10 +97,11 @@ export default class HeaderButtonsComponent extends BaseComponent {
   }
 
   ObsStatus(data) {
+    console.log("status observer", data);
     if (this.createTask !== data.createTask) {
       this.createTask = data.createTask;
       if (data.createTask) this.hideButtons();
-      if (!data.createTask) this.renderForm();
+      if (!data.createTask) this.render();
     }
   }
 }

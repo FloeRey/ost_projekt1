@@ -16,6 +16,16 @@
   border: solid var(--light) 3px;
 }
 
+#completed_filter {
+  background: linear-gradient(#e66465, #9198e5);
+}
+#completed_filter.hide {
+  color: red;
+}
+#completed_filter.show {
+  color: green;
+}
+
 @media only screen and(min-width: 600px) {
   #headerButtons {
     flex-direction: row;

@@ -7,17 +7,18 @@ class HeaderButtons {
       <button class='filter btn' id='date_filter' > By Due Date</ >
       <button class='filter btn' id='creationDate_filter'>By Creation Date</button>
       <button class='filter btn' id='importance_filter'>By Importance</button>
-
       `
     );
     this.showHideCompletes_button = new Handlebars.SafeString(
-      ` <button class='filter btn' id='completed_filter'>Hide Complete Tasks</button>`
+      ` <button class='filter btn hide' id='completed_filter'>Hide Complete Tasks</button>`
     );
     this.toggleCompleteFilterText = {
       0: "Hide Complete Tasks",
       1: "Show complete tasks",
     };
-    this.direction = {};
+    this.direction = {
+      completed_filter: 0, // start value
+    };
   }
 
   sort(mode) {

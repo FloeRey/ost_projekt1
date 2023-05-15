@@ -1,115 +1,61 @@
 import TaskService from "./services/task.service.js";
-import LoadingService from "./services/loading.service.js";
 import StatusService from "./services/status.service.js";
-
 import LoadingComponent from "./components/loading.component.js";
+import LoadingService from "./services/loading.service.js";
+import InfoComponent from "./components/info.component.js";
+
+import RegisterHelper from "./handleBars/helpers.js";
+
 import HeaderButtonsComponent from "./components/headerButtons.component.js";
 import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
-
 import ServiceRegistry from "./services/serviceRegistry.js";
-
-import InfoComponent from "./components/info.component.js";
 
 class App {
   constructor() {
-    this.initService();
-
-    /* show loading screen */
-    this.loadingComponent = new LoadingComponent();
-    this.loadingComponent.initialize();
-
-    /* check for theme mode on DB or LocalStorage */
-    this.statusService.addObserver(this);
-
-    /*this.statusService.initialize().finally((e) => {
-
-      this.startAppliaction();
-    });*/
-
-    Promise.all([
-      this.statusService.initialize(),
-      this.taskService.initialize(),
-    ])
-      .then(() => {
-        this.registerHelpers();
-        this.theme = this.statusService.theme;
-        this.chooseTheme();
-
-        this.startAppliaction();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.registerHelper = RegisterHelper;
+    this.loadingStatus = [];
+    LoadingComponent.initialize();
+    StatusService.initialize().then((userData) => {
+      this.checkTheme(userData);
+      this.checkLoading();
+    });
+    TaskService.initialize().then(() => this.checkLoading());
+    StatusService.addObserver(this);
+    this.loadingService = LoadingService;
   }
 
-  chooseTheme() {
-    if (this.theme === "dark") {
-      document.body.classList.add("darkTheme");
-    } else {
-      document.body.classList.remove("darkTheme");
+  checkLoading() {
+    this.loadingStatus.push(1);
+    if (this.loadingStatus.length === 2) {
+      this.startApplication();
     }
   }
 
-  init() {}
-
-  ObsStatus() {
-    this.theme = this.statusService.theme;
-    this.chooseTheme();
-
-    //  document.body.classList.add(status.theme);
-  }
-
-  startAppliaction() {
-    /* show info */
-    this.infoComponent = new InfoComponent();
-
-    /* work with service registry dependency */
-    // this.loadingComponent = new LoadingComponent();
-    this.FormComponent = new FormComponent();
-
-    /* work with full app component */
-    this.HeaderButtonsComponent = new HeaderButtonsComponent(this);
-    this.TasksComponent = new TasksComponent(this);
-
-    this.HeaderButtonsComponent.initialize();
-    this.FormComponent.initialize();
-    this.TasksComponent.initialize();
+  startApplication() {
+    this.loadingService.stateChange(false);
+    this.infoComponent = new InfoComponent(this);
     this.infoComponent.initialize();
+    this.tasksComponent = new TasksComponent(this);
+    this.tasksComponent.initialize();
+    this.HeaderButtonsComponent = new HeaderButtonsComponent(this);
+    this.HeaderButtonsComponent.initialize();
+    this.FormComponent = new FormComponent();
   }
 
-  initService() {
-    this.taskService = new TaskService();
-    this.loadingService = new LoadingService();
-    this.statusService = new StatusService();
-    /* create registry for all services */
-    ServiceRegistry.addService("taskService", this.taskService);
-    ServiceRegistry.addService("loadingService", this.loadingService);
-    ServiceRegistry.addService("statusService", this.statusService);
+  ObsStatus(data) {
+    console.log("status observer", data);
+    this.checkTheme(data.userData);
   }
 
-  registerHelpers() {
-    Handlebars.registerHelper("times", (n, block) => {
-      let accum = "";
-      for (let i = 0; i < n; ++i) accum += block.fn(i);
-      return accum;
-    });
-    Handlebars.registerHelper("add", (a, b) => a + b);
-    Handlebars.registerHelper("eq", (a, b) => a === b);
-    Handlebars.registerHelper("noteq", (a, b) => a !== b);
-    Handlebars.registerHelper("or", (a, b) => a !== b);
-
-    Handlebars.registerHelper("selected", (option, value) => {
-      if (option + 1 === value) {
-        return "selected";
-      }
-      return "";
-    });
+  checkTheme(userData) {
+    if (this.theme !== userData.theme) {
+      this.theme = userData.theme;
+      document.body.classList.remove("darkTheme", "lightTheme");
+      document.body.classList.add(`${userData.theme}Theme`);
+    }
   }
 }
 
-//const AppComponent = new App();
-
-console.log("add event listener");
-
-document.addEventListener("DOMContentLoaded", () => new App());
+const AppComponent = new App();
+export default AppComponent;

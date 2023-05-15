@@ -1,29 +1,22 @@
 import BaseComponent from "./base.component.js";
-import ServiceRegistry from "../services/serviceRegistry.js";
+import TaskService from "../services/task.service.js";
+import StatusService from "../services/status.service.js";
 
 export default class InfoComponent extends BaseComponent {
   constructor(app) {
     super(app);
-
-    this.mode = null;
-    this.taskService = ServiceRegistry.getService("taskService");
-    this.statusService = ServiceRegistry.getService("statusService");
-
+    this.taskService = TaskService;
+    this.statusService = StatusService;
     this.mode = this.taskService.workMode;
     this.taskService.addObserver(this);
+    this.template = this.template();
+    this.container = this.getElement();
+    this.container.addEventListener("click", this);
+    this.userData = this.statusService.getData;
   }
 
   initialize() {
-    this.template = this.template();
-    this.container = this.getElement();
-    this.theme = this.statusService.theme;
-    this.container.addEventListener("click", this);
     this.render();
-    /*
-    document.getElementById("changeTheme").addEventListener("click", () => {
-      this.statusService.changeTheme();
-      // Array.from(document.body.)
-    });*/
   }
 
   render() {
@@ -31,24 +24,20 @@ export default class InfoComponent extends BaseComponent {
     this.container.innerHTML = this.template({
       infoText: `you working on ${this.mode}`,
       mode: this.mode,
-      theme: this.theme,
+      theme: this.userData.theme,
     });
   }
 
   OnclickButton(e) {
     if (e.target.id === "changeTheme") {
       this.statusService.changeTheme();
-      this.theme = this.statusService.theme;
-
+      this.userData = this.statusService.getData;
       this.render();
     }
   }
 
-  ObsStatus() {
-    //if (this.statusService.theme !== this.theme) { }
-  }
-
   changeTasksMode(mode) {
+    console.log("taskService observer (change tasks mode):", mode);
     this.mode = mode;
     this.render();
   }

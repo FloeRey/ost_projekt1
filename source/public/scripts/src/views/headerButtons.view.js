@@ -2,6 +2,7 @@ export default class HeaderButtonsView {
   constructor(container, template) {
     this.container = container;
     this.template = template;
+    this.init = null;
   }
 
   hide() {
@@ -24,8 +25,16 @@ export default class HeaderButtonsView {
 
   updateFilter(data) {
     if (data.activeFilter === "completed_filter") {
-      document.getElementById("completed_filter").innerHTML =
+      this.completeButton = document.getElementById("completed_filter");
+      this.completeButton.innerHTML =
         data.toggleCompleteFilterText[data.activeDirection];
+      if (data.activeDirection === 1) {
+        this.completeButton.classList.remove("hide");
+        this.completeButton.classList.add("show");
+      } else {
+        this.completeButton.classList.remove("show");
+        this.completeButton.classList.add("hide");
+      }
     } else {
       Array.from(this.AllFilterButtons).forEach((elem) => {
         elem.classList.remove("activeFilter_0", "activeFilter_1");

@@ -1,7 +1,7 @@
 import LoadingModel from "../models/loading.model.js";
 import BaseService from "./base.service.js";
 
-export default class LoadingService extends BaseService {
+class LoadingService extends BaseService {
   constructor() {
     super();
     this.observers = [];
@@ -34,3 +34,4 @@ export default class LoadingService extends BaseService {
     }
   }
 }
+export default new LoadingService();
