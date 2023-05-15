@@ -35,8 +35,13 @@ export default class HeaderButtonsComponent extends BaseComponent {
   }
 
   updateFormFromTasks() {
-    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
-    this.render();
+    this.headerButtonsModel.checkCompletesDynamic(
+      this.taskService.hasCompleteOne
+    );
+    this.HeaderButtonsView.updateFilter(
+      this.headerButtonsModel,
+      this.headerButtonsModel.reset.bind(this.headerButtonsModel)
+    );
   }
 
   OnclickButton(e) {
@@ -81,7 +86,12 @@ export default class HeaderButtonsComponent extends BaseComponent {
         this.taskService.toggleCompleteTasks(
           this.headerButtonsModel.activeDirection
         );
+        console.log(this.headerButtonsModel);
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        this.pubSub.publish(
+          "changesFromHeaderButtons",
+          this.headerButtonsModel.activeDirection
+        );
         break;
       default:
         break;

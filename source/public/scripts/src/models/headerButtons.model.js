@@ -19,6 +19,7 @@ class HeaderButtons {
     this.direction = {
       completed_filter: 0, // start value
     };
+    this.activeDirection = 0;
   }
 
   sort(mode) {
@@ -29,7 +30,21 @@ class HeaderButtons {
   }
 
   checkCompletes(hasCompletes) {
-    this.completes = hasCompletes;
+    if (this.completes !== hasCompletes) {
+      this.completes = hasCompletes;
+    }
+  }
+
+  checkCompletesDynamic(hasCompletes) {
+    if (this.completes !== hasCompletes) {
+      this.completes = hasCompletes;
+      this.reRender = true;
+      this.activeFilter = "completed_filter";
+    }
+  }
+
+  reset() {
+    this.reRender = false;
   }
 }
 

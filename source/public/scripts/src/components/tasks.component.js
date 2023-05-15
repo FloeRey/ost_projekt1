@@ -19,6 +19,15 @@ export default class TasksComponent extends BaseComponent {
     this.container = this.getElement();
     this.taskTemplate = this.template();
     this.container.addEventListener("click", this);
+    this.pubSub.subscribe(
+      "changesFromHeaderButtons",
+      this.updateFromHeaderButtons.bind(this)
+    );
+    this.hideShowButton_Headerbuttons_status = 0;
+  }
+
+  updateFromHeaderButtons(data) {
+    this.hideShowButton_Headerbuttons_status = data;
   }
 
   async initialize() {
@@ -26,6 +35,8 @@ export default class TasksComponent extends BaseComponent {
   }
 
   OnclickButton(e) {
+    e.stopPropagation();
+
     if (e.target.classList.contains("editTask")) {
       const taskId = e.target.parentNode.getAttribute("data-id");
       this.statusService.editTask(taskId);
@@ -37,18 +48,47 @@ export default class TasksComponent extends BaseComponent {
       }
     } else if (e.target.classList.contains("complete")) {
       const taskId = e.target.parentNode.parentNode.getAttribute("data-id");
+      const button = e.target;
+
+      if (button.classList.contains("isCompleted")) {
+        button.innerHTML = "mark as Complete";
+
+        button.classList.remove("isCompleted");
+      } else {
+        button.innerHTML = "isComplete";
+        button.classList.add("isCompleted");
+      }
+
       this.updateDB(taskId);
     }
   }
 
   async updateDB(taskId) {
-    await this.taskService.toggleComplete(taskId);
+    try {
+      await this.taskService.toggleComplete(taskId);
+    } catch (e) {
+      alert("not updated db - local storage updated");
+    }
+    this.renderTasks();
+    this.taskService.toggleCompleteTasks(
+      this.hideShowButton_Headerbuttons_status
+    );
+    /*
+    const taskElement = document.querySelector(`[data-id="${taskId}"]`);
+
+    // eslint-disable-next-line no-unused-expressions
+    taskElement.classList.contains("completed")
+      ? taskElement.classList.remove("completed")
+      : taskElement.classList.add("completed");
+
+    if (this.headerButtons_ShowHideComplete_Status === 1) {
+      taskElement.style.display = "none";
+    }*/
     this.pubSub.publish("changesFromTaskComponent");
   }
 
   renderTasks() {
     this.container.innerHTML = "";
-    /* get tasks from taskService */
     this.taskService.tasks.forEach((task, index) => {
       const renderedTaskEntry = this.taskTemplate({ task, id: index });
       this.container.insertAdjacentHTML("afterbegin", renderedTaskEntry);
@@ -79,7 +119,8 @@ export default class TasksComponent extends BaseComponent {
     }
   }
 
-  ObsTasks() {
+  ObsTasks(data) {
+    console.log("observable tasks", data);
     this.renderTasks();
   }
 }

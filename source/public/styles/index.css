@@ -1,9 +1,7 @@
 @import "./headerButtons.css";
+@import "./global.css";
 
-
-
-
-:root  {
+:root {
   --dark: #374151;
   --darker: #1f2937;
   --darkest: #111827;
@@ -240,6 +238,7 @@ body {
 .task__complete {
   grid-area: complete;
 }
+
 .task__edit {
   grid-area: edit;
 }

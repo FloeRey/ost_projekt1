@@ -215,18 +215,12 @@ class TaskService extends BaseService {
   }
 
   async toggleComplete(taskId) {
-    if (this.workMode === "db") {
-      try {
-        await this.httpRequest("post", this.url.completeTask, {
-          id: taskId,
-        });
-        console.log("db done");
-      } catch (error) {
-        console.log(error);
-      }
-    }
     this.updateLocalStorage(taskId);
-    this.update();
+    if (this.workMode === "db") {
+      await this.httpRequest("post", this.url.completeTask, {
+        id: taskId,
+      });
+    }
   }
 
   async editTask(form, taskId, generateDate) {
@@ -265,7 +259,7 @@ class TaskService extends BaseService {
       this.tasks = response.map((task) => TaskModel.fromJSON(task));
       this.addToLocalStorage();
     } catch (e) {
-      console.warn("no access to db, working with localStorage", e);
+      console.warn("no access to db, working with localStorage");
       this.setWorkMode("local");
       this.getFromLocalStorage();
     }

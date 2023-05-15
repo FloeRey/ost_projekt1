@@ -16,6 +16,7 @@ class RegisterHelper {
       }
       return "";
     });
+    Handlebars.registerPartial("myPartial", "{{prefix}}");
   }
 }
 export default new RegisterHelper();

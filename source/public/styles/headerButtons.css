@@ -26,6 +26,20 @@
   color: green;
 }
 
+.filter::after {
+  content: ">";
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+.activeFilter_0::after {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+.activeFilter_1::after {
+  display: inline-block;
+  transform: rotate(-90deg);
+}
+
 @media only screen and(min-width: 600px) {
   #headerButtons {
     flex-direction: row;

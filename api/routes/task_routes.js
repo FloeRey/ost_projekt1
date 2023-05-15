@@ -4,7 +4,8 @@ import CommonRoutesConfig from "../common.routes..config.js";
 export default class TaskRouter extends CommonRoutesConfig {
   constructor(app) {
     super(app, "TaskRoutes");
-    this.querySelectAll = "SELECT * from TODO";
+    this.querySelectAll =
+      "SELECT *,  DATE_FORMAT(dueDate,'%m/%d/%Y') AS dueDate from TODO";
   }
 
   get getAllAndUpdate() {

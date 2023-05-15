@@ -18,22 +18,27 @@ export default class HeaderButtonsView {
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       filterButtons: data.HeaderButtons,
-      sortMethod: data.activeSort,
-      showHideComplete: data.completes ? data.showHideCompletes_button : "",
+      showHideButton: data.completes,
     });
   }
 
-  updateFilter(data) {
+  updateFilter(data, callbackfn) {
+    if (data.reRender) {
+      this.render(data);
+      callbackfn();
+    }
     if (data.activeFilter === "completed_filter") {
-      this.completeButton = document.getElementById("completed_filter");
-      this.completeButton.innerHTML =
-        data.toggleCompleteFilterText[data.activeDirection];
-      if (data.activeDirection === 1) {
-        this.completeButton.classList.remove("hide");
-        this.completeButton.classList.add("show");
-      } else {
-        this.completeButton.classList.remove("show");
-        this.completeButton.classList.add("hide");
+      if (data.completes) {
+        this.completeButton = document.getElementById("completed_filter");
+        this.completeButton.innerHTML =
+          data.toggleCompleteFilterText[data.activeDirection];
+        if (data.activeDirection === 1) {
+          this.completeButton.classList.remove("hide");
+          this.completeButton.classList.add("show");
+        } else {
+          this.completeButton.classList.remove("show");
+          this.completeButton.classList.add("hide");
+        }
       }
     } else {
       Array.from(this.AllFilterButtons).forEach((elem) => {
