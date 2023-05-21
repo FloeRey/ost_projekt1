@@ -1,9 +1,58 @@
 import BaseService from "./base.service.js";
+import env from "../../../../env.js";
+import _UserData_ from "./utils/userData.js";
 
-export default class StatusService extends BaseService {
+class StatusService extends BaseService {
   constructor() {
     super();
     this.observers = [];
+    this.status = {};
+    this.userData = new _UserData_();
+
+    this.url = {
+      getUserSettings: `${env.baseUrl}/user/getUserData`,
+    };
+  }
+
+  get getData() {
+    return this.userData;
+  }
+
+  get readState() {
+    return this.status;
+  }
+
+  get readFromLocal() {
+    const userOptions = localStorage.getItem("settings");
+    if (!userOptions) return this.userData;
+    return this.userData.addSettings(userOptions);
+  }
+
+  async initialize() {
+    if (env.MODE === "offline") {
+      console.warn(
+        `App mode is '${env.MODE}' - you chan change it in the env.js file`
+      );
+      return this.readFromLocal;
+    }
+    try {
+      const userOptions = await this.httpRequest(
+        "POST",
+        this.url.getUserSettings,
+        {
+          userID: env.userID,
+        }
+      );
+      this.userData.addSettings(userOptions);
+      return this.userData;
+    } catch (e) {
+      return this.userData;
+    }
+  }
+
+  changeTheme() {
+    this.userData.theme = this.userData.theme === "dark" ? "light" : "dark";
+    this.update(this);
   }
 
   editTask(taskId) {
@@ -32,3 +81,5 @@ export default class StatusService extends BaseService {
     }
   }
 }
+
+export default new StatusService();

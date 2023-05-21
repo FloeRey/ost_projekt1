@@ -14,7 +14,7 @@ class PoolPromise {
   }
 
   async execute(query, params) {
-    // console.log("execute", this.poolPromise);
+    //
     if (!this.poolPromise)
       throw new Error(
         "Pool was not created. Ensure pool is created when running the app."
@@ -46,7 +46,7 @@ const poolPromise = pool.promise();
 export default poolPromise;
 
 const execute = async (query, params) => {
-  console.log("promise is set=> ", poolPromise);
+
   if (!poolPromise)
     throw new Error(
       "Pool was not created. Ensure pool is created when running the app."

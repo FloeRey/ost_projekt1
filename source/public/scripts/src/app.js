@@ -1,41 +1,60 @@
 import TaskService from "./services/task.service.js";
-import LoadingService from "./services/loading.service.js";
 import StatusService from "./services/status.service.js";
-
 import LoadingComponent from "./components/loading.component.js";
+import LoadingService from "./services/loading.service.js";
+import InfoComponent from "./components/info.component.js";
+
+import Helpers from "./handleBars/helpers.js";
+
 import HeaderButtonsComponent from "./components/headerButtons.component.js";
 import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
 
-import ServiceRegistry from "./services/serviceRegistry.js";
-
 class App {
   constructor() {
-    this.initService();
-
-    /* work with service registry dependency */
-    this.loadingComponent = new LoadingComponent();
-    this.FormComponent = new FormComponent();
-
-    /* work with full app component */
-    this.HeaderButtonsComponent = new HeaderButtonsComponent(this);
-    this.TasksComponent = new TasksComponent(this);
-
-    this.loadingComponent.initialize();
-    this.HeaderButtonsComponent.initialize();
-    this.FormComponent.initialize();
-    this.TasksComponent.initialize();
+    this.handleBars_helpers = Helpers;
+    this.loadingStatus = [];
+    LoadingComponent.initialize();
+    StatusService.initialize().then((userData) => {
+      this.checkTheme(userData.theme);
+      this.checkLoading();
+    });
+    TaskService.initialize().then(() => this.checkLoading());
+    StatusService.addObserver(this);
+    this.loadingService = LoadingService;
   }
 
-  initService() {
-    this.taskService = new TaskService();
-    this.loadingService = new LoadingService();
-    this.statusService = new StatusService();
-    /* create registry for all services */
-    ServiceRegistry.addService("taskService", this.taskService);
-    ServiceRegistry.addService("loadingService", this.loadingService);
-    ServiceRegistry.addService("statusService", this.statusService);
+  checkLoading() {
+    this.loadingStatus.push(1);
+    if (this.loadingStatus.length === 2) {
+      this.startApplication();
+    }
+  }
+
+  startApplication() {
+    this.loadingService.stateChange(false);
+    this.infoComponent = new InfoComponent(this);
+    this.infoComponent.initialize();
+    this.tasksComponent = new TasksComponent(this);
+    this.tasksComponent.initialize();
+    this.HeaderButtonsComponent = new HeaderButtonsComponent(this);
+    this.HeaderButtonsComponent.initialize();
+    this.FormComponent = new FormComponent();
+  }
+
+  ObsStatus(data) {
+    console.log("status observer", data);
+    this.checkTheme(data.userData.theme);
+  }
+
+  checkTheme(theme = "light") {
+    if (this.theme !== theme) {
+      this.theme = theme;
+      document.body.classList.remove("darkTheme", "lightTheme");
+      document.body.classList.add(`${theme}Theme`);
+    }
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => new App());
+const AppComponent = new App();
+export default AppComponent;

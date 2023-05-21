@@ -11,7 +11,7 @@ export default class LoadingView {
 
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
-      text: data.text,
+      text: data.override ? data.override : data.text,
       addText: data.addText,
       beforeText: data.beforeText,
     });

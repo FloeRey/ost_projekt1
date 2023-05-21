@@ -1,11 +1,18 @@
 import LoadingModel from "../models/loading.model.js";
 import BaseService from "./base.service.js";
 
-export default class LoadingService extends BaseService {
+class LoadingService extends BaseService {
   constructor() {
     super();
     this.observers = [];
     this.model = LoadingModel;
+  }
+
+  smallLoader(inOut) {
+    if (inOut === 0) this.model.makeHide();
+    if (inOut === 1) this.model.makeShow();
+    this.model.override = "update";
+    this.updateObserver(this.model);
   }
 
   stateChange(state) {
@@ -27,3 +34,4 @@ export default class LoadingService extends BaseService {
     }
   }
 }
+export default new LoadingService();

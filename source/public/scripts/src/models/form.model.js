@@ -9,21 +9,27 @@ class FormModel {
     };
   }
 
-  createTask(form, editId) {
-    console.log("id", editId);
+  createTask(form, editId, generateDate) {
     const formData = new FormData(form);
     const id = editId || this.uuidv4;
-    console.log("id", editId);
+
     formData.append("task-id", id);
     const title = formData.get("title");
     const description = formData.get("description");
     const importance = formData.get("importance");
+    const dueDate = formData.get("dueDate");
+    const complete = formData.get("complete");
+
     const newTask = {
       id,
       title,
       description,
       importance,
+      complete: complete ? 1 : 0,
+      generateDate,
     };
+    console.log(newTask);
+    if (dueDate) newTask.dueDate = dueDate;
     return newTask;
   }
 

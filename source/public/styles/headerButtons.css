@@ -1,0 +1,71 @@
+#headerButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filterWrapper {
+  text-align: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.rubrikTag {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--light);
+}
+
+.filterButtonsDiv {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.filterButtonsDiv .sort_btn {
+  width: 100%;
+  padding: 10px 0;
+}
+
+#createNewTask {
+  border-radius: 20px;
+  border: solid var(--darker) 1px;
+}
+
+.darkTheme #createNewTask {
+  border: solid var(--light) 1px;
+}
+
+.filter {
+  position: relative;
+}
+
+#completed_filter.hide {
+  color: red;
+}
+#completed_filter.show {
+  color: green;
+}
+
+.filter::after {
+  content: ">";
+  display: none;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+.activeFilter_0::after {
+  display: inline-block;
+  opacity: 1;
+  transform: rotate(90deg);
+}
+.activeFilter_1::after {
+  display: inline-block;
+  opacity: 1;
+  transform: rotate(-90deg);
+}
+
+@media (min-width: 370px) {
+  .filterButtonsDiv .sort_btn {
+    flex: 1 1 0%;
+  }
+}

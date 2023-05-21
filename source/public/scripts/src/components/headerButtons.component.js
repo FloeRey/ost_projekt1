@@ -1,20 +1,20 @@
 import BaseComponent from "./base.component.js";
-import ServiceRegistry from "../services/serviceRegistry.js";
-
+import LoadingService from "../services/loading.service.js";
+import StatusService from "../services/status.service.js";
+import TaskService from "../services/task.service.js";
 import headerButtonsModel from "../models/headerButtons.model.js";
 import HeaderButtonsView from "../views/headerButtons.view.js";
+import PubSub from "../utils/pubSub.js";
 
 export default class HeaderButtonsComponent extends BaseComponent {
   constructor(app) {
     super(app);
-    this.loadingService = app.loadingService;
-    this.statusService = ServiceRegistry.getService("statusService");
+    this.loadingService = LoadingService;
+    this.statusService = StatusService;
+    this.taskService = TaskService;
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.headerButtonsModel = headerButtonsModel;
-  }
-
-  initialize() {
     this.container = this.getElement();
     this.buttonsTemplate = this.template();
     this.container.addEventListener("click", this);
@@ -22,25 +22,83 @@ export default class HeaderButtonsComponent extends BaseComponent {
       this.container,
       this.buttonsTemplate
     );
+    this.pubSub = PubSub;
+    this.pubSub.subscribe(
+      "changesFromTaskComponent",
+      this.updateFormFromTasks.bind(this)
+    );
+  }
+
+  initialize() {
+    this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
+    this.render();
+  }
+
+  updateFormFromTasks() {
+    this.headerButtonsModel.checkCompletesDynamic(
+      this.taskService.hasCompleteOne
+    );
+    this.HeaderButtonsView.updateFilter(
+      this.headerButtonsModel,
+      this.headerButtonsModel.reset.bind(this.headerButtonsModel)
+    );
   }
 
   OnclickButton(e) {
     switch (e.target.id) {
-      case "create":
+      case "createNewTask":
         this.statusService.createNewTask();
+        break;
+      case "name_filter":
+        this.headerButtonsModel.sort("name_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "date_filter":
+        this.headerButtonsModel.sort("date_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "creationDate_filter":
+        this.headerButtonsModel.sort("creationDate_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "importance_filter":
+        this.headerButtonsModel.sort("importance_filter");
+        this.taskService.sort(
+          this.headerButtonsModel.activeFilter,
+          this.headerButtonsModel.activeDirection
+        );
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        break;
+      case "completed_filter":
+        this.headerButtonsModel.sort("completed_filter");
+        this.taskService.toggleCompleteTasks(
+          this.headerButtonsModel.activeDirection
+        );
+        console.log(this.headerButtonsModel);
+        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        this.pubSub.publish(
+          "changesFromHeaderButtons",
+          this.headerButtonsModel.activeDirection
+        );
         break;
       default:
         break;
     }
   }
 
-  ObsLoading(data) {
-    if (!data.isLoading) {
-      this.renderForm(this.headerButtons);
-    }
-  }
-
-  renderForm() {
+  render() {
     this.HeaderButtonsView.render(this.headerButtonsModel);
   }
 
@@ -49,10 +107,11 @@ export default class HeaderButtonsComponent extends BaseComponent {
   }
 
   ObsStatus(data) {
+    console.log("status observer", data);
     if (this.createTask !== data.createTask) {
       this.createTask = data.createTask;
       if (data.createTask) this.hideButtons();
-      if (!data.createTask) this.renderForm();
+      if (!data.createTask) this.render();
     }
   }
 }

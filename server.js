@@ -4,17 +4,13 @@ import "dotenv/config";
 import { fileURLToPath } from "url";
 import cors from "cors";
 
-import taskrouter from "./api/task_routes.js";
+import TaskRouter from "./api/routes/task_routes.js";
+import UserRoutes from "./api/routes/user.routes.js";
+
+const routes = [];
 
 const app = express();
 const port = 3000;
-
-function startServer() {
-  app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Example app listening at http://localhost:${port}`);
-  });
-}
 
 // For parsing application/json
 app.use(express.json());
@@ -27,7 +23,16 @@ const dirname = path.dirname(filename);
 app.use("/", express.static(path.join(dirname, "source", "public")));
 
 app.use(cors());
-app.use("/task", taskrouter);
+
+const taskRouter = express.Router();
+const userRoutes = express.Router();
+
+app.use("/api/user", userRoutes);
+app.use("/api/task", taskRouter);
+
+routes.push(new TaskRouter(taskRouter));
+routes.push(new UserRoutes(userRoutes));
+
 /*
 init()
   .then(() => startServer())
@@ -35,6 +40,9 @@ init()
 */
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Example app listening at http://localhost:${port}`);
+  // eslint-disable-next-line no-console
+  routes.forEach((route) => {
+    console.log(`Routes configured for ${route.getName()}`);
+  });
 });
