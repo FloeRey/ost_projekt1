@@ -40,7 +40,7 @@ export default class FormComponent extends BaseComponent {
       }
       this.statusService.homeView();
     } catch (e) {
-      alert("not updated - check your network - localStorage was updated");
+      console.warn(e);
     }
   }
 

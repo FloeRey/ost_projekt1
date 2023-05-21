@@ -2,17 +2,24 @@ import BaseComponent from "./base.component.js";
 import TaskService from "../services/task.service.js";
 import StatusService from "../services/status.service.js";
 
+import InfoModel from "../models/info.model.js";
+import InfoView from "../views/info.view.js";
+
 export default class InfoComponent extends BaseComponent {
   constructor(app) {
     super(app);
     this.taskService = TaskService;
     this.statusService = StatusService;
-    this.mode = this.taskService.workMode;
+    this.workMode = this.taskService.workMode;
+
+    this.container = this.getElement();
     this.taskService.addObserver(this);
     this.template = this.template();
-    this.container = this.getElement();
+
+    this.model = new InfoModel(this.statusService.getData);
+    this.view = new InfoView(this.container, this.template);
+
     this.container.addEventListener("click", this);
-    this.userData = this.statusService.getData;
   }
 
   initialize() {
@@ -20,25 +27,19 @@ export default class InfoComponent extends BaseComponent {
   }
 
   render() {
-    this.container.innerHTML = "";
-    this.container.innerHTML = this.template({
-      infoText: `you working on ${this.mode}`,
-      mode: this.mode,
-      theme: this.userData.theme,
-    });
+    this.view.render(this.workMode, this.model);
   }
 
   OnclickButton(e) {
     if (e.target.id === "changeTheme") {
       this.statusService.changeTheme();
-      this.userData = this.statusService.getData;
+      this.model.updateData(this.statusService.getData);
       this.render();
     }
   }
 
-  changeTasksMode(mode) {
-    console.log("taskService observer (change tasks mode):", mode);
-    this.mode = mode;
+  changeTasksMode(workMode) {
+    this.workMode = workMode;
     this.render();
   }
 }

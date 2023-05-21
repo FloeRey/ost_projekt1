@@ -3,10 +3,10 @@ class HeaderButtons {
     this.createText = "create new task";
     this.HeaderButtons = new Handlebars.SafeString(
       `
-      <button class='filter btn' id='name_filter'>Name</button>
-      <button class='filter btn' id='date_filter' > By Due Date</ >
-      <button class='filter btn' id='creationDate_filter'>By Creation Date</button>
-      <button class='filter btn' id='importance_filter'>By Importance</button>
+      <button class='filter sort_btn btn' id='name_filter'>Name </button>
+      <button class='filter sort_btn btn' id='date_filter' >DueDate </ >
+      <button class='filter sort_btn btn' id='creationDate_filter'>Creation </button>
+      <button class='filter sort_btn btn' id='importance_filter'>Importance </button>
       `
     );
     this.showHideCompletes_button = new Handlebars.SafeString(

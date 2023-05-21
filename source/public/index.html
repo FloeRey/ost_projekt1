@@ -1,88 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Some tags are vital for SEO. Others have little or no impact on rankings. Here's every type of meta tag you need to know about.The purpose of a meta description is to reflect the essence of a page, but with more details and context."
-    />
-    <title>ToDo App</title>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
-      integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU="
-      crossorigin="anonymous"
-      defer
-    ></script>
-    <link rel="stylesheet" href="./styles/index.css" />
 
-    <script src="./scripts/src/app.js" type="module" defer></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Some tags are vital for SEO. Others have little or no impact on rankings. Here's every type of meta tag you need to know about.The purpose of a meta description is to reflect the essence of a page, but with more details and context." />
+  <title>ToDo App</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
+    integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
+  <link rel="stylesheet" href="./styles/index.css" />
 
-  <body>
-    <!--info -->
-    <script id="info-template" type="text/x-handlebars-template">
-      <div class="{{mode}}Mode">{{infoText}}</div>
-      <button class="btn noMargin" id="changeTheme">{{#if
+  <script src="./scripts/src/app.js" type="module"></script>
+
+</head>
+
+<body>
+  <!--info -->
+  <script id="info-template" type="text/x-handlebars-template">
+      <div class="{{workMode}}Mode noselect">{{infoText}}</div>
+      <button class="main_btn btn noMargin noPadding noHover" id="changeTheme">{{#if
           (eq theme "dark")
         }}&#x263C;{{else}} &#x263E;{{/if}}</button>
     </script>
-    <!-- loading Window -->
-    <script id="loading-template" type="text/x-handlebars-template">
+  <!-- loading Window -->
+  <script id="loading-template" type="text/x-handlebars-template">
       <div class="dotdotUp">{{beforeText}}</div>
       <div>{{text}}</div>
       <div class="dotdotDown">{{addText}}</div>
     </script>
-    <!-- top Buttons -->
-    <script id="headerButtons-template" type="text/x-handlebars-template">
-      <button class="btn" id="createNewTask">create new</button>
+  <!-- top Buttons -->
+  <script id="headerButtons-template" type="text/x-handlebars-template">
+      <button class="main_btn btn animated" id="createNewTask">create new</button>
+
       <div class="filterButtonsDiv">
+
         {{filterButtons}}
-        {{#if showHideButton}}
-          <button id="completed_filter" class="filter btn hide">Hide Completed
-            tasks</button>
-        {{/if}}
 
       </div>
-    </script>
-    <!-- task list -->
-    <script id="tasks-template" type="text/x-handlebars-template">
-        {{#if (noteq task.hideTask true)}}
-        <div class="task {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}"    >
-          <input class="task__title items noInput" disabled value="{{task.title}}" placeholder="title" >
-
-          <div class="task__description items">
-            {{task.description}}
-          </div>
-          <div class="task__importance items">
-            {{#times task.importance}}
-
-            &#8623;
-            {{/times}}
-
-          </div>
-          <div class="task__dueDate items">
-            {{task.dueDate}}
-          </div>
-
-          <div class="task__complete items">
-          <label class="noselect btn complete {{#if task.complete}}completed{{/if}}" for="complete_{{id}}">
-            {{#if task.complete}}isComplete{{else}} mark as Complete {{/if}}</label>
-          <input hidden
-            type="checkbox"
-            {{#if task.complete}}checked{{/if}}
-
-            id="complete_{{id}}"
-          />
-        </div>
-
-        <button class="btn editTask task__edit">edit</button>
-        <button class="btn removeTask task__remove">remove</button>
-      </div>
+      {{#if hasCompleteTasks}}
+      <button id="completed_filter" class="main_btn btn hide">Hide Completed
+        tasks</button>
       {{/if}}
     </script>
-    <!-- create / edit task -->
-    <script id="form-template" type="text/x-handlebars-template">
+  <!-- task list -->
+  <script id="tasks-template" type="text/x-handlebars-template">
+    {{#if (noteq task.hideTask true)}}
+      <div class="task {{#if task.complete}}completed{{/if}}"    >
+        <input class="task__title  items noInput" disabled value="{{task.title}}" placeholder="title"  pattern="[A-Za-z]{3}" title="Three letter country code">
+        <div class="task__description items">
+          {{task.description}}
+        </div>
+        <div class="task__importance items">
+          {{#times task.importance}}
+          ❄
+          {{/times}}
+        </div>
+        <div class="task__dueDate items">
+          {{task.dueDate}}
+        </div>
+
+        <button id="complete_{{index}}" class="task__complete btn_task btn {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}">{{#if task.complete}}isComplete{{else}} mark as Complete {{/if}}</button>
+
+      <button id="editTask_{{index}}" class="btn_task btn editTask task__edit" data-id="{{task.id}}" >edit</button>
+      <button id="removeTask_{{index}}" class="btn_task btn removeTask task__remove" data-id="{{task.id}}">remove</button>
+    </div>
+    {{/if}}
+  </script>
+  <!-- create / edit task -->
+  <script id="form-template" type="text/x-handlebars-template">
       <div class="content_column">
         <div class="formTitle">{{title}}</div>
           <form id="formCreate" >
@@ -138,11 +124,13 @@
 
           </div>
     </script>
-
+  <div class="container">
     <div id="info"></div>
     <div id="loading"></div>
     <div id="headerButtons"></div>
     <div id="tasks"></div>
     <div id="form"></div>
-  </body>
+  </div>
+</body>
+
 </html>

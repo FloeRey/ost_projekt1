@@ -5,6 +5,9 @@ import LoadingService from "../services/loading.service.js";
 import StatusService from "../services/status.service.js";
 import TaskService from "../services/task.service.js";
 
+import TaskModel from "../models/task.model.js";
+import TasksView from "../views/tasks.view.js";
+
 export default class TasksComponent extends BaseComponent {
   constructor(app) {
     super(app);
@@ -14,21 +17,24 @@ export default class TasksComponent extends BaseComponent {
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.taskService.addObserver(this);
+
     this.pubSub = PubSub;
     this.showTasks = true;
     this.container = this.getElement();
-    this.taskTemplate = this.template();
+    this.template = this.template();
+    this.model = new TaskModel();
+    this.view = new TasksView(this.container, this.template);
     this.container.addEventListener("click", this);
     this.pubSub.subscribe(
       "changesFromHeaderButtons",
-      this.updateFromHeaderButtons.bind(this)
+      this.updateFromHeaderButtons
     );
     this.hideShowButton_Headerbuttons_status = 0;
   }
 
-  updateFromHeaderButtons(data) {
+  updateFromHeaderButtons = (data) => {
     this.hideShowButton_Headerbuttons_status = data;
-  }
+  };
 
   async initialize() {
     this.renderTasks();
@@ -36,31 +42,26 @@ export default class TasksComponent extends BaseComponent {
 
   OnclickButton(e) {
     e.stopPropagation();
-
-    if (e.target.classList.contains("editTask")) {
-      const taskId = e.target.parentNode.getAttribute("data-id");
-      this.statusService.editTask(taskId);
-    } else if (e.target.classList.contains("removeTask")) {
-      const taskId = e.target.parentNode.getAttribute("data-id");
-      const text = "Are you sure to delete?";
-      if (window.confirm(text) === true) {
-        this.taskService.removeTask(taskId);
-      }
-    } else if (e.target.classList.contains("complete")) {
-      const taskId = e.target.parentNode.parentNode.getAttribute("data-id");
-      const button = e.target;
-
-      if (button.classList.contains("isCompleted")) {
-        button.innerHTML = "mark as Complete";
-
-        button.classList.remove("isCompleted");
-      } else {
-        button.innerHTML = "isComplete";
-        button.classList.add("isCompleted");
-      }
-
-      this.updateDB(taskId);
+    const taskId = e.target.getAttribute("data-id");
+    switch (e.target.id.replace(/_[0-9]*/g, "")) {
+      case "editTask":
+        this.statusService.editTask(taskId);
+        break;
+      case "removeTask":
+        if (this.model.warn()) {
+          this.taskService.removeTask(taskId);
+        }
+        break;
+      case "complete":
+        this.updateDB(taskId);
+        break;
+      default:
+        break;
     }
+  }
+
+  renderTasks() {
+    this.view.renderTasks(this.taskService.allTask);
   }
 
   async updateDB(taskId) {
@@ -69,30 +70,12 @@ export default class TasksComponent extends BaseComponent {
     } catch (e) {
       alert("not updated db - local storage updated");
     }
-    this.renderTasks();
+
     this.taskService.toggleCompleteTasks(
       this.hideShowButton_Headerbuttons_status
     );
-    /*
-    const taskElement = document.querySelector(`[data-id="${taskId}"]`);
-
-    // eslint-disable-next-line no-unused-expressions
-    taskElement.classList.contains("completed")
-      ? taskElement.classList.remove("completed")
-      : taskElement.classList.add("completed");
-
-    if (this.headerButtons_ShowHideComplete_Status === 1) {
-      taskElement.style.display = "none";
-    }*/
     this.pubSub.publish("changesFromTaskComponent");
-  }
-
-  renderTasks() {
-    this.container.innerHTML = "";
-    this.taskService.tasks.forEach((task, index) => {
-      const renderedTaskEntry = this.taskTemplate({ task, id: index });
-      this.container.insertAdjacentHTML("afterbegin", renderedTaskEntry);
-    });
+    this.renderTasks();
   }
 
   hideTasks() {
@@ -121,6 +104,6 @@ export default class TasksComponent extends BaseComponent {
 
   ObsTasks(data) {
     console.log("observable tasks", data);
-    this.renderTasks();
+    if (this.showTasks) this.renderTasks();
   }
 }

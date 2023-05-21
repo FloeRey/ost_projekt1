@@ -4,8 +4,8 @@ export default class _UserData_ {
     this.settings = {};
   }
 
-  set addSettings(userOptions) {
-    this.theme = userOptions.theme;
-    this.settings = userOptions.settings;
+  addSettings(userOptions) {
+    if (userOptions.theme) this.theme = userOptions.theme;
+    if (userOptions.settings) this.settings = userOptions.settings;
   }
 }

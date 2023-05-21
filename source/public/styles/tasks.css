@@ -1,0 +1,58 @@
+.task {
+  overflow: hidden;
+  display: grid;
+  grid-template-areas:
+    "title title title importance"
+    "description description description description"
+    "dueDate complete edit remove";
+  gap: 10px;
+  background-color: #26f3c0;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 20px 10px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+}
+
+.task.completed {
+  border: green 2px solid;
+}
+
+.darkTheme .task {
+  background-color: var(--darker);
+}
+
+.task__title {
+  grid-area: title;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.task__description {
+  grid-area: description;
+  max-height: 200px;
+  padding: 20px 0;
+}
+.task__importance {
+  grid-area: importance;
+}
+.task__dueDate {
+  grid-area: dueDate;
+}
+.task__complete {
+  grid-area: complete;
+}
+
+.task__edit {
+  grid-area: edit;
+}
+.task__remove {
+  grid-area: remove;
+}
+
+.task > div {
+  text-align: center;
+}
+
+.btn_task.completed {
+  border: green 2px solid;
+}

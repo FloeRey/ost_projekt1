@@ -1,5 +1,8 @@
-@import "./headerButtons.css";
 @import "./global.css";
+@import "./headerButtons.css";
+@import "./tasks.css";
+
+@import "./info.css";
 
 :root {
   --dark: #374151;
@@ -21,6 +24,14 @@ body {
   font-family: "Fira sans", sans-serif;
   font-size: 16px;
   overflow-x: hidden;
+  background-color: rgba(183, 183, 183, 0.521);
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+  min-height: 100vh;
+  background-color: rgba(122, 122, 122, 0.05);
 }
 
 .darkTheme {
@@ -91,50 +102,6 @@ body {
   padding: 6px;
 }
 
-/*FORM END*/
-
-/* INFO */
-#info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--dark);
-  background-color: var(--light);
-  height: var(--header-size);
-}
-.darkTheme #info {
-  color: var(--light);
-  background-color: var(--dark);
-}
-#changeTheme {
-  position: absolute;
-  right: 0;
-  border: solid red 2px;
-}
-
-.darkTheme #changeTheme {
-  color: var(--light);
-  background-color: var(--dark);
-}
-/* INFO */
-
-.dbMode {
-  color: rgb(16, 228, 16);
-  text-shadow: white 1px 1px 10px;
-}
-.localMode {
-  color: red;
-  text-shadow: rgb(12, 12, 12) 1px 1px 10px;
-}
-.localMode::before {
-  content: "! ";
-}
-.localMode::after {
-  content: " !";
-}
-
-/*loading*/
-
 #loading {
   position: fixed;
   top: 0;
@@ -184,72 +151,6 @@ body {
 }
 
 /*loading*/
-
-/* task */
-.task {
-  overflow: hidden;
-  display: grid;
-  /* grid-template-areas:
-    "title title title title title title"
-    "description description description description description importance"
-    "dueDate dueDate complete edit edit remove";*/
-  grid-template-areas:
-    "title title title importance"
-    "description description description description"
-    "dueDate complete edit remove";
-  gap: 10px;
-  background-color: #2196f3;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 20px 10px;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr;
-}
-
-.task.completed {
-  border: green 2px solid;
-}
-
-.darkTheme .task {
-  background-color: var(--darker);
-}
-.items {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.darkTheme .items {
-  background-color: rgba(27, 27, 27, 0.279);
-  color: var(--light);
-}
-.task__title {
-  grid-area: title;
-  font-size: 1.5rem;
-  text-align: center;
-}
-.task__description {
-  grid-area: description;
-}
-.task__importance {
-  grid-area: importance;
-}
-.task__dueDate {
-  grid-area: dueDate;
-}
-.task__complete {
-  grid-area: complete;
-}
-
-.task__edit {
-  grid-area: edit;
-}
-.task__remove {
-  grid-area: remove;
-}
-
-.task > div {
-  text-align: center;
-  padding: 20px 0;
-}
 
 @media only screen and (min-width: 600px) {
   body {

@@ -1,4 +1,4 @@
-class RegisterHelper {
+class Helpers {
   constructor() {
     Handlebars.registerHelper("times", (n, block) => {
       let accum = "";
@@ -19,4 +19,4 @@ class RegisterHelper {
     Handlebars.registerPartial("myPartial", "{{prefix}}");
   }
 }
-export default new RegisterHelper();
+export default new Helpers();

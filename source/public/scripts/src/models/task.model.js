@@ -1,31 +1,16 @@
 export default class TaskModel {
-  constructor(
-    id,
-    title,
-    importance,
-    description,
-    dueDate,
-    complete,
-    generateDate = new Date().getTime()
-  ) {
-    this.id = id;
-    this.title = title;
-    this.importance = importance;
-    this.description = description;
-    this.generateDate = generateDate;
-    this.dueDate = dueDate;
-    this.complete = complete;
+  constructor() {
+    this.removeText = "Are you sure to delete?";
   }
 
-  static fromJSON(json) {
-    return new this(
-      json.id,
-      json.title,
-      json.importance,
-      json.description,
-      json.dueDate,
-      json.complete,
-      json.generateDate
-    );
+  static getAttributeFromNode(node, attribute) {
+    return node.getAttribute(attribute);
+  }
+
+  warn() {
+    if (window.confirm(this.removeText) === true) {
+      return true;
+    }
+    return false;
   }
 }

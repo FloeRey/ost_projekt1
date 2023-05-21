@@ -8,6 +8,7 @@ class StatusService extends BaseService {
     this.observers = [];
     this.status = {};
     this.userData = new _UserData_();
+
     this.url = {
       getUserSettings: `${env.baseUrl}/user/getUserData`,
     };
@@ -21,7 +22,19 @@ class StatusService extends BaseService {
     return this.status;
   }
 
+  get readFromLocal() {
+    const userOptions = localStorage.getItem("settings");
+    if (!userOptions) return this.userData;
+    return this.userData.addSettings(userOptions);
+  }
+
   async initialize() {
+    if (env.MODE === "offline") {
+      console.warn(
+        `App mode is '${env.MODE}' - you chan change it in the env.js file`
+      );
+      return this.readFromLocal;
+    }
     try {
       const userOptions = await this.httpRequest(
         "POST",

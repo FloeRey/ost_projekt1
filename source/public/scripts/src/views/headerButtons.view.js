@@ -18,7 +18,7 @@ export default class HeaderButtonsView {
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       filterButtons: data.HeaderButtons,
-      showHideButton: data.completes,
+      hasCompleteTasks: data.completes,
     });
   }
 

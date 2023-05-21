@@ -4,20 +4,19 @@ import LoadingComponent from "./components/loading.component.js";
 import LoadingService from "./services/loading.service.js";
 import InfoComponent from "./components/info.component.js";
 
-import RegisterHelper from "./handleBars/helpers.js";
+import Helpers from "./handleBars/helpers.js";
 
 import HeaderButtonsComponent from "./components/headerButtons.component.js";
 import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
-import ServiceRegistry from "./services/serviceRegistry.js";
 
 class App {
   constructor() {
-    this.registerHelper = RegisterHelper;
+    this.handleBars_helpers = Helpers;
     this.loadingStatus = [];
     LoadingComponent.initialize();
     StatusService.initialize().then((userData) => {
-      this.checkTheme(userData);
+      this.checkTheme(userData.theme);
       this.checkLoading();
     });
     TaskService.initialize().then(() => this.checkLoading());
@@ -45,14 +44,14 @@ class App {
 
   ObsStatus(data) {
     console.log("status observer", data);
-    this.checkTheme(data.userData);
+    this.checkTheme(data.userData.theme);
   }
 
-  checkTheme(userData) {
-    if (this.theme !== userData.theme) {
-      this.theme = userData.theme;
+  checkTheme(theme = "light") {
+    if (this.theme !== theme) {
+      this.theme = theme;
       document.body.classList.remove("darkTheme", "lightTheme");
-      document.body.classList.add(`${userData.theme}Theme`);
+      document.body.classList.add(`${theme}Theme`);
     }
   }
 }
