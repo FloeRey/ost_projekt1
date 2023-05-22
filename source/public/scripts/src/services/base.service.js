@@ -1,4 +1,10 @@
+import UserService from "./userService.js";
 export default class BaseService {
+  constructor() {
+    console.log("construct base service");
+    this.UserService = UserService;
+  }
+
   addObserver(observer) {
     this.observers.push(observer);
   }
@@ -12,9 +18,9 @@ export default class BaseService {
   }
 
   async httpRequest(method, path, data) {
-    this.lint = "whyIhaveToDoThisForLint?";
     const headers = new Headers({
       "content-type": "application/json",
+      Authorization: this.UserService.myId,
     });
 
     const response = await fetch(path, {
@@ -22,6 +28,13 @@ export default class BaseService {
       headers,
       body: JSON.stringify(data),
     });
-    return response.json();
+
+    if (response.ok) {
+      return response.json();
+    }
+
+    return response.json().then((error) => {
+      throw error;
+    });
   }
 }

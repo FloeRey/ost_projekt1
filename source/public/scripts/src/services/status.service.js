@@ -1,6 +1,8 @@
 import BaseService from "./base.service.js";
-import env from "../../../../env.js";
+
 import _UserData_ from "./utils/userData.js";
+
+import { URLS, env } from "../../../new_env.js";
 
 class StatusService extends BaseService {
   constructor() {
@@ -8,10 +10,6 @@ class StatusService extends BaseService {
     this.observers = [];
     this.status = {};
     this.userData = new _UserData_();
-
-    this.url = {
-      getUserSettings: `${env.baseUrl}/user/getUserData`,
-    };
   }
 
   get getData() {
@@ -38,7 +36,7 @@ class StatusService extends BaseService {
     try {
       const userOptions = await this.httpRequest(
         "POST",
-        this.url.getUserSettings,
+        URLS.users.getUserSettings,
         {
           userID: env.userID,
         }

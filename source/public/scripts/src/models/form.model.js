@@ -1,3 +1,5 @@
+import { generateRandomUUID } from "../utils/utils.js";
+
 class FormModel {
   constructor() {
     this.createText = "create new task";
@@ -34,7 +36,8 @@ class FormModel {
   }
 
   get uuidv4() {
-    return crypto.randomUUID() || Math.random();
+    this.uuid = crypto.randomUUID() || generateRandomUUID();
+    return this.uuid;
   }
 }
 

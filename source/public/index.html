@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
@@ -18,10 +19,12 @@
 <body>
   <!--info -->
   <script id="info-template" type="text/x-handlebars-template">
+    <div id="info-wrapper">
       <div class="{{workMode}}Mode noselect">{{infoText}}</div>
       <button class="main_btn btn noMargin noPadding noHover" id="changeTheme">{{#if
           (eq theme "dark")
         }}&#x263C;{{else}} &#x263E;{{/if}}</button>
+        </div>
     </script>
   <!-- loading Window -->
   <script id="loading-template" type="text/x-handlebars-template">
@@ -131,6 +134,7 @@
     <div id="tasks"></div>
     <div id="form"></div>
   </div>
+  <div hidden id="login"></div>
 </body>
 
 </html>

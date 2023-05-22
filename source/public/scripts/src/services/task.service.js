@@ -1,8 +1,9 @@
 import BaseService from "./base.service.js";
 import _TaskData_ from "./utils/taskData.js";
 import FormModel from "../models/form.model.js";
-import env from "../../../../env.js";
+import { env, URLS } from "../../../new_env.js";
 import taskHelper from "./taskHelpers.service.js";
+import UserService from "./userService.js";
 
 class TaskService extends BaseService {
   constructor() {
@@ -14,7 +15,7 @@ class TaskService extends BaseService {
     this.formModel = FormModel;
     this.notUploadedTasks = [];
     this.workMode = env.MODE;
-    this.url = env.taskUrls(env.baseUrl);
+
     this.offlineKeyWord = "offline";
     this.onlineKeyWord = "online";
   }
@@ -47,7 +48,7 @@ class TaskService extends BaseService {
       try {
         this.notUploadedTasks.map(async (task) => {
           const { id } = task;
-          await this.httpRequest("POST", this.url.updateTask, task);
+          await this.httpRequest("POST", URLS.tasks.updateTask, task);
           this.notUploadedTasks.splice(this.notUploadedTasks.indexOf(id));
         });
       } catch (e) {
@@ -84,7 +85,7 @@ class TaskService extends BaseService {
       this.formModel.createTask(form, taskId, generateDate)
     );
     this.replaceLocalStorage(editTask, taskId);
-    await this.httpRequest("POST", this.url.editTask, editTask);
+    await this.httpRequest("POST", URLS.tasks.editTask, editTask);
   }
 
   async createNewTask(form) {
@@ -95,7 +96,7 @@ class TaskService extends BaseService {
       );
     } else {
       try {
-        await this.httpRequest("POST", this.url.updateTask, newTask);
+        await this.httpRequest("POST", URLS.tasks.updateTask, newTask);
       } catch (e) {
         if (
           window.confirm(
@@ -117,7 +118,7 @@ class TaskService extends BaseService {
       this.getFromLocalStorage();
     } else {
       try {
-        const response = await this.httpRequest("GET", this.url.getTask);
+        const response = await this.httpRequest("GET", URLS.tasks.getTask);
         this.tasks = response.map((task) => _TaskData_.fromJSON(task));
         this.#addToLocalStorage();
       } catch (e) {
@@ -190,7 +191,7 @@ class TaskService extends BaseService {
     console.log(this.workMode);
     if (this.workMode === this.onlineKeyWord) {
       try {
-        this.tasks = await this.httpRequest("DELETE", this.url.deleteTask, {
+        this.tasks = await this.httpRequest("DELETE", URLS.tasks.deleteTask, {
           id: taskId,
         });
         this.update();
@@ -204,7 +205,7 @@ class TaskService extends BaseService {
   async toggleComplete(taskId) {
     this.ls_markComplete(taskId);
     if (this.workMode === this.onlineKeyWord) {
-      await this.httpRequest("post", this.url.completeTask, {
+      await this.httpRequest("post", URLS.tasks.completeTask, {
         id: taskId,
       });
     }

@@ -1,70 +1,94 @@
 import poolPromise from "../sql_db.js";
-import CommonRoutesConfig from "../common.routes..config.js";
+import CommonRoutesConfig from "../common.routes.config.js";
 
 export default class TaskRouter extends CommonRoutesConfig {
   constructor(app) {
     super(app, "TaskRoutes");
     this.querySelectAll =
-      "SELECT *,  DATE_FORMAT(dueDate,'%m/%d/%Y') AS dueDate from TODO";
+      "SELECT *,  DATE_FORMAT(dueDate,'%m/%d/%Y') AS dueDate from TODO WHERE creator_id= ? ";
   }
 
-  get getAllAndUpdate() {
-    return poolPromise.execute(this.querySelectAll);
+  getAllAndUpdate(auth) {
+    return poolPromise.execute(this.querySelectAll, auth);
   }
 
   configureRoutes() {
     this.app.route(`/getAllTasks`).get(async (req, res) => {
-      console.log("getalltasks");
+      const authenticationId = req.header("Authorization");
       try {
-        const results = await this.getAllAndUpdate;
+        if (!authenticationId) throw new Error("you are wrong here");
+        const results = await this.getAllAndUpdate(authenticationId);
         res.send(results);
-      } catch (e) {
-        console.log(e);
-        res.status(404).send({ error: "db not working" });
+      } catch (error) {
+        res.status(404).send({ error: error.message });
       }
     });
 
     this.app.route(`/complete`).post(async (req, res) => {
+      const authenticationId = req.header("Authorization");
       try {
+        if (!authenticationId) throw new Error("you are wrong here");
         await poolPromise.execute(
           "UPDATE TODO SET complete=not complete WHERE ?",
           req.body
         );
-        console.log("success");
+
         res.send({ msg: "update db success" });
-      } catch (e) {
-        res.status(404).send({ error: "db not working" });
+      } catch (error) {
+        res.status(404).send({ error: error.message });
       }
     });
 
     this.app.route(`/editTask`).post(async (req, res) => {
+      const authenticationId = req.header("Authorization");
       try {
-        await poolPromise.execute("UPDATE TODO SET ? WHERE ?", [
+        if (!authenticationId) throw new Error("you are wrong here");
+        await poolPromise.execute("UPDATE TODO SET ? WHERE ? AND ?", [
           req.body,
           {
             id: req.body.id,
           },
+          {
+            creator_id: authenticationId,
+          },
         ]);
         res.send({ msg: "update db success" });
-      } catch (e) {
-        res.status(404).send({ error: "db not working" });
+      } catch (error) {
+        res.status(404).send({ error: error.message });
       }
     });
     this.app.route(`/newTask`).post(async (req, res) => {
+      const authenticationId = req.header("Authorization");
+      const obj = {
+        creator_id: authenticationId,
+      };
       try {
-        await poolPromise.execute("INSERT TODO SET ?", req.body);
+        if (!authenticationId) throw new Error("you are wrong here");
+        await poolPromise.execute(
+          "INSERT TODO SET ?",
+          Object.assign(req.body, obj)
+        );
         res.send({ msg: "update db success" });
-      } catch (e) {
-        res.status(404).send({ error: "db not working" });
+      } catch (error) {
+        res.status(404).send({ error: error.message });
       }
     });
     this.app.route("/deleteTask").delete(async (req, res) => {
+      const authenticationId = req.header("Authorization");
+
+      const obj = {
+        creator_id: authenticationId,
+      };
       try {
-        await poolPromise.execute("DELETE FROM TODO WHERE ?", req.body);
-        const results = await this.getAllAndUpdate;
+        if (!authenticationId) throw new Error("you are wrong here");
+        await poolPromise.execute("DELETE FROM TODO WHERE ? AND ?", [
+          req.body,
+          obj,
+        ]);
+        const results = await this.getAllAndUpdate(authenticationId);
         res.send(results);
-      } catch (e) {
-        res.status(404).send({ msg: "db not working" });
+      } catch (error) {
+        res.status(404).send({ error: error.message });
       }
     });
 

@@ -1,4 +1,4 @@
-#info {
+#info-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,7 @@
   margin: 0px 0 20px;
 }
 
-.darkTheme #info {
+.darkTheme #info-wrapper {
   color: var(--light);
   background-color: var(--dark);
 }

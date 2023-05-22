@@ -10,10 +10,59 @@ import HeaderButtonsComponent from "./components/headerButtons.component.js";
 import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
 
+import UserService from "./services/userService.js";
+import { env } from "../../new_env.js";
+
 class App {
   constructor() {
     this.handleBars_helpers = Helpers;
     this.loadingStatus = [];
+
+    if (env.testAccount) {
+      UserService.id = "123456789";
+      this.#start();
+    } else {
+      this.#startWithLogin();
+    }
+  }
+
+  #startWithLogin() {
+    this.login = document.querySelector("#login");
+    this.login.style.cssText = `position:absolute;top:0;left:0;height:100%;`;
+    this.login.innerHTML =
+      "<div><form id='loginForm'><input name='name' type='text' autocomplete='username' placeholder='name'><input name='password' type='password' placeholder='password' autocomplete='current-password' ><button type='button' id='submit' >login</button> <button type='button' id='create' >createNew</button><br> <input name='key' placeholder='magicKey'></form></div><div id='info_login'></div>";
+
+    this.login.removeAttribute("hidden");
+    const createButton = document.querySelector("#create");
+    const submitButton = document.querySelector("#submit");
+    const info = document.querySelector("#info_login");
+
+    submitButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      UserService.checkLogin()
+        .then(() => {
+          this.login.innerHTML = "";
+          this.login.setAttribute("hidden", "true");
+          this.#start();
+        })
+        .catch((error) => {
+          info.innerHTML = error.error;
+        });
+    });
+
+    createButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      UserService.createNew()
+        .then(() => {
+          info.innerHTML = "created - try to log in";
+        })
+        .catch((error) => {
+          info.innerHTML = error.error;
+        });
+    });
+  }
+
+  #start() {
     LoadingComponent.initialize();
     StatusService.initialize().then((userData) => {
       this.checkTheme(userData.theme);
