@@ -5,7 +5,8 @@ export default class TaskRouter extends CommonRoutesConfig {
   constructor(app) {
     super(app, "TaskRoutes");
     this.querySelectAll =
-      "SELECT *,  DATE_FORMAT(dueDate,'%m/%d/%Y') AS dueDate from TODO WHERE creator_id= ? ";
+      // "SELECT *,  DATE_FORMAT(dueDate,'%m-%d-%Y') AS dueDate from TODO WHERE creator_id= ? ";
+      "SELECT *,  DATE_FORMAT(dueDate,'%Y-%m-%d') AS dueDate from TODO WHERE creator_id= ? ";
   }
 
   getAllAndUpdate(auth) {

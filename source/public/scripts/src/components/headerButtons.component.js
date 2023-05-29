@@ -23,47 +23,62 @@ export default class HeaderButtonsComponent extends BaseComponent {
       this.buttonsTemplate
     );
     this.pubSub = PubSub;
-    this.pubSub.subscribe(
-      "changesFromTaskComponent",
-      this.updateFormFromTasks.bind(this)
-    );
+    this.pubSub.subscribe("changesFromTaskComponent", this.updateFormFromTasks);
   }
 
   initialize() {
     this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
+    this.sortByDefault();
     this.render();
   }
 
-  updateFormFromTasks() {
+  updateFormFromTasks = () => {
     this.headerButtonsModel.checkCompletesDynamic(
       this.taskService.hasCompleteOne
     );
-    this.HeaderButtonsView.updateFilter(
-      this.headerButtonsModel,
-      this.headerButtonsModel.reset.bind(this.headerButtonsModel)
+    this.render();
+  };
+
+  sortByName() {
+    this.headerButtonsModel.sort("name_filter");
+    this.taskService.sort(
+      this.headerButtonsModel.activeFilter,
+      this.headerButtonsModel.activeDirection
     );
+    this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+  }
+
+  sortByDefault() {
+    this.headerButtonsModel.sort(this.headerButtonsModel.activeFilter);
+
+    this.taskService.sort(
+      this.headerButtonsModel.activeFilter,
+      this.headerButtonsModel.activeDirection
+    );
+  }
+
+  sortByDueDate() {
+    this.headerButtonsModel.sort("date_filter");
+    this.taskService.sort(
+      this.headerButtonsModel.activeFilter,
+      this.headerButtonsModel.activeDirection
+    );
+    this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
   }
 
   OnclickButton(e) {
     switch (e.target.id) {
+      case "toggleFilterDiv":
+        this.HeaderButtonsView.toggleFilters();
+        break;
       case "createNewTask":
         this.statusService.createNewTask();
         break;
       case "name_filter":
-        this.headerButtonsModel.sort("name_filter");
-        this.taskService.sort(
-          this.headerButtonsModel.activeFilter,
-          this.headerButtonsModel.activeDirection
-        );
-        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        this.sortByName();
         break;
       case "date_filter":
-        this.headerButtonsModel.sort("date_filter");
-        this.taskService.sort(
-          this.headerButtonsModel.activeFilter,
-          this.headerButtonsModel.activeDirection
-        );
-        this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+        this.sortByDueDate();
         break;
       case "creationDate_filter":
         this.headerButtonsModel.sort("creationDate_filter");
@@ -82,15 +97,16 @@ export default class HeaderButtonsComponent extends BaseComponent {
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
         break;
       case "completed_filter":
-        this.headerButtonsModel.sort("completed_filter");
+        this.headerButtonsModel.toggle("completed_filter");
         this.taskService.toggleCompleteTasks(
-          this.headerButtonsModel.activeDirection
+          this.headerButtonsModel.buttonStatus.completed_filter
         );
-        console.log(this.headerButtonsModel);
+
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+
         this.pubSub.publish(
           "changesFromHeaderButtons",
-          this.headerButtonsModel.activeDirection
+          this.headerButtonsModel.buttonStatus.completed_filter
         );
         break;
       default:

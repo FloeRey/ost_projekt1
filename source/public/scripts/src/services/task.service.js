@@ -5,6 +5,8 @@ import { env, URLS } from "../../../new_env.js";
 import taskHelper from "./taskHelpers.service.js";
 import UserService from "./userService.js";
 
+import StatusService from "./status.service.js";
+
 class TaskService extends BaseService {
   constructor() {
     super();
@@ -15,7 +17,7 @@ class TaskService extends BaseService {
     this.formModel = FormModel;
     this.notUploadedTasks = [];
     this.workMode = env.MODE;
-
+    this.statusService = StatusService;
     this.offlineKeyWord = "offline";
     this.onlineKeyWord = "online";
   }
@@ -25,6 +27,7 @@ class TaskService extends BaseService {
   }
 
   async initialize() {
+    this.workMode = this.statusService.mode;
     await this.fetchTasks();
     this.getPendingfromLocalStorage();
     if (env.usePollingUpdate) this.#startPolling();
@@ -84,17 +87,17 @@ class TaskService extends BaseService {
     const editTask = _TaskData_.fromJSON(
       this.formModel.createTask(form, taskId, generateDate)
     );
+    if (this.workMode === this.onlineKeyWord) {
+      await this.httpRequest("POST", URLS.tasks.editTask, editTask);
+    }
+
     this.replaceLocalStorage(editTask, taskId);
-    await this.httpRequest("POST", URLS.tasks.editTask, editTask);
   }
 
   async createNewTask(form) {
     const newTask = _TaskData_.fromJSON(this.formModel.createTask(form));
-    if (this.workMode === this.offlineKeyWord) {
-      console.warn(
-        "you are in localStorage mode - refresh to try a connection to db"
-      );
-    } else {
+    console.log(newTask);
+    if (this.workMode === this.onlineKeyWord) {
       try {
         await this.httpRequest("POST", URLS.tasks.updateTask, newTask);
       } catch (e) {
@@ -119,6 +122,7 @@ class TaskService extends BaseService {
     } else {
       try {
         const response = await this.httpRequest("GET", URLS.tasks.getTask);
+        console.log(response);
         this.tasks = response.map((task) => _TaskData_.fromJSON(task));
         this.#addToLocalStorage();
       } catch (e) {

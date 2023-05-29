@@ -15,10 +15,25 @@ const taskHelper = {
         break;
       case "date_filter":
         this.tasks.sort((a, b) => {
-          if (!a.dueDate) return -1;
-          return direction === 1
-            ? new Date(a.dueDate) - new Date(b.dueDate)
-            : new Date(b.dueDate) - new Date(a.dueDate);
+          if (direction === 0) {
+            if (!a.dueDate) {
+              return -1;
+            }
+            return new Date(a.dueDate) - new Date(b.dueDate);
+          }
+          if (!b.dueDate) {
+            return 1;
+          }
+          return new Date(b.dueDate) - new Date(a.dueDate);
+
+          // if (!a.dueDate) {
+          //   return -1;
+          // }
+
+          // // if (!a.dueDate || !b.dueDate) return 1;
+          // return direction === 0
+          //   ? new Date(a.dueDate) - new Date(b.dueDate)
+          //   : new Date(b.dueDate) - new Date(a.dueDate);
         });
         break;
       case "creationDate_filter":

@@ -1,10 +1,13 @@
+@import "./animation.css";
 @import "./global.css";
 @import "./headerButtons.css";
 @import "./tasks.css";
-
+@import "./login.css";
 @import "./info.css";
+@import "./forms.css";
 
 :root {
+  --main-button-dark: #07303e;
   --dark: #374151;
   --darker: #1f2937;
   --darkest: #111827;
@@ -13,10 +16,28 @@
   --pink: #ec4899;
   --purple: #8b5cf6;
   --header-size: 40px;
+  --bg-base: #242424;
+  --color-base: #e1e1e1;
+  --color-success: #00f986;
+  --color-warning: #f8c622;
+
+  --border-color-dark: #202020;
+  --border-color-light: #aeaeae;
+
+  --hover-light: rgba(253, 253, 253, 0.941);
+  --hover-dark: black;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.success {
+  background-color: var(--color-success);
+}
+
+.warning {
+  background-color: var(--color-warning);
 }
 
 body {
@@ -27,16 +48,31 @@ body {
   background-color: rgba(183, 183, 183, 0.521);
 }
 
+input,
+textarea,
+button {
+  font-size: inherit;
+}
+
 .container {
-  max-width: 1400px;
+  max-width: 2400px;
   margin: auto;
   min-height: 100vh;
-  background-color: rgba(122, 122, 122, 0.05);
+  /* padding: 10px;*/
+
+  color: var(--color-base);
+  display: flex;
+  flex-direction: column;
 }
 
 .darkTheme {
   color: rgb(163, 163, 163);
-  background-color: rgb(43, 43, 43);
+
+  background-color: var(--bg-base);
+}
+
+.darkTheme .container {
+  background-color: var(--bg-base);
 }
 
 .content_column {
@@ -45,61 +81,6 @@ body {
   justify-content: center;
   align-items: center;
   height: calc(100vh - var(--header-size));
-}
-
-/* FORM  START*/
-.formTitle {
-  font-size: 1.3rem;
-  text-align: center;
-  margin: 40px auto;
-  position: relative;
-  width: fit-content;
-}
-.formTitle::before {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 0%;
-  width: 30%;
-  height: 100%;
-  border-bottom: solid var(--dark) 2px;
-}
-.formTitle::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  right: 0%;
-  width: 30%;
-  height: 100%;
-  border-bottom: solid var(--dark) 2px;
-}
-.darkTheme .formTitle::after {
-  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
-}
-.darkTheme .formTitle::before {
-  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
-}
-#formCreate {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#formCreate input {
-  font-size: 1em;
-  text-align: center;
-}
-#formCreate textarea {
-  max-height: 400px;
-  max-width: 80vw;
-  min-height: 40px;
-  min-width: 40vw;
-  text-align: center;
-}
-
-.formInput {
-  margin-top: 4px;
-  padding: 6px;
 }
 
 #loading {

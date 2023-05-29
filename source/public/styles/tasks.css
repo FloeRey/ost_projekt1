@@ -1,25 +1,37 @@
+#tasks {
+  padding: 10px;
+}
+
 .task {
   overflow: hidden;
   display: grid;
   grid-template-areas:
-    "title title title importance"
+    "complete title dueDate importance"
     "description description description description"
-    "dueDate complete edit remove";
-  gap: 10px;
+    "edit edit remove remove";
+  gap: 2px;
   background-color: #26f3c0;
   padding: 10px;
   border-radius: 10px;
   margin: 20px 10px;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr;
-}
-
-.task.completed {
-  border: green 2px solid;
+  grid-template-rows: 40px 200px 40px;
+  grid-template-columns: 25% 25% 25% auto;
 }
 
 .darkTheme .task {
-  background-color: var(--darker);
+  color: var(--light);
+  /*background-color: var(--dark);*/
+  background: #07303e;
+  color: white;
+  box-shadow: white 1px 1px 1px;
+}
+
+.task.completed {
+  box-shadow: #00ff13 3px 3px 15px;
+}
+
+.task button {
+  box-shadow: white 1px 1px 1px;
 }
 
 .task__title {
@@ -55,4 +67,15 @@
 
 .btn_task.completed {
   border: green 2px solid;
+}
+
+@media (min-width: 1200px) {
+  #tasks {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: center; */
+  }
+  .task {
+    /* width: 45vw; */
+  }
 }

@@ -6,7 +6,6 @@
   background-color: var(--light);
   height: var(--header-size);
   position: relative;
-  margin: 0px 0 20px;
 }
 
 .darkTheme #info-wrapper {

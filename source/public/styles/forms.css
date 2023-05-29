@@ -1,0 +1,54 @@
+/* FORM  START*/
+.formTitle {
+  font-size: 1.3rem;
+  text-align: center;
+  margin: 40px auto;
+  position: relative;
+  width: fit-content;
+}
+.formTitle::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0%;
+  width: 30%;
+  height: 100%;
+  border-bottom: solid var(--dark) 2px;
+}
+.formTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 0%;
+  width: 30%;
+  height: 100%;
+  border-bottom: solid var(--dark) 2px;
+}
+.darkTheme .formTitle::after {
+  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
+}
+.darkTheme .formTitle::before {
+  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
+}
+#formCreate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#formCreate input {
+  font-size: 1em;
+  text-align: center;
+}
+#formCreate textarea {
+  max-height: 400px;
+  max-width: 80vw;
+  min-height: 40px;
+  min-width: 40vw;
+  text-align: center;
+}
+
+.formInput {
+  margin-top: 4px;
+  padding: 6px;
+}

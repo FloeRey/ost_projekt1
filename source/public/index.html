@@ -34,22 +34,30 @@
     </script>
   <!-- top Buttons -->
   <script id="headerButtons-template" type="text/x-handlebars-template">
-      <button class="main_btn btn animated" id="createNewTask">create new</button>
+    <div class="headerButtons_wrapper">
+  <button class="main_btn btn animated btn_big" id="createNewTask">create new</button>
+  <div>
+    <button id="toggleFilterDiv" class="btn_small btn ">toggle filter</button>
+    {{#if hasCompleteTasks}}
+    <button id="completed_filter" class="btn_small btn hide">{{completeButtonText}}</button>
+    {{/if}}
+  </div>
 
-      <div class="filterButtonsDiv">
+  <div class="filterButtonsDiv">
+    <div class="__content">
+      {{filterButtons}}
+    </div>
+  </div>
 
-        {{filterButtons}}
+    </div>
 
-      </div>
-      {{#if hasCompleteTasks}}
-      <button id="completed_filter" class="main_btn btn hide">Hide Completed
-        tasks</button>
-      {{/if}}
     </script>
   <!-- task list -->
   <script id="tasks-template" type="text/x-handlebars-template">
     {{#if (noteq task.hideTask true)}}
+
       <div class="task {{#if task.complete}}completed{{/if}}"    >
+
         <input class="task__title  items noInput" disabled value="{{task.title}}" placeholder="title"  pattern="[A-Za-z]{3}" title="Three letter country code">
         <div class="task__description items">
           {{task.description}}
@@ -59,14 +67,15 @@
           ❄
           {{/times}}
         </div>
-        <div class="task__dueDate items">
-          {{task.dueDate}}
-        </div>
+        <input class="task__dueDate items noInput"  disabled  {{#if task.dueDate}}
+            value={{task.dueDate}}
+          {{else}}
+            no date
+          {{/if}}>
 
-        <button id="complete_{{index}}" class="task__complete btn_task btn {{#if task.complete}}completed{{/if}}" data-id="{{task.id}}">{{#if task.complete}}isComplete{{else}} mark as Complete {{/if}}</button>
-
-      <button id="editTask_{{index}}" class="btn_task btn editTask task__edit" data-id="{{task.id}}" >edit</button>
-      <button id="removeTask_{{index}}" class="btn_task btn removeTask task__remove" data-id="{{task.id}}">remove</button>
+      <input data-id="{{task.id}}" id="complete_{{index}}" type="checkbox" class="checkbox-round task__complete" {{#if task.complete}}checked{{/if}}>
+      <button id="editTask_{{index}}" class="btn_small btn editTask task__edit" data-id="{{task.id}}" >edit</button>
+      <button id="removeTask_{{index}}" class="btn_small btn removeTask task__remove" data-id="{{task.id}}">remove</button>
     </div>
     {{/if}}
   </script>
@@ -108,11 +117,12 @@
               <label for="complete">complete</label>
             </div>
             <div class="formInput">
+
               <input
                 value="{{editTask.dueDate}}"
                 type="date"
                 name="dueDate"
-                placeholder="{{formData.dueData}}"
+
               />
             </div>
             {{#if editTask}}
@@ -128,13 +138,14 @@
           </div>
     </script>
   <div class="container">
+    <div hidden id="login"></div>
     <div id="info"></div>
     <div id="loading"></div>
     <div id="headerButtons"></div>
     <div id="tasks"></div>
     <div id="form"></div>
   </div>
-  <div hidden id="login"></div>
+
 </body>
 
 </html>

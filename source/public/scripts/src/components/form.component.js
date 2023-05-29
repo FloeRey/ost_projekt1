@@ -51,6 +51,7 @@ export default class FormComponent extends BaseComponent {
   }
 
   renderForm() {
+    console.log(this.editTask);
     this.formView.render(this.formModel, this.editTask);
   }
 

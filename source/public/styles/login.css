@@ -1,0 +1,49 @@
+#login {
+  margin: auto;
+  animation: fadeIn 2s linear 0s forwards;
+  border: solid white 2px;
+  border-radius: 10px;
+  padding: 4%;
+  font-size: 1.4rem;
+  background-color: var(--bg-base);
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loginForm > * {
+  margin: 4px 0;
+  text-align: center;
+}
+
+#loginForm .buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.btn_login {
+  background-color: var(--light);
+  color: var(--dark);
+
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+.btn_login:hover {
+}
+#fieldSet {
+  border: none;
+  padding: 0;
+}
+#fieldSet:disabled {
+  color: linen;
+  opacity: 1;
+}
+
+#info_login {
+  text-align: center;
+  margin: 10px 0;
+}

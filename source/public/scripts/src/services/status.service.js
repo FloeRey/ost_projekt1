@@ -10,6 +10,7 @@ class StatusService extends BaseService {
     this.observers = [];
     this.status = {};
     this.userData = new _UserData_();
+    this.workMode = env.MODE;
   }
 
   get getData() {
@@ -27,10 +28,7 @@ class StatusService extends BaseService {
   }
 
   async initialize() {
-    if (env.MODE === "offline") {
-      console.warn(
-        `App mode is '${env.MODE}' - you chan change it in the env.js file`
-      );
+    if (this.workMode === "offline") {
       return this.readFromLocal;
     }
     try {
@@ -46,6 +44,15 @@ class StatusService extends BaseService {
     } catch (e) {
       return this.userData;
     }
+  }
+
+  set mode(mode) {
+    this.workMode = mode;
+    env.MODE = mode;
+  }
+
+  get mode() {
+    return this.workMode;
   }
 
   changeTheme() {

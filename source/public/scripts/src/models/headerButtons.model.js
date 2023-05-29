@@ -3,30 +3,35 @@ class HeaderButtons {
     this.createText = "create new task";
     this.HeaderButtons = new Handlebars.SafeString(
       `
-      <button class='filter sort_btn btn' id='name_filter'>Name </button>
-      <button class='filter sort_btn btn' id='date_filter' >DueDate </ >
-      <button class='filter sort_btn btn' id='creationDate_filter'>Creation </button>
-      <button class='filter sort_btn btn' id='importance_filter'>Importance </button>
+      <button class='filter btn_small btn' id='name_filter'>Name </button>
+      <button class='filter btn_small btn' id='date_filter' >DueDate </ button>
+      <button class='filter btn_small btn' id='creationDate_filter'>Creation </button>
+      <button class='filter btn_small btn' id='importance_filter'>Importance </button>
       `
     );
     this.showHideCompletes_button = new Handlebars.SafeString(
-      ` <button class='filter btn hide' id='completed_filter'>Hide Complete Tasks</button>`
+      ` <button class='filter btn hide' id='completed_filter'></button>`
     );
     this.toggleCompleteFilterText = {
-      0: "Hide Complete Tasks",
-      1: "Show complete tasks",
+      0: "Hide completed",
+      1: "Show completed",
     };
-    this.direction = {
-      completed_filter: 0, // start value
+    this.buttonStatus = {
+      completed_filter: 0,
     };
+
     this.activeDirection = 0;
+    this.activeFilter = "date_filter";
   }
 
   sort(mode) {
     this.activeFilter = mode;
-    this.direction[this.activeFilter] =
-      this.direction[this.activeFilter] === 0 ? 1 : 0;
-    this.activeDirection = this.direction[this.activeFilter];
+
+    this.activeDirection = this.activeDirection === 0 ? 1 : 0;
+  }
+
+  toggle(mode) {
+    this.buttonStatus[mode] = this.buttonStatus[mode] === 0 ? 1 : 0;
   }
 
   checkCompletes(hasCompletes) {
@@ -38,8 +43,6 @@ class HeaderButtons {
   checkCompletesDynamic(hasCompletes) {
     if (this.completes !== hasCompletes) {
       this.completes = hasCompletes;
-      this.reRender = true;
-      this.activeFilter = "completed_filter";
     }
   }
 
