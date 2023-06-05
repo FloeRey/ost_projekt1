@@ -1,12 +1,12 @@
 #lottiePlayer {
   position: absolute;
-  top: 50px;
+  top: 50vh;
   width: 300px;
   left: 50%;
   height: 300px;
   transform: translate(-50%, -50%);
 }
 
-.hide {
+#lottiePlayer.hide {
   display: none;
 }

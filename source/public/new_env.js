@@ -1,6 +1,6 @@
 const env = {
-  baseUrl: "http://localhost:3000/api",
-  //baseUrl: "https://rocket2sky.com/todo/api",
+  // baseUrl: "http://localhost:3000/api",
+  baseUrl: "https://rocket2sky.com/todo/api",
   MODE: "offline",
   usePollingUpdate: false,
   testAccount: false,

@@ -36,6 +36,7 @@ export default class HeaderButtonsComponent extends BaseComponent {
     this.headerButtonsModel.checkCompletesDynamic(
       this.taskService.hasCompleteOne
     );
+
     this.render();
   };
 
@@ -115,6 +116,7 @@ export default class HeaderButtonsComponent extends BaseComponent {
   }
 
   render() {
+    console.log(this.headerButtonsModel.completes);
     this.HeaderButtonsView.render(this.headerButtonsModel);
   }
 

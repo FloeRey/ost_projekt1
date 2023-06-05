@@ -12,14 +12,19 @@ import FormComponent from "./components/form.component.js";
 
 import LoginComp from "./components/login.component.js";
 import UserService from "./services/userService.js";
+import { env } from "../../new_env.js";
 
 class App {
   constructor() {
     this.handleBars_helpers = Helpers;
     this.loadingStatus = [];
-    UserService.id = "123456789";
-    // LoginComp.init(this);
-    this.initialize();
+
+    if (env.testAccount) {
+      LoginComp.init(this);
+    } else {
+      UserService.id = "123456789";
+      this.initialize();
+    }
   }
 
   initialize() {
