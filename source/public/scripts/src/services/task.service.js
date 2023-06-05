@@ -4,6 +4,7 @@ import FormModel from "../models/form.model.js";
 import { env, URLS } from "../../../new_env.js";
 import taskHelper from "./taskHelpers.service.js";
 import UserService from "./userService.js";
+import LottieService from "./lottieService.js";
 
 import StatusService from "./status.service.js";
 
@@ -100,6 +101,7 @@ class TaskService extends BaseService {
     if (this.workMode === this.onlineKeyWord) {
       try {
         await this.httpRequest("POST", URLS.tasks.updateTask, newTask);
+        console.log(this.lottiePlayer);
       } catch (e) {
         if (
           window.confirm(
@@ -114,6 +116,7 @@ class TaskService extends BaseService {
     }
     this.tasks.push(newTask);
     this.#addToLocalStorage(newTask);
+    LottieService.fireOneAnimation();
   }
 
   async fetchTasks() {
@@ -198,12 +201,12 @@ class TaskService extends BaseService {
         this.tasks = await this.httpRequest("DELETE", URLS.tasks.deleteTask, {
           id: taskId,
         });
-        this.update();
       } catch (error) {
         console.log(error);
       }
     }
     this.deleteLocalStorage(taskId);
+    this.update();
   }
 
   async toggleComplete(taskId) {

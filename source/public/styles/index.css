@@ -5,6 +5,7 @@
 @import "./login.css";
 @import "./info.css";
 @import "./forms.css";
+@import "./lottie.css";
 
 :root {
   --main-button-dark: #07303e;
@@ -59,7 +60,7 @@ button {
   margin: auto;
   min-height: 100vh;
   /* padding: 10px;*/
-
+  position: relative;
   color: var(--color-base);
   display: flex;
   flex-direction: column;
