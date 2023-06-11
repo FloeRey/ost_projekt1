@@ -20,7 +20,6 @@ function createJSONfromFormData(formData) {
   Array.from(formData.entries()).forEach(([key, value]) => {
     json[key] = value;
   });
-  console.log(json);
   return json;
 }
 

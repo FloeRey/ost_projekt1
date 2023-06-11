@@ -1,10 +1,15 @@
 const env = {
-  // baseUrl: "http://localhost:3000/api",
-  baseUrl: "https://rocket2sky.com/todo/api",
-  MODE: "offline",
+  baseUrl: "http://localhost:3000/api",
+  // baseUrl: "https://rocket2sky.com/todo/api",
+  MODE: "online",
   usePollingUpdate: false,
-  testAccount: false,
+  useWebSocket: false,
+  useAccount: true,
   theme: "dark",
+};
+
+const settings = {
+  guestId: "88889999",
 };
 
 const URLS = {
@@ -16,10 +21,10 @@ const URLS = {
     deleteTask: `${env.baseUrl}/task/deleteTask`,
   },
   users: {
-    checkUserIsLogged: `${env.baseUrl}/user/login`,
-    getUserSettings: `${env.baseUrl}/user/getUserData`,
-    createNewUser: `${env.baseUrl}/user/createNewUser`,
+    login: `${env.baseUrl}/user/login`,
+    getUserSettings: `${env.baseUrl}/user/getUserSettings`,
+    getGuestId: `${env.baseUrl}/user/getGuestId`,
   },
 };
 
-export { env, URLS };
+export { env, settings, URLS };

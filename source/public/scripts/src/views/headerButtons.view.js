@@ -6,7 +6,9 @@ export default class HeaderButtonsView {
   }
 
   hide() {
-    this.container.innerHTML = "";
+    this.app.events.pageChanged(this, false);
+    // this.container.innerHTML = "";
+    // this.container.classList.add("__isHidden");
   }
 
   get AllFilterButtons() {
@@ -15,6 +17,7 @@ export default class HeaderButtonsView {
   }
 
   render(data) {
+    // this.container.classList.remove("__isHidden");
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       filterButtons: data.HeaderButtons,

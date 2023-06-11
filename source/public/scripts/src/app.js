@@ -3,33 +3,40 @@ import StatusService from "./services/status.service.js";
 import LoadingComponent from "./components/loading.component.js";
 import LoadingService from "./services/loading.service.js";
 import InfoComponent from "./components/info.component.js";
-
 import Helpers from "./handleBars/helpers.js";
-
 import HeaderButtonsComponent from "./components/headerButtons.component.js";
 import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
-
 import LoginComp from "./components/login.component.js";
 import UserService from "./services/userService.js";
 import { env } from "../../new_env.js";
+import Events from "./global/globalEvents.js";
 
 class App {
   constructor() {
+    this.events = Events;
     this.handleBars_helpers = Helpers;
     this.loadingStatus = [];
-
-    if (env.testAccount) {
-      LoginComp.init(this);
+    if (env.MODE !== "offline") {
+      if (env.useAccount) {
+        LoginComp.init(this);
+      } else {
+        UserService.getGuestMode()
+          .then(() => this.initialize())
+          .catch(() => {
+            UserService.setGuestMode();
+            this.initialize();
+          });
+      }
     } else {
-      UserService.id = "123456789";
       this.initialize();
     }
   }
 
   initialize() {
     LoadingComponent.initialize();
-    StatusService.initialize().then((userData) => {
+    UserService.getSettings().then((userData) => {
+      StatusService.setTheme = userData.theme;
       this.checkTheme(userData.theme);
       this.checkLoading();
     });
@@ -53,12 +60,11 @@ class App {
     this.tasksComponent.initialize();
     this.HeaderButtonsComponent = new HeaderButtonsComponent(this);
     this.HeaderButtonsComponent.initialize();
-    this.FormComponent = new FormComponent();
+    this.FormComponent = new FormComponent(this);
   }
 
   ObsStatus(data) {
-    console.log("status observer", data);
-    this.checkTheme(data.userData.theme);
+    this.checkTheme(data.theme);
   }
 
   checkTheme(theme = "light") {

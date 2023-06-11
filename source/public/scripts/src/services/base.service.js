@@ -1,7 +1,7 @@
 import UserService from "./userService.js";
+
 export default class BaseService {
   constructor() {
-    console.log("construct base service");
     this.UserService = UserService;
   }
 
@@ -10,7 +10,6 @@ export default class BaseService {
   }
 
   removeObserver(observer) {
-    this.observers.findIndex((obs) => console.log(obs));
     const removeIndex = this.observers.findIndex((obs) => observer === obs);
     if (removeIndex !== -1) {
       this.observers = this.observers.slice(removeIndex, 1);

@@ -25,15 +25,6 @@ const taskHelper = {
             return 1;
           }
           return new Date(b.dueDate) - new Date(a.dueDate);
-
-          // if (!a.dueDate) {
-          //   return -1;
-          // }
-
-          // // if (!a.dueDate || !b.dueDate) return 1;
-          // return direction === 0
-          //   ? new Date(a.dueDate) - new Date(b.dueDate)
-          //   : new Date(b.dueDate) - new Date(a.dueDate);
         });
         break;
       case "creationDate_filter":

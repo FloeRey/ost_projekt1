@@ -1,32 +1,57 @@
 #tasks {
-  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  transition: all 1s linear;
 }
 
 .task {
   overflow: hidden;
   display: grid;
   grid-template-areas:
-    "complete title dueDate importance"
+    "complete dueDate importance importance"
+    "title title title title"
     "description description description description"
-    "edit edit remove remove";
+    "remove remove edit edit ";
   gap: 2px;
-  background-color: #26f3c0;
+  background-color: var(--bg-light);
+  /* background-color: var(--body-bg-light); */
   padding: 10px;
   border-radius: 10px;
-  margin: 20px 10px;
-  grid-template-rows: 40px 200px 40px;
+  grid-template-rows: auto 60px 160px 40px;
   grid-template-columns: 25% 25% 25% auto;
+  color: var(--color-dark);
+  margin: 20px 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.task input {
+  color: var(--dark);
+}
+.darkTheme .task input {
+  color: var(--color-light);
+}
+
+.task .btn_small {
+  border: none;
+  box-shadow: black 2px 2px 10px;
+  border-radius: 20px;
+  width: 80%;
+  padding: 6px 0;
 }
 
 .darkTheme .task {
   color: var(--light);
-  /*background-color: var(--dark);*/
-  background: #07303e;
-  color: white;
-  box-shadow: white 1px 1px 1px;
+  background-color: var(--dark);
 }
 
 .task.completed {
+  box-shadow: #c3e01a 3px 3px 15px;
+}
+
+.darkTheme .task.completed {
   box-shadow: #00ff13 3px 3px 15px;
 }
 
@@ -34,10 +59,22 @@
   box-shadow: white 1px 1px 1px;
 }
 
+.checkbox-round:checked {
+  background-color: #c3e01a !important;
+}
+
+.darkTheme .checkbox-round:checked {
+  background-color: rgb(17, 196, 4) !important;
+}
+
 .task__title {
   grid-area: title;
   font-size: 1.5rem;
   text-align: center;
+  margin: 10px auto;
+  width: 80%;
+  letter-spacing: 2px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.427);
 }
 .task__description {
   grid-area: description;
@@ -47,8 +84,12 @@
 .task__importance {
   grid-area: importance;
 }
+
 .task__dueDate {
   grid-area: dueDate;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.8rem;
 }
 .task__complete {
   grid-area: complete;
@@ -56,9 +97,16 @@
 
 .task__edit {
   grid-area: edit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .task__remove {
   grid-area: remove;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .task > div {
@@ -69,13 +117,12 @@
   border: green 2px solid;
 }
 
-@media (min-width: 1200px) {
-  #tasks {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: center; */
-  }
+@media (min-width: 800px) {
   .task {
-    /* width: 45vw; */
+    margin: 20px 10px;
+    width: 70%;
   }
+}
+
+@media (min-width: 1600px) {
 }

@@ -1,4 +1,57 @@
-/* FORM  START*/
+#form {
+  /* background-color: var(--bg-light); */
+  color: var(--color-dark);
+}
+
+#form .btn_small {
+  border-radius: 20px;
+  padding: 10px 30px;
+}
+
+#form .btn_small.form_cancel {
+  color: white;
+}
+
+#formCreate input {
+  background-color: var(--color-input-light);
+  color: var(--color-dark);
+}
+
+#formCreate textarea {
+  background-color: var(--color-input-light);
+  color: var(--color-dark);
+}
+
+.darkTheme #form {
+  /* background-color: var(--bg-dark); */
+  color: var(--color-light);
+}
+
+.darkTheme #formCreate input {
+  background-color: var(--color-input-dark);
+  color: var(--color-light);
+}
+
+.darkTheme #formCreate textarea {
+  background-color: var(--color-input-dark);
+  color: var(--color-light);
+}
+
+#formCreate #title {
+  padding: 10px 0;
+}
+
+#inputDatePicker {
+  border-radius: 20px;
+  padding: 4px 20px;
+  margin: 10px 0;
+  border: outset rgb(242, 199, 135) 2px;
+}
+
+.darkTheme #inputDatePicker {
+  border: outset white 2px;
+}
+
 .formTitle {
   font-size: 1.3rem;
   text-align: center;
@@ -35,20 +88,66 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
 }
 #formCreate input {
   font-size: 1em;
   text-align: center;
 }
+
+.formInput {
+  padding: 6px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.completeDiv {
+  margin-top: 10px;
+}
+
+.form_edit.btn_small {
+  margin-left: 10px;
+  background: var(--color-success);
+  border: outset rgb(242, 199, 135) 2px;
+}
+
+.form_cancel.btn_small {
+  background: var(--color-danger);
+  border: outset rgb(242, 199, 135) 2px;
+}
+
+.formInput_button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
 #formCreate textarea {
+  margin: auto;
   max-height: 400px;
   max-width: 80vw;
-  min-height: 40px;
+  min-height: 200px;
   min-width: 40vw;
   text-align: center;
 }
 
-.formInput {
-  margin-top: 4px;
-  padding: 6px;
+#rangeImportant {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+}
+#rangeImportant .importance::after {
+  content: "❄";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transform: translate(0, -1px);
+}
+#rangeImportant .importance {
+  position: relative;
+  margin: 0;
+  margin-left: 6px;
 }

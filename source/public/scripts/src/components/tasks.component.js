@@ -1,10 +1,8 @@
 import BaseComponent from "./base.component.js";
-
 import PubSub from "../utils/pubSub.js";
 import LoadingService from "../services/loading.service.js";
 import StatusService from "../services/status.service.js";
 import TaskService from "../services/task.service.js";
-
 import TaskModel from "../models/task.model.js";
 import TasksView from "../views/tasks.view.js";
 
@@ -17,7 +15,6 @@ export default class TasksComponent extends BaseComponent {
     this.loadingService.addObserver(this);
     this.statusService.addObserver(this);
     this.taskService.addObserver(this);
-
     this.pubSub = PubSub;
     this.showTasks = true;
     this.container = this.getElement();
@@ -61,6 +58,7 @@ export default class TasksComponent extends BaseComponent {
   }
 
   renderTasks() {
+    this.app.events.pageChanged(this, true);
     this.view.renderTasks(this.taskService.allTask);
   }
 
@@ -70,7 +68,6 @@ export default class TasksComponent extends BaseComponent {
     } catch (e) {
       alert("not updated db - local storage updated");
     }
-
     this.taskService.toggleCompleteTasks(
       this.hideShowButton_Headerbuttons_status
     );
@@ -79,20 +76,16 @@ export default class TasksComponent extends BaseComponent {
   }
 
   hideTasks() {
-    this.container.innerHTML = "";
+    this.app.events.pageChanged(this, false);
   }
 
   ObsLoading(data) {
-    console.log("loading observer", data);
-    /* finish loading */
     if (!data.isLoading && this.showTasks) {
       this.renderTasks();
     }
   }
 
   ObsStatus(data) {
-    console.log("status observer", data);
-    /* status change = hide / show */
     if (data.showTasks !== undefined) {
       if (this.showTasks !== data.showTasks) {
         this.showTasks = data.showTasks;
@@ -102,8 +95,7 @@ export default class TasksComponent extends BaseComponent {
     }
   }
 
-  ObsTasks(data) {
-    console.log("observable tasks", data);
+  ObsTasks() {
     if (this.showTasks) this.renderTasks();
   }
 }

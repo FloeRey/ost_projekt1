@@ -1,22 +1,24 @@
 #login {
-  margin: auto;
   animation: fadeIn 2s linear 0s forwards;
-  border: solid white 2px;
-  border-radius: 10px;
-  padding: 4%;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
+  display: flex;
+  height: 100vh;
   background-color: var(--bg-base);
+  flex-direction: column;
 }
 
-#loginForm {
+#login_wrapper {
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#loginForm > * {
+#loginForm input {
   margin: 4px 0;
-  text-align: center;
+  border-radius: 4px;
+  border: none;
+  padding: 4px;
 }
 
 #loginForm .buttons {
@@ -28,22 +30,15 @@
 .btn_login {
   background-color: var(--light);
   color: var(--dark);
-
-  padding: 5px 10px;
+  padding: 5px 20px;
   margin-top: 10px;
-}
-.btn_login:hover {
-}
-#fieldSet {
-  border: none;
-  padding: 0;
-}
-#fieldSet:disabled {
-  color: linen;
-  opacity: 1;
+  border-radius: 6px;
+  border: outset rgba(255, 255, 255, 0.409);
+  box-shadow: rgba(255, 255, 255, 0.427) 1px 1px 10px;
 }
 
 #info_login {
   text-align: center;
   margin: 10px 0;
+  max-width: 60%;
 }

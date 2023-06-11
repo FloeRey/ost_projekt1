@@ -1,16 +1,26 @@
+#info {
+  color: var(--color-dark);
+}
+
+.darkTheme #info {
+  color: var(--color-light);
+}
+
+.offlineMode {
+  color: rgba(255, 56, 1, 0.947);
+}
+
+.darkTheme .offlineMode {
+  color: rgba(255, 74, 24, 0.71);
+  text-shadow: rgb(12, 12, 12) 1px 1px 10px;
+}
+
 #info-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--dark);
-  background-color: var(--light);
   height: var(--header-size);
   position: relative;
-}
-
-.darkTheme #info-wrapper {
-  color: var(--light);
-  background-color: var(--dark);
 }
 
 #changeTheme {
@@ -42,15 +52,4 @@
 .onlineMode {
   color: rgb(16, 228, 16);
   text-shadow: white 1px 1px 10px;
-}
-
-.offlineMode {
-  color: red;
-  text-shadow: rgb(12, 12, 12) 1px 1px 10px;
-}
-.offlineMode::before {
-  content: "! ";
-}
-.offlineMode::after {
-  content: " !";
 }

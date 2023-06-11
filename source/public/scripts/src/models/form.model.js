@@ -4,8 +4,8 @@ class FormModel {
   constructor() {
     this.createText = "create new task";
     this.formData = {
-      createText: "create new task",
-      description: "description",
+      createText: "Title",
+      description: "",
       importance: "importance",
       dueData: "dueDate",
     };
@@ -21,7 +21,6 @@ class FormModel {
     const importance = formData.get("importance");
     const dueDate = formData.get("dueDate");
     const complete = formData.get("complete");
-
     const newTask = {
       id,
       title,
@@ -30,7 +29,6 @@ class FormModel {
       complete: complete ? 1 : 0,
       generateDate,
     };
-    console.log(newTask);
     if (dueDate) newTask.dueDate = dueDate;
     return newTask;
   }

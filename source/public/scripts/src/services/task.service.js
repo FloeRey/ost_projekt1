@@ -3,7 +3,6 @@ import _TaskData_ from "./utils/taskData.js";
 import FormModel from "../models/form.model.js";
 import { env, URLS } from "../../../new_env.js";
 import taskHelper from "./taskHelpers.service.js";
-import UserService from "./userService.js";
 import LottieService from "./lottieService.js";
 
 import StatusService from "./status.service.js";
@@ -97,11 +96,9 @@ class TaskService extends BaseService {
 
   async createNewTask(form) {
     const newTask = _TaskData_.fromJSON(this.formModel.createTask(form));
-    console.log(newTask);
     if (this.workMode === this.onlineKeyWord) {
       try {
         await this.httpRequest("POST", URLS.tasks.updateTask, newTask);
-        console.log(this.lottiePlayer);
       } catch (e) {
         if (
           window.confirm(
@@ -125,7 +122,6 @@ class TaskService extends BaseService {
     } else {
       try {
         const response = await this.httpRequest("GET", URLS.tasks.getTask);
-        console.log(response);
         this.tasks = response.map((task) => _TaskData_.fromJSON(task));
         this.#addToLocalStorage();
       } catch (e) {
@@ -195,14 +191,13 @@ class TaskService extends BaseService {
   }
 
   async removeTask(taskId) {
-    console.log(this.workMode);
     if (this.workMode === this.onlineKeyWord) {
       try {
         this.tasks = await this.httpRequest("DELETE", URLS.tasks.deleteTask, {
           id: taskId,
         });
       } catch (error) {
-        console.log(error);
+        console.warn("something happend when trying to remove your task");
       }
     }
     this.deleteLocalStorage(taskId);

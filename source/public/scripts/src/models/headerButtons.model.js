@@ -13,8 +13,8 @@ class HeaderButtons {
       ` <button class='filter btn hide' id='completed_filter'></button>`
     );
     this.toggleCompleteFilterText = {
-      0: "Hide completed",
-      1: "Show completed",
+      1: "🙈",
+      0: "🐵",
     };
     this.buttonStatus = {
       completed_filter: 0,

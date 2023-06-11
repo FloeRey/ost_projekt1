@@ -6,3 +6,26 @@
     opacity: 1;
   }
 }
+
+@keyframes slide_fade_in {
+  0% {
+    display: inline-block;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide_fade_out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.zoom_out {
+  transform: scale(0);
+}

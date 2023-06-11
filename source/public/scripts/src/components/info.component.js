@@ -1,9 +1,9 @@
 import BaseComponent from "./base.component.js";
 import TaskService from "../services/task.service.js";
 import StatusService from "../services/status.service.js";
-
 import InfoModel from "../models/info.model.js";
 import InfoView from "../views/info.view.js";
+import userService from "../services/userService.js";
 
 export default class InfoComponent extends BaseComponent {
   constructor(app) {
@@ -16,7 +16,7 @@ export default class InfoComponent extends BaseComponent {
     this.taskService.addObserver(this);
     this.template = this.template();
 
-    this.model = new InfoModel(this.statusService.getData);
+    this.model = new InfoModel(userService.getData);
     this.view = new InfoView(this.container, this.template);
 
     this.container.addEventListener("click", this);
@@ -32,8 +32,9 @@ export default class InfoComponent extends BaseComponent {
 
   OnclickButton(e) {
     if (e.target.id === "changeTheme") {
-      this.statusService.changeTheme();
-      this.model.updateData(this.statusService.getData);
+      this.theme = userService.changeTheme();
+      this.statusService.updateTheme(this.theme);
+      this.model.updateData(userService.getData);
       this.render();
     }
   }

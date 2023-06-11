@@ -11,7 +11,7 @@ export default class _TaskData_ {
     this.id = id;
     this.title = title;
     this.importance = importance;
-    this.description = description || "no description";
+    this.description = description;
     this.generateDate = generateDate;
     this.dueDate = dueDate;
     this.complete = complete;

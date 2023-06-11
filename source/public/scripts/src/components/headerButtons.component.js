@@ -116,16 +116,16 @@ export default class HeaderButtonsComponent extends BaseComponent {
   }
 
   render() {
-    console.log(this.headerButtonsModel.completes);
+    this.app.events.pageChanged(this, true);
     this.HeaderButtonsView.render(this.headerButtonsModel);
   }
 
   hideButtons() {
-    this.HeaderButtonsView.hide();
+    this.app.events.pageChanged(this, false);
+    // this.HeaderButtonsView.hide();
   }
 
   ObsStatus(data) {
-    console.log("status observer", data);
     if (this.createTask !== data.createTask) {
       this.createTask = data.createTask;
       if (data.createTask) this.hideButtons();
