@@ -1,6 +1,6 @@
 class LottieService {
   constructor() {
-    this.player = document.querySelector("#lottiePlayer");
+    this.player = document.querySelector("#lottie-player");
   }
 
   play() {

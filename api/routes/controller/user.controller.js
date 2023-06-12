@@ -3,18 +3,30 @@ import settings from "../../env.js/settings.js";
 
 import { send, sendError } from "../commmon/createSendResponse.js";
 
+import Validator from "../commmon/validate.js";
+
 class UserController {
+  /** // TS ?? //
+   * @param {string} validation
+   */
+
+  constructor() {
+    this.validation = "string";
+  }
+
   async loginUser(req, res) {
     try {
-      if (!req.body.name || !req.body.password) {
-        throw new Error("[msg] fill out name and password");
-      }
-      if (
-        typeof req.body.name !== "string" ||
-        typeof req.body.password !== "string"
-      ) {
-        throw new Error(settings.defaultError);
-      }
+      // if (!req.body.name || !req.body.password) {
+      //   throw new Error("[msg] fill out name and password");
+      // }
+      // if (
+      //   !(
+      //     Validator.typeName(typeof req.body.name) ||
+      //     Validator.typePassword(typeof req.body.password)
+      //   )
+      // ) {
+      //   throw new Error(settings.defaultError);
+      // }
       const loginData = {
         name: req.body.name,
         pw: req.body.password,

@@ -7,8 +7,6 @@ export default class HeaderButtonsView {
 
   hide() {
     this.app.events.pageChanged(this, false);
-    // this.container.innerHTML = "";
-    // this.container.classList.add("__isHidden");
   }
 
   get AllFilterButtons() {
@@ -17,7 +15,6 @@ export default class HeaderButtonsView {
   }
 
   render(data) {
-    // this.container.classList.remove("__isHidden");
     this.container.innerHTML = "";
     this.container.innerHTML = this.template({
       filterButtons: data.HeaderButtons,
@@ -29,15 +26,15 @@ export default class HeaderButtonsView {
   }
 
   toggleFilters() {
-    this.filterDiv = document.querySelector(".filterButtonsDiv");
+    this.filterDiv = document.querySelector(".filter-buttons-div");
     this.filterDiv.classList.toggle("show");
-    this.filterDiv = document.querySelector("#toggleFilterDiv");
+    this.filterDiv = document.querySelector("#toggle-filter-div");
     this.filterDiv.classList.toggle("show");
   }
 
   updateFilter(data) {
     if (data.completes) {
-      this.completeButton = document.getElementById("completed_filter");
+      this.completeButton = document.getElementById("completed-filter");
       this.completeButton.innerHTML =
         data.toggleCompleteFilterText[data.buttonStatus.completed_filter];
 
@@ -48,30 +45,9 @@ export default class HeaderButtonsView {
     }
 
     Array.from(this.AllFilterButtons).forEach((elem) => {
-      elem.classList.remove("activeFilter_0", "activeFilter_1");
+      elem.classList.remove("active-filter-0", "active-filter-1");
     });
     const activeButton = document.getElementById(data.activeFilter);
-    activeButton.classList.add(`activeFilter_${data.activeDirection}`);
-
-    // if (data.activeFilter === "completed_filter") {
-    //   if (data.completes) {
-    //     this.completeButton = document.getElementById(data.activeFilter);
-    //     this.completeButton.innerHTML =
-    //       data.toggleCompleteFilterText[data.buttonStatus[data.activeFilter]];
-    //     if (data.buttonStatus[data.activeFilter] === 1) {
-    //       this.completeButton.classList.remove("hide");
-    //       this.completeButton.classList.add("show");
-    //     } else {
-    //       this.completeButton.classList.remove("show");
-    //       this.completeButton.classList.add("hide");
-    //     }
-    //   }
-    // } else {
-    //   Array.from(this.AllFilterButtons).forEach((elem) => {
-    //     elem.classList.remove("activeFilter_0", "activeFilter_1");
-    //   });
-    //   const activeButton = document.getElementById(data.activeFilter);
-    //   activeButton.classList.add(`activeFilter_${data.activeDirection}`);
-    // }
+    activeButton.classList.add(`active-filter-${data.activeDirection}`);
   }
 }

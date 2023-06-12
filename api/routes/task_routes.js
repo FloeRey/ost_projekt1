@@ -76,7 +76,6 @@ export default class TaskRouter extends CommonRoutesConfig {
     });
     this.app.route("/deleteTask").delete(async (req, res) => {
       const authenticationId = req.header("Authorization");
-
       const obj = {
         creator_id: authenticationId,
       };

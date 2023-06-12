@@ -13,7 +13,6 @@ class LoadingComponent extends BaseComponent {
     this.loadingTemplate = this.template();
     this.container.addEventListener("mouseenter", this);
     this.container.addEventListener("mouseleave", this);
-    this.dotdotUp = document.querySelector(".dotdotUp");
     this.loadingView = new LoadingView(this.container, this.loadingTemplate);
   }
 
@@ -38,12 +37,12 @@ class LoadingComponent extends BaseComponent {
 
   mouseEnter() {
     if (this.loadingModel.isLoading)
-      this.container.classList.add("loadingZoom");
+      this.container.classList.add("loading-zoom");
   }
 
   mouseLeave() {
     if (this.loadingModel.isLoading)
-      this.container.classList.remove("loadingZoom");
+      this.container.classList.remove("loading-zoom");
   }
 
   startInterval() {

@@ -70,8 +70,8 @@ class App {
   checkTheme(theme = "light") {
     if (this.theme !== theme) {
       this.theme = theme;
-      document.body.classList.remove("darkTheme", "lightTheme");
-      document.body.classList.add(`${theme}Theme`);
+      document.body.classList.remove("darktheme", "lighttheme");
+      document.body.classList.add(`${theme}theme`);
     }
   }
 }

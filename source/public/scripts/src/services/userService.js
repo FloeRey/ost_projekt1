@@ -24,7 +24,7 @@ class UserService {
   }
 
   async checkLogin() {
-    const form = document.getElementById("loginForm");
+    const form = document.getElementById("login-form");
     const formData = new FormData(form);
     const { msg } = await this.httpRequest(
       "POST",

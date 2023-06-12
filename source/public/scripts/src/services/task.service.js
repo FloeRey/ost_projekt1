@@ -199,8 +199,10 @@ class TaskService extends BaseService {
       } catch (error) {
         console.warn("something happend when trying to remove your task");
       }
+    } else {
+      this.deleteLocalStorage(taskId);
     }
-    this.deleteLocalStorage(taskId);
+    this.#addToLocalStorage();
     this.update();
   }
 

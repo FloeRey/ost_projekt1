@@ -6,7 +6,7 @@ export default class LoadingView {
 
   show(data) {
     if (!data.onlyContent) {
-      this.container.classList.add("isShow");
+      this.container.classList.add("is-show");
     }
 
     this.container.innerHTML = "";
@@ -18,6 +18,6 @@ export default class LoadingView {
   }
 
   remove() {
-    this.container.classList.remove("isShow");
+    this.container.classList.remove("is-show");
   }
 }

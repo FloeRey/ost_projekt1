@@ -2,20 +2,21 @@
   color: var(--color-dark);
 }
 
-.darkTheme #info {
+.darktheme #info {
   color: var(--color-light);
 }
 
-.offlineMode {
+.offline-mode {
   color: rgba(255, 56, 1, 0.947);
 }
 
-.darkTheme .offlineMode {
+.darktheme .offline-mode {
   color: rgba(255, 74, 24, 0.71);
   text-shadow: rgb(12, 12, 12) 1px 1px 10px;
 }
 
 #info-wrapper {
+  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,10 +24,10 @@
   position: relative;
 }
 
-#changeTheme {
+#changetheme {
   position: absolute;
   right: 10px;
-  height: 80%;
+  height: 100%;
   padding: 0 10px;
   transition: all 0.2s linear;
   border-radius: 20px;
@@ -34,22 +35,22 @@
   width: 50px;
 }
 
-#changeTheme:hover {
+#changetheme:hover {
   background-color: rgba(22, 22, 22, 0.769);
   color: white;
 }
 
-.darkTheme #changeTheme {
+.darktheme #changetheme {
   color: var(--light);
   border: solid 1px rgba(115, 115, 115, 0.774);
 }
 
-.darkTheme #changeTheme:hover {
+.darktheme #changetheme:hover {
   background-color: rgba(255, 255, 255, 0.135);
   border: solid 1px rgba(220, 220, 220, 0.804);
 }
 
-.onlineMode {
+.online-mode {
   color: rgb(16, 228, 16);
   text-shadow: white 1px 1px 10px;
 }

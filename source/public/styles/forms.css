@@ -1,65 +1,90 @@
 #form {
-  /* background-color: var(--bg-light); */
   color: var(--color-dark);
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-#form .btn_small {
+#form-create {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-wrapper {
+  margin: auto;
+  padding: 20px 0;
+  min-height: calc(100vh - var(--header-size) - 20px);
+  height: 100%;
+}
+
+#form .btn-small {
   border-radius: 20px;
   padding: 10px 30px;
 }
 
-#form .btn_small.form_cancel {
+#form .btn-small.form-cancel {
   color: white;
 }
 
-#formCreate input {
+#form-create input {
+  background-color: var(--color-input-light);
+  color: var(--color-dark);
+  font-size: 1em;
+  text-align: center;
+}
+
+#form-create textarea {
+  margin: auto;
+  max-height: 400px;
+  max-width: 80vw;
+  min-height: 200px;
+  min-width: 40vw;
+  text-align: center;
   background-color: var(--color-input-light);
   color: var(--color-dark);
 }
 
-#formCreate textarea {
-  background-color: var(--color-input-light);
-  color: var(--color-dark);
-}
-
-.darkTheme #form {
+.darktheme #form {
   /* background-color: var(--bg-dark); */
   color: var(--color-light);
 }
 
-.darkTheme #formCreate input {
+.darktheme #form-create input {
   background-color: var(--color-input-dark);
   color: var(--color-light);
 }
 
-.darkTheme #formCreate textarea {
+.darktheme #form-create textarea {
   background-color: var(--color-input-dark);
   color: var(--color-light);
 }
 
-#formCreate #title {
+#form-create #title {
   padding: 10px 0;
 }
 
-#inputDatePicker {
+#input-date-picker {
   border-radius: 20px;
   padding: 4px 20px;
   margin: 10px 0;
   border: outset rgb(242, 199, 135) 2px;
 }
 
-.darkTheme #inputDatePicker {
+.darktheme #input-date-picker {
   border: outset white 2px;
 }
 
-.formTitle {
+.form-title {
   font-size: 1.3rem;
   text-align: center;
   margin: 40px auto;
   position: relative;
   width: fit-content;
 }
-.formTitle::before {
+
+.form-title::before {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -68,7 +93,8 @@
   height: 100%;
   border-bottom: solid var(--dark) 2px;
 }
-.formTitle::after {
+
+.form-title::after {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -77,67 +103,50 @@
   height: 100%;
   border-bottom: solid var(--dark) 2px;
 }
-.darkTheme .formTitle::after {
+
+.darktheme .form-title::after {
   border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
-}
-.darkTheme .formTitle::before {
-  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
-}
-#formCreate {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-}
-#formCreate input {
-  font-size: 1em;
-  text-align: center;
 }
 
-.formInput {
+.darktheme .form-title::before {
+  border-bottom: solid rgba(255, 255, 255, 0.402) 2px;
+}
+
+.form-input {
   padding: 6px;
   margin: 10px 0;
   display: flex;
   align-items: center;
 }
 
-.completeDiv {
+.complete-div {
   margin-top: 10px;
 }
 
-.form_edit.btn_small {
+.form-edit.btn-small {
   margin-left: 10px;
   background: var(--color-success);
   border: outset rgb(242, 199, 135) 2px;
 }
 
-.form_cancel.btn_small {
+.form-cancel.btn-small {
   background: var(--color-danger);
   border: outset rgb(242, 199, 135) 2px;
 }
 
-.formInput_button {
+.form-input-button {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
 
-#formCreate textarea {
-  margin: auto;
-  max-height: 400px;
-  max-width: 80vw;
-  min-height: 200px;
-  min-width: 40vw;
-  text-align: center;
-}
-
-#rangeImportant {
+#range-important {
   cursor: pointer;
   width: 100%;
   display: flex;
 }
-#rangeImportant .importance::after {
+
+#range-important .importance::after {
   content: "❄";
   position: absolute;
   left: 0;
@@ -146,7 +155,8 @@
   bottom: 0;
   transform: translate(0, -1px);
 }
-#rangeImportant .importance {
+
+#range-important .importance {
   position: relative;
   margin: 0;
   margin-left: 6px;

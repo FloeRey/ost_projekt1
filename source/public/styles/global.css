@@ -2,11 +2,11 @@
 
 .btn {
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   overflow: hidden;
 }
 
-.main_btn {
+.main-btn {
   margin: 10px;
   transition: all 50ms linear;
   text-transform: uppercase;
@@ -15,20 +15,16 @@
   color: var(--color-dark);
 }
 
-.darkTheme .main_btn {
+.darktheme .main-btn {
   color: var(--color-light);
   background-color: var(--main-button-dark);
 }
 
-.btn_big {
+.btn-big {
   padding: 10px 20px;
 }
 
-.btn_task {
-  color: var(--light);
-}
-
-.btn_small {
+.btn-small {
   margin: 0 2px;
   padding: 2px 6px;
   color: var(--color-dark);
@@ -37,7 +33,7 @@
   background-color: var(--light);
 }
 
-.darkTheme .btn_small {
+.darktheme .btn-small {
   border: solid grey 1px;
   color: var(--color-light);
   background-color: var(--dark);
@@ -55,63 +51,34 @@
   z-index: -1;
 }
 
-.darkTheme .btn.animated::before {
+.darktheme .btn.animated::before {
   background-color: var(--hover-dark);
 }
 
 .btn.animated:hover::before {
-  animation: borderAnimation 0.2s linear 0s forwards;
+  animation: border-animation 0.2s linear 0s forwards;
 }
 
-@keyframes borderAnimation {
-  0% {
-    left: 50%;
-    bottom: 50%;
-    width: 2px;
-    height: 2px;
-  }
-  20% {
-    width: 30%;
-    height: 30%;
-    left: 35%;
-    bottom: 35%;
-  }
-  50% {
-    width: 60%;
-    height: 60%;
-    left: 20%;
-    bottom: 20%;
-  }
-
-  100% {
-    width: 100%;
-    height: 100%;
-    left: 0%;
-    bottom: 0%;
-  }
-}
-
-.noMargin {
+.no-margin {
   margin: 0;
 }
 
-.noPadding {
+.no-padding {
   padding: 0;
 }
 
-.noInput {
+.no-input {
   background: none;
   border: none;
 }
 
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .checkbox-round {
@@ -125,7 +92,8 @@
   outline: none;
   cursor: pointer;
 }
-.checkbox-notSoRound {
+
+.checkbox-not-so-round {
   width: 1.3em;
   height: 1.3em;
   background-color: white;
@@ -136,7 +104,7 @@
   outline: none;
   cursor: pointer;
   position: relative;
-  margin: 10px 0px;
+  margin: 10px 0;
   margin-right: 30px;
   margin-left: 5px;
 }
@@ -145,10 +113,11 @@
   background-color: rgb(17, 196, 4) !important;
 }
 
-.checkbox-notSoRound:checked {
+.checkbox-not-so-round:checked {
   background-color: rgb(17, 196, 4) !important;
 }
-.checkbox-notSoRound:checked:after {
+
+.checkbox-not-so-round:checked::after {
   content: "✓";
   color: rgb(232, 232, 232);
   font-weight: bold;
@@ -157,6 +126,7 @@
 input[type="date"] {
   position: relative;
 }
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;
   bottom: 0;
@@ -174,9 +144,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   text-align: center;
 }
 
-.__isHidden {
-  animation: slide_fade_out 0.2s linear forwards;
+.is-hidden {
+  animation: slide-fade-out 0.2s linear forwards;
 }
-.__isVisible {
-  animation: slide_fade_in 0.2s linear forwards;
+
+.is-visible {
+  animation: slide-fade-in 0.2s linear forwards;
+}
+
+button,
+textarea,
+input,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

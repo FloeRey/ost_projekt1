@@ -3,18 +3,18 @@ class HeaderButtons {
     this.createText = "create new task";
     this.HeaderButtons = new Handlebars.SafeString(
       `
-      <button class='filter btn_small btn' id='name_filter'>Name </button>
-      <button class='filter btn_small btn' id='date_filter' >DueDate </ button>
-      <button class='filter btn_small btn' id='creationDate_filter'>Creation </button>
-      <button class='filter btn_small btn' id='importance_filter'>Importance </button>
+      <button class='filter btn-small btn' id='name_filter'>Name </button>
+      <button class='filter btn-small btn' id='date_filter' >DueDate </ button>
+      <button class='filter btn-small btn' id='creationDate_filter'>Creation </button>
+      <button class='filter btn-small btn' id='importance_filter'>Importance </button>
       `
     );
     this.showHideCompletes_button = new Handlebars.SafeString(
       ` <button class='filter btn hide' id='completed_filter'></button>`
     );
     this.toggleCompleteFilterText = {
-      1: "🙈",
-      0: "🐵",
+      1: "&#128584;",
+      0: "&#128053;",
     };
     this.buttonStatus = {
       completed_filter: 0,
@@ -26,7 +26,6 @@ class HeaderButtons {
 
   sort(mode) {
     this.activeFilter = mode;
-
     this.activeDirection = this.activeDirection === 0 ? 1 : 0;
   }
 

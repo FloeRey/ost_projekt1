@@ -16,6 +16,7 @@
     "object-curly-newline": "warn",
     "object-curly-spacing": "warn",
     "linebreak-style": "off"
+    // "camelcase": ""
   },
   "globals": {
     "Handlebars": true

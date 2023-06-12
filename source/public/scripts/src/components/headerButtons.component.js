@@ -6,7 +6,7 @@ import headerButtonsModel from "../models/headerButtons.model.js";
 import HeaderButtonsView from "../views/headerButtons.view.js";
 import PubSub from "../utils/pubSub.js";
 
-export default class HeaderButtonsComponent extends BaseComponent {
+export default class HeaderbuttonsComponent extends BaseComponent {
   constructor(app) {
     super(app);
     this.loadingService = LoadingService;
@@ -69,10 +69,10 @@ export default class HeaderButtonsComponent extends BaseComponent {
 
   OnclickButton(e) {
     switch (e.target.id) {
-      case "toggleFilterDiv":
+      case "toggle-filter-div":
         this.HeaderButtonsView.toggleFilters();
         break;
-      case "createNewTask":
+      case "create-new-task":
         this.statusService.createNewTask();
         break;
       case "name_filter":
@@ -97,7 +97,7 @@ export default class HeaderButtonsComponent extends BaseComponent {
         );
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
         break;
-      case "completed_filter":
+      case "completed-filter":
         this.headerButtonsModel.toggle("completed_filter");
         this.taskService.toggleCompleteTasks(
           this.headerButtonsModel.buttonStatus.completed_filter

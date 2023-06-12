@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="this is a todo app to get your days ordered" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="this is a todo app to get your days ordered">
   <title>ToDo App</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
     integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js"></script>
-  <link rel="stylesheet" href="./styles/index.css" />
+  <link rel="stylesheet" href="./styles/index.css">
   <script src="./scripts/src/app.js" type="module"></script>
 </head>
 
@@ -17,8 +17,8 @@
   <!--info -->
   <script id="info-template" type="text/x-handlebars-template">
     <div id="info-wrapper">
-      <div class="{{workMode}}Mode noselect">{{infoText}}</div>
-      <button class="main_btn btn noMargin noPadding noHover" id="changeTheme">{{#if
+      <div class="{{workMode}}-mode no-select">{{infoText}}</div>
+      <button class="main-btn btn no-margin no-padding noHover" id="changetheme">{{#if
           (eq theme "dark")
         }}&#x263C;{{else}} &#x263E;{{/if}}
       </button>
@@ -28,20 +28,20 @@
   <script id="loading-template" type="text/x-handlebars-template">
     <div class="dotdotUp">{{beforeText}}</div>
     <div>{{text}}</div>
-    <div class="dotdotDown">{{addText}}</div>
+    <div class="dotdot-down ">{{addText}}</div>
   </script>
   <!-- top Buttons -->
-  <script id="headerButtons-template" type="text/x-handlebars-template">
-    <div class="headerButtons_wrapper">
-      <button class="main_btn btn animated btn_big" id="createNewTask">create</button>
+  <script id="headerbuttons-template" type="text/x-handlebars-template">
+    <div class="header-buttons-wrapper">
+      <button class="main-btn btn animated btn-big" id="create-new-task">create</button>
       <div class="toggle">
-        <button id="toggleFilterDiv" class="main btn_small btn "></button>
+        <button id="toggle-filter-div" class="main btn-small btn "></button>
         {{#if hasCompleteTasks}}
-        <button id="completed_filter" class="main btn_small btn hide">{{completeButtonText}}</button>
+        <button id="completed-filter" class="main btn-small btn hide">{{completeButtonText}}</button>
         {{/if}}
       </div>
-      <div class="filterButtonsDiv">
-        <div class="__content">
+      <div class="filter-buttons-div">
+        <div class="content">
           {{filterButtons}}
         </div>
       </div>
@@ -51,27 +51,27 @@
   <script id="tasks-template" type="text/x-handlebars-template">
     {{#if (noteq task.hideTask true)}}
       <div class="task {{#if task.complete}}completed{{/if}}">
-        <input class="task__title  items noInput" disabled value="{{task.title}}" placeholder="no title"  pattern="[A-Za-z]{3}" title="Three letter country code">
-        <input class="task__description items noInput text-center" disabled value="{{task.description}}" placeholder="no description">
-        <div class="task__importance items">
+        <input class="task-title  items no-input" disabled value="{{task.title}}" placeholder="no title"  pattern="[A-Za-z]{3}" title="Three letter country code">
+        <input class="task-description items no-input text-center" disabled value="{{task.description}}" placeholder="no description">
+        <div class="task-importance items">
           {{#times task.importance}}
           ❄
           {{/times}}
         </div>
-        <input class="task__dueDate items noInput"  disabled  value="{{task.dueDate}}"
+        <input class="task-duedate items no-input"  disabled  value="{{task.dueDate}}"
          >
-        <input data-id="{{task.id}}" id="complete_{{index}}" type="checkbox" class="checkbox-round task__complete" {{#if task.complete}}checked{{/if}}>
-        <div class="task__remove"><button id="removeTask_{{index}}" class="btn_small btn animated removeTask " data-id="{{task.id}}">remove</button></div>
-        <div class="task__edit"><button id="editTask_{{index}}" class="btn_small btn animated editTask " data-id="{{task.id}}">edit</button></div>
+        <input data-id="{{task.id}}" id="complete_{{index}}" type="checkbox" class="checkbox-round task-complete" {{#if task.complete}}checked{{/if}}>
+        <div class="task-remove"><button id="removeTask_{{index}}" class="btn-small btn animated removeTask " data-id="{{task.id}}">remove</button></div>
+        <div class="task-edit"><button id="editTask_{{index}}" class="btn-small btn animated editTask " data-id="{{task.id}}">edit</button></div>
       </div>
     {{/if}}
   </script>
   <!-- create / edit task -->
   <script id="form-template" type="text/x-handlebars-template">
-    <div class="content_column">
-      <div class="formTitle">{{title}}</div>
-      <form id="formCreate" >
-        <div class="formInput">
+    <div class="form-wrapper ">
+      <div class="form-title">{{title}}</div>
+      <form id="form-create" >
+        <div class="form-input">
           <input id="title"
             value="{{editTask.title}}"
             type="text"
@@ -79,7 +79,7 @@
             placeholder="{{formData.createText}}"
           />
         </div>
-        <div class="formInput">
+        <div class="form-input">
           <textarea
           rows="1" cols="50"
             type="text"
@@ -87,15 +87,15 @@
             placeholder="{{formData.description}}"
           />{{editTask.description}}</textarea>
         </div>
-        <div class="formInput">
-          <div id="rangeImportant">
+        <div class="form-input">
+          <div id="range-important">
             {{#times 10}}
               {{#if ../editTask}}
                 <input {{#if (bigger  ../editTask.importance this) }} checked {{/if}} type="checkbox"
-              class="importance importance_{{add this 1}}  checkbox-round task__complete">
+              class="importance importance_{{add this 1}}  checkbox-round task-complete">
               {{else}}
                 <input {{#if (eq this 0) }} checked {{/if}} type="checkbox"
-              class="importance importance_{{add this 1}}  checkbox-round task__complete">
+              class="importance importance_{{add this 1}}  checkbox-round task-complete">
               {{/if}}
             {{/times}}
             {{#if editTask}}
@@ -106,27 +106,27 @@
           </div>
         </div>
 
-        <div class="formInput completeDiv">
-            <div class="formInput ">
+        <div class="form-input complete-div">
+            <div class="form-input ">
               <label for="complete">complete:</label>
-              <input class="checkbox-notSoRound task__complete" type="checkbox" {{#if editTask.complete}}checked{{/if}}
+              <input class="checkbox-not-so-round task-complete" type="checkbox" {{#if editTask.complete}}checked{{/if}}
                 name="complete" id="complete" value="true">
             </div>
           <input
             value="{{editTask.dueDate}}"
             type="date"
             name="dueDate"
-            id="inputDatePicker"
+            id="input-date-picker"
           />
 
         </div>
-        <div class="formInput_button">
+        <div class="form-input-button">
           {{#if editTask}}
-            <button class="form_cancel btn btn_small" type="button" id="cancel">cancel</button>
-            <button class="form_edit btn btn_small" type="submit">edit</button>
+            <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
+            <button class="form-edit btn btn-small" type="submit">edit</button>
           {{else}}
-            <button class="form_cancel btn btn_small" type="button" id="cancel">cancel</button>
-            <button class="form_edit btn btn_small" type="submit">create</button>
+            <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
+            <button class="form-edit btn btn-small" type="submit">create</button>
           {{/if}}
         </div>
 
@@ -137,10 +137,10 @@
     <div hidden id="login"></div>
     <div id="info"></div>
     <div id="loading"></div>
-    <div id="headerButtons"></div>
+    <div id="headerbuttons"></div>
     <div id="tasks"></div>
     <div id="form"></div>
-    <lottie-player id="lottiePlayer" class="hide"
+    <lottie-player id="lottie-player" class="hide"
       src="https://assets9.lottiefiles.com/packages/lf20_nxsyeqbd.json">"></lottie-player>
   </div>
 </body>

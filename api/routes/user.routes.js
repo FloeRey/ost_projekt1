@@ -4,6 +4,8 @@ import CommonRoutesConfig from "../common.routes.config.js";
 import settings from "../env.js/settings.js";
 import { send, sendError } from "./commmon/createSendResponse.js";
 import UserController from "./controller/user.controller.js";
+import { body, validationResult } from "express-validator";
+import Validator from "./commmon/validate.js";
 
 export default class TaskRouter extends CommonRoutesConfig {
   constructor(app) {
@@ -15,7 +17,18 @@ export default class TaskRouter extends CommonRoutesConfig {
       res.send(send(settings.guestId));
     });
 
-    this.app.route(`/login`).post(UserController.loginUser);
+    this.app.route(`/login`).post(
+      body("name").notEmpty().withMessage("fill out"),
+      body("name").isAlpha().withMessage("letters a-z"),
+      body("name").isLength({ min: 5, max: 10 }).withMessage("not length"),
+      (req, res, next) => {
+        const result = validationResult(req);
+        console.log(result);
+        next();
+      },
+      // Validator.login,
+      UserController.loginUser
+    );
 
     this.app.route(`/createNewUser`).post(async (req, res) => {
       try {

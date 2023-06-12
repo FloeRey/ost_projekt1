@@ -17,6 +17,7 @@ class UserService {
     if (match) {
       return { id: userFromDB.uuid, settings: userFromDB.settings };
     }
+    return "";
   }
 
   async createUser(userData) {

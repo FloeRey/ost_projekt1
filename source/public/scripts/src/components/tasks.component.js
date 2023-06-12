@@ -58,6 +58,7 @@ export default class TasksComponent extends BaseComponent {
   }
 
   renderTasks() {
+    console.log(this.taskService.allTask);
     this.app.events.pageChanged(this, true);
     this.view.renderTasks(this.taskService.allTask);
   }

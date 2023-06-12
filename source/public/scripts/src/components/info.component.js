@@ -31,7 +31,7 @@ export default class InfoComponent extends BaseComponent {
   }
 
   OnclickButton(e) {
-    if (e.target.id === "changeTheme") {
+    if (e.target.id === "changetheme") {
       this.theme = userService.changeTheme();
       this.statusService.updateTheme(this.theme);
       this.model.updateData(userService.getData);

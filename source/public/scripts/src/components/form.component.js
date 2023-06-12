@@ -18,12 +18,12 @@ export default class FormComponent extends BaseComponent {
     this.formView = new FormView(this.container, this.formTemplate);
     this.container.addEventListener("submit", this);
     this.container.addEventListener("click", this);
-    this.datePicker = document.querySelector("#inputDatePicker");
+    this.datePicker = document.querySelector("#input-date-picker");
   }
 
   OnSubmit(e) {
     e.preventDefault();
-    this.formData = document.getElementById("formCreate");
+    this.formData = document.getElementById("form-create");
 
     this.uploadData();
   }

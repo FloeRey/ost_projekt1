@@ -1,4 +1,4 @@
-.headerButtons_wrapper {
+.header-buttons-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,141 +9,124 @@
   background-color: rgba(255, 255, 255, 0.454);
 }
 
-.darkTheme .btn.animated::before {
+.darktheme .btn.animated::before {
   background-color: rgba(0, 0, 0, 0.285);
 }
 
-#headerButtons .toggle {
+#headerbuttons .toggle {
   display: flex;
   margin: 20px 0;
 }
-#headerButtons .main {
+
+#headerbuttons .main {
   margin: 0 5px;
 }
 
-#headerButtons .btn_small {
+.filter-buttons-div .btn-small {
+  padding: 6px 9px;
+  margin: 5px;
+  flex-wrap: nowrap;
+  box-shadow: white 1px 1px 4px;
+  white-space: nowrap;
+  border-radius: 5px;
+}
+
+#headerbuttons .btn-small {
   padding: 10px 20px;
   font-size: 0.9rem;
   border-radius: 100px;
 }
 
-#createNewTask {
+#create-new-task {
   font-weight: bold;
   border-radius: 10px;
   letter-spacing: 6px;
   padding: 10px 60px;
-  background: linear-gradient(
-      217deg,
-      rgba(255, 0, 0, 0.8),
-      rgba(255, 0, 0, 0) 70.71%
-    ),
-    linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
-    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
-}
-.darkTheme #createNewTask {
-  background: linear-gradient(
-      217deg,
-      rgba(255, 0, 0, 0.8),
-      rgba(255, 0, 0, 0) 70.71%
-    ),
+  background:
+    linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%),
     linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
     linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
 }
 
-#completed_filter {
+.darktheme #create-new-task {
+  background:
+    linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%),
+    linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+}
+
+#completed-filter {
   color: rgb(51, 183, 51);
   transition: all 0.3s ease-in-out;
   margin: 10px 0;
   padding: 4px 10px;
 }
-#completed_filter.hide {
+
+#completed-filter.hide {
   color: rgb(218, 9, 9);
 }
 
-#headerButtons #toggleFilterDiv {
+#toggle-filter-div:hover,
+#completed-filter:hover {
+  background-color: var(--hover-light);
+}
+
+.darktheme #toggle-filter-div:hover {
+  background-color: var(--hover-dark);
+}
+
+.darktheme #completed-filter:hover {
+  background-color: var(--hover-dark);
+}
+
+#headerbuttons #toggle-filter-div {
   transition: all 0.3s linear;
   width: 75px;
   height: 71px;
 }
-#headerButtons #completed_filter {
+
+#headerbuttons #completed-filter {
   width: 75px;
   height: 71px;
 }
 
-#toggleFilterDiv::after {
+#toggle-filter-div::after {
   display: inline-block;
-  content: "⮛";
+  content: "\0029E8";
 }
 
-#toggleFilterDiv:hover,
-#completed_filter:hover {
-  background-color: var(--hover-light);
+#toggle-filter-div.show::after {
+  content: "\0025ED";
 }
 
-#completed_filter:hover {
-  transform: scale(1.3);
-}
-
-.darkTheme #toggleFilterDiv:hover {
-  background-color: var(--hover-dark);
-}
-.darkTheme #completed_filter:hover {
-  background-color: var(--hover-dark);
-}
-
-#toggleFilterDiv.show::after {
-  content: "◭";
-}
-
-#toggleFilterDiv:hover::after {
+#toggle-filter-div:hover::after {
   transform: translateY(2px);
 }
 
-#toggleFilterDiv.show:hover::after {
+#toggle-filter-div.show:hover::after {
   transform: translateY(-2px);
 }
 
-.filterWrapper {
-  text-align: center;
-  width: 100%;
-  padding: 20px 0;
-}
-
-.rubrikTag {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: var(--light);
-}
-
-.filterButtonsDiv {
+.filter-buttons-div {
   width: 100%;
   overflow: hidden;
-  max-height: 0px;
+  max-height: 0;
   transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
   margin: 0;
   padding: 0;
 }
-.filterButtonsDiv.show {
+
+.filter-buttons-div.show {
   max-height: 99em;
   transition: max-height 0.5s ease-in-out;
 }
 
-.filterButtonsDiv .__content {
+.filter-buttons-div > .content {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  flex-direction: column;
-  margin: 0px 0 20px;
+  flex-flow: column wrap;
+  margin: 0 0 20px;
   padding: 20px;
-}
-
-.filterButtonsDiv .btn_small {
-  padding: 6px 9px;
-  margin: 5px 5px;
-  flex-wrap: nowrap;
-  box-shadow: white 1px 1px 4px;
-  white-space: nowrap;
-  border-radius: 5px;
 }
 
 .filter {
@@ -157,41 +140,50 @@
   transition: all 0.3s ease-in-out;
 }
 
-.activeFilter_0 {
+.active-filter-0 {
   box-shadow: rgb(242, 199, 135) 1px -3px 6px !important;
 }
 
-.activeFilter_1 {
+.active-filter-1 {
   box-shadow: rgb(242, 199, 135) 1px 3px 6px !important;
 }
 
-.darkTheme .activeFilter_0 {
+.darktheme .active-filter-0 {
   box-shadow: rgb(54, 255, 4) 1px -3px 6px !important;
 }
 
-.darkTheme .activeFilter_1 {
+.darktheme .active-filter-1 {
   box-shadow: rgb(54, 255, 4) 1px 3px 6px !important;
 }
 
-.activeFilter_0::after {
+.active-filter-0::after {
   display: inline-block;
   opacity: 1;
   transform: rotate(0deg);
 }
-.activeFilter_1::after {
+
+.active-filter-1::after {
   display: inline-block;
   opacity: 1;
   transform: rotate(-180deg);
 }
 
 @media (min-width: 420px) {
-  .filterButtonsDiv .__content {
+  .filter-buttons-div > .content {
     flex-direction: row;
   }
-  .filterButtonsDiv .btn_small {
+
+  .filter-buttons-div .btn-small {
     width: 200px;
   }
-  #headerButtons .btn_small {
+
+  #headerbuttons .btn-small {
     font-size: 1rem;
+  }
+}
+
+@media (hover: hover) {
+  #completed-filter:hover {
+    transform: scale(1.3);
   }
 }

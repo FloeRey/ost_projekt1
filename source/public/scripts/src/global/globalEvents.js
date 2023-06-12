@@ -26,19 +26,19 @@ class Events {
     }
 
     if (this.pageChange[componentName].target) {
-      container.classList.remove("__isHidden");
-      container.classList.add("__isVisible");
+      container.classList.remove("is-hidden");
+      container.classList.add("is-visible");
     } else {
-      container.classList.remove("__isVisible");
-      container.classList.add("__isHidden");
+      container.classList.remove("is-visible");
+      container.classList.add("is-hidden");
     }
 
     this.pageChange[componentName].timer = setTimeout(() => {
       if (this.pageChange[componentName].target) {
-        container.classList.remove("__isVisible");
+        container.classList.remove("is-visible");
       } else {
         container.innerHTML = "";
-        container.classList.remove("__isHidden");
+        container.classList.remove("is-hidden");
       }
     }, 200);
   }

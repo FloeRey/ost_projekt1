@@ -1,6 +1,10 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "indentation": [2]
+    "indentation": [2],
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "property-no-vendor-prefix": null,
+    "no-missing-end-of-source-newline": null
   }
 }
