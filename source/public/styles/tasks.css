@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  transition: all 1s linear;
 }
 
 .task {
