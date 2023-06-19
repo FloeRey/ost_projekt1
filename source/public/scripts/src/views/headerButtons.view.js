@@ -20,7 +20,7 @@ export default class HeaderButtonsView {
       filterButtons: data.HeaderButtons,
       hasCompleteTasks: data.completes,
       completeButtonText:
-        data.toggleCompleteFilterText[data.buttonStatus.completed_filter],
+        data.toggleCompleteFilterText[data.buttonStatus["completed-filter"]],
     });
     this.updateFilter(data);
   }
@@ -36,10 +36,10 @@ export default class HeaderButtonsView {
     if (data.completes) {
       this.completeButton = document.getElementById("completed-filter");
       this.completeButton.innerHTML =
-        data.toggleCompleteFilterText[data.buttonStatus.completed_filter];
+        data.toggleCompleteFilterText[data.buttonStatus["completed-filter"]];
 
       // eslint-disable-next-line no-unused-expressions
-      data.buttonStatus.completed_filter === 1
+      data.buttonStatus["completed-filter"] === 1
         ? this.completeButton.classList.remove("hide")
         : this.completeButton.classList.add("hide");
     }

@@ -4,6 +4,7 @@
     "browser": true,
     "es2021": true
   },
+  "ignorePatterns": ["api/**/*.js", "server.js", "aws_server.js"],
   "extends": ["airbnb-base", "prettier", "eslint:recommended"],
   "parserOptions": {
     "ecmaVersion": 2022,
@@ -16,7 +17,6 @@
     "object-curly-newline": "warn",
     "object-curly-spacing": "warn",
     "linebreak-style": "off"
-    // "camelcase": ""
   },
   "globals": {
     "Handlebars": true

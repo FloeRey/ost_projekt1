@@ -10,7 +10,7 @@ class Helpers {
     Handlebars.registerHelper("noteq", (a, b) => a !== b);
     Handlebars.registerHelper("or", (a, b) => a !== b);
     Handlebars.registerHelper("bigger", (a, b) => a > b);
-
+    Handlebars.registerHelper("ternary", (cond, v1, v2) => (cond ? v1 : v2));
     Handlebars.registerHelper("selected", (option, value) => {
       if (option + 1 === value) {
         return "selected";

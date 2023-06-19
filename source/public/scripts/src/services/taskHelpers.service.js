@@ -6,42 +6,54 @@ const taskHelper = {
   },
   sort(filterType, direction) {
     switch (filterType) {
-      case "name_filter":
+      case "noDate-filter":
+        this.tasks.sort((a, b) => {
+          if (!a.dueDate && !b.dueDate) return 1;
+          if (direction === 1) {
+            if (!b.dueDate) return -1;
+            if (!a.dueDate) return 1;
+          }
+          if (!b.dueDate) return 1;
+          if (!a.dueDate) return -1;
+          return 0;
+        });
+        break;
+      case "name-filter":
         this.tasks.sort((a, b) =>
           direction === 1
             ? a.title.localeCompare(b.title)
             : b.title.localeCompare(a.title)
         );
         break;
-      case "date_filter":
+      case "date-filter":
         this.tasks.sort((a, b) => {
-          if (direction === 0) {
-            if (!a.dueDate) {
-              return -1;
-            }
-            return new Date(a.dueDate) - new Date(b.dueDate);
+          if (!a.dueDate) {
+            return -1;
           }
           if (!b.dueDate) {
             return 1;
           }
+          if (direction === 1) {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+          }
           return new Date(b.dueDate) - new Date(a.dueDate);
         });
         break;
-      case "creationDate_filter":
+      case "creationDate-filter":
         this.tasks.sort((a, b) =>
-          direction === 1
+          direction === 0
             ? b.generateDate - a.generateDate
             : a.generateDate - b.generateDate
         );
         break;
-      case "importance_filter":
+      case "importance-filter":
         this.tasks.sort((a, b) =>
-          direction === 1
+          direction === 0
             ? b.importance - a.importance
             : a.importance - b.importance
         );
         break;
-      case "completed_filter":
+      case "completed-filter":
         this.tasks.forEach((task) => {
           if (task.complete) {
             if (direction === 1) {
@@ -53,7 +65,6 @@ const taskHelper = {
             }
           }
         });
-
         break;
       default:
         break;

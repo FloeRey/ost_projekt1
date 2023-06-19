@@ -1,30 +1,27 @@
-Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert.
+# Hi and Welcome to my Todo Application.
 
-Getting Started
+## To Run, go on https://rocket2sky.com/todo/api/ , or simply run the html file in the public folder.
 
-1. Entzippen von der Vorlage.
-2. Installieren Sie die Dependencies der Vorlage
-   - Console/Terminal: «npm install» im Root vom Projekt
-3. Testen Sie, ob alles richtig installiert wurde
-   - Console: «npm run all» im Root vom Projekt
-   - Erwarte Ausgabe: 1 Warnungen und «npm run all completed»
-4. Prettier und ESLint in der IDE Konfigurieren
-   - VS Code:
-     - https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-     - https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-   - Webstorm:
-     - https://www.jetbrains.com/help/webstorm/eslint.html
-     - https://www.jetbrains.com/help/webstorm/prettier.html
+## For Full Experience use the AWS Server and setup your public env.js file to UseAccount true if you want to create and use your own Account - or use "false" to take the public account.
 
-Woche 1
+> Like a Premium Version, if you create your own Account has much more advantages, like store Filter Settings.
 
-- HTML Gerüst erstellen für die Wireframes und Beginn CSS:
-  - /source/public/index.html
-  - /source/public/styles/index.css
-- Webstorm:
-  - /source/public/index.html "ausführen".
-- Visual Studio Code:
-  - Live Server nutzen: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
+## If you run the API on localhost and you dont get the .env data from me, please use Mode:"offline" in the public env.js file.
+
+> if you use Mode:"online", you have to use the AWS API, otherwise you need to go in "local"
+
+## use "usePollingUpdate" for auto refresh if you work on multi tabs or whatever.. should be replacced with websockets.
+
+### some functionallity are maybee missing for full satisfaction.
+
+- websocket for update on different tabs.
+- work local and sync with db. Actually the local stuff is going if you go online, but updates your local stuff.
+- Cookie for Login Session.
+- adjust the height of Task, description in a collapse.
+- use Dialog instead of alert when delete an task.
+- use of en & de language.
+
+## Commands
 
 Folgende Befehle sind möglich
 
@@ -34,6 +31,4 @@ Folgende Befehle sind möglich
 | npm run w3c       | Testet ob die HTML Files in Ordnung sind.     |
 | npm run eslint    | Testet ob die JS Files in Ordnung sind.       |
 | npm run all       | Führt die Tests für CSS/HTML/JS aus.          |
-| npm run start     | Started den Web-Server: http://localhost:3000 |
-
-## changed eslint to 2 indentation
+| npm run server    | Started den Web-Server: http://localhost:3000 |

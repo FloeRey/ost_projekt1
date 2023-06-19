@@ -16,8 +16,10 @@ export default class TaskRouter extends CommonRoutesConfig {
   configureRoutes() {
     this.app.route(`/getAllTasks`).get(async (req, res) => {
       const authenticationId = req.header("Authorization");
+      console.log(authenticationId);
       try {
         if (!authenticationId) throw new Error("you are wrong here");
+        console.log("use autohrization to login");
         const results = await this.getAllAndUpdate(authenticationId);
         res.send(results);
       } catch (error) {

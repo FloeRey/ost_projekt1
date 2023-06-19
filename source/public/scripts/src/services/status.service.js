@@ -1,6 +1,5 @@
 import BaseService from "./base.service.js";
-// import _UserData_ from "./utils/userData.js";
-import { URLS, env } from "../../../new_env.js";
+import { env } from "../../../env.js";
 
 class StatusService extends BaseService {
   constructor() {

@@ -13,7 +13,6 @@ class Events {
   }
 
   pageChanged(component, showHide) {
-    //todo
     const { componentName, container } = component;
     if (!this.pageChange[componentName]) {
       this.pageChange[componentName] = {
@@ -32,7 +31,6 @@ class Events {
       container.classList.remove("is-visible");
       container.classList.add("is-hidden");
     }
-
     this.pageChange[componentName].timer = setTimeout(() => {
       if (this.pageChange[componentName].target) {
         container.classList.remove("is-visible");

@@ -8,6 +8,7 @@ export default class TaskModel {
   }
 
   warn() {
+    // eslint-disable-next-line no-alert
     if (window.confirm(this.removeText) === true) {
       return true;
     }

@@ -1,11 +1,10 @@
 import BaseService from "./base.service.js";
-import _TaskData_ from "./utils/taskData.js";
 import FormModel from "../models/form.model.js";
-import { env, URLS } from "../../../new_env.js";
 import taskHelper from "./taskHelpers.service.js";
 import LottieService from "./lottieService.js";
-
 import StatusService from "./status.service.js";
+import _TaskData_ from "./utils/taskData.js";
+import { env, URLS } from "../../../env.js";
 
 class TaskService extends BaseService {
   constructor() {
@@ -45,7 +44,6 @@ class TaskService extends BaseService {
     }
   }
 
-  // todo
   async failUploads() {
     if (this.workMode !== this.offlineKeyWord) {
       try {
@@ -55,6 +53,7 @@ class TaskService extends BaseService {
           this.notUploadedTasks.splice(this.notUploadedTasks.indexOf(id));
         });
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn("can not upload pendent localStorage tasks to DB");
       }
     }
@@ -101,12 +100,11 @@ class TaskService extends BaseService {
         await this.httpRequest("POST", URLS.tasks.updateTask, newTask);
       } catch (e) {
         if (
+          // eslint-disable-next-line no-alert
           window.confirm(
             "not able to upload, store in local or try again with cancel"
-          ) === true
+          ) === false
         ) {
-          //this.addToLocalPending(newTask); // to do
-        } else {
           throw new Error("not updated in localStorage");
         }
       }
@@ -125,6 +123,7 @@ class TaskService extends BaseService {
         this.tasks = response.map((task) => _TaskData_.fromJSON(task));
         this.#addToLocalStorage();
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn("no access to db, working with localStorage");
         this.getFromLocalStorage();
         this.changeWorkMode(this.offlineKeyWord);
@@ -181,8 +180,10 @@ class TaskService extends BaseService {
 
   deleteLocalStorage(taskId) {
     const index = this.tasks.findIndex((task) => task.id === taskId);
-    this.tasks.splice(index, 1);
-    localStorage.setItem("myTasks", JSON.stringify(this.tasks));
+    if (index !== -1) {
+      this.tasks.splice(index, 1);
+      localStorage.setItem("myTasks", JSON.stringify(this.tasks));
+    }
   }
 
   getTaskById(taskId) {
@@ -197,11 +198,11 @@ class TaskService extends BaseService {
           id: taskId,
         });
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.warn("something happend when trying to remove your task");
       }
-    } else {
-      this.deleteLocalStorage(taskId);
     }
+    this.deleteLocalStorage(taskId);
     this.#addToLocalStorage();
     this.update();
   }

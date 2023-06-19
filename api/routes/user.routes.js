@@ -17,6 +17,8 @@ export default class TaskRouter extends CommonRoutesConfig {
       res.send(send(settings.guestId));
     });
 
+    this.app.route(`/updateFilter`).post(UserController.updateFilter);
+
     this.app.route(`/login`).post(
       body("name").notEmpty().withMessage("fill out"),
       body("name").isAlpha().withMessage("letters a-z"),

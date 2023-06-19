@@ -1,7 +1,6 @@
 #login {
   animation: fadeIn 2s linear 0s forwards;
   font-size: 1.1rem;
-  display: flex;
   height: 100vh;
   background-color: var(--bg-base);
   flex-direction: column;

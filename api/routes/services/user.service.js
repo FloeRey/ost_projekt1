@@ -3,6 +3,31 @@ import poolPromise from "../../sql_db.js";
 import { hashPassword, comparePassword } from "../commmon/security.js";
 
 class UserService {
+  async updateFilter(auth, filterData) {
+    const response = (
+      await poolPromise.execute(
+        "SELECT settings from USERS WHERE uuid=? LIMIT 1",
+        auth
+      )
+    )[0];
+    let { settings } = response;
+    if (!settings) {
+      settings = {};
+    } else {
+      settings = JSON.parse(settings);
+    }
+    if (!settings.filter) {
+      settings.filter = {};
+    }
+    Object.assign(settings.filter, filterData);
+    await poolPromise.execute(
+      `UPDATE USERS SET settings='${JSON.stringify(settings)}' WHERE ?`,
+      {
+        uuid: auth,
+      }
+    );
+  }
+
   async getUser(loginData) {
     const userFromDB = (
       await poolPromise.execute(

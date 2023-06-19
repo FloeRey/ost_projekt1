@@ -3,34 +3,42 @@ class HeaderButtons {
     this.createText = "create new task";
     this.HeaderButtons = new Handlebars.SafeString(
       `
-      <button class='filter btn-small btn' id='name_filter'>Name </button>
-      <button class='filter btn-small btn' id='date_filter' >DueDate </ button>
-      <button class='filter btn-small btn' id='creationDate_filter'>Creation </button>
-      <button class='filter btn-small btn' id='importance_filter'>Importance </button>
+      <button class='filter btn-small btn' id='name-filter'>Name </button>
+      <button class='filter btn-small btn' id='date-filter' >DueDate </ button>
+      <button class='filter btn-small btn' id='noDate-filter' > noDate </ button>
+      <button class='filter btn-small btn' id='creationDate-filter'>Creation </button>
+      <button class='filter btn-small btn' id='importance-filter'>Importance </button>
       `
     );
     this.showHideCompletes_button = new Handlebars.SafeString(
-      ` <button class='filter btn hide' id='completed_filter'></button>`
+      ` <button class='filter btn hide' id='completed-filter'></button>`
     );
     this.toggleCompleteFilterText = {
       1: "&#128584;",
       0: "&#128053;",
     };
     this.buttonStatus = {
-      completed_filter: 0,
+      "completed-filter": 0,
     };
-
     this.activeDirection = 0;
-    this.activeFilter = "date_filter";
+    this.activeFilter = "date-filter";
   }
 
-  sort(mode) {
+  sort(mode, setActiveDirection) {
     this.activeFilter = mode;
-    this.activeDirection = this.activeDirection === 0 ? 1 : 0;
+    if (setActiveDirection !== undefined) {
+      this.activeDirection = setActiveDirection;
+    } else {
+      this.activeDirection = this.activeDirection === 0 ? 1 : 0;
+    }
   }
 
-  toggle(mode) {
-    this.buttonStatus[mode] = this.buttonStatus[mode] === 0 ? 1 : 0;
+  toggle(mode, setButtonStatus) {
+    if (setButtonStatus !== undefined) {
+      this.buttonStatus[mode] = setButtonStatus;
+    } else {
+      this.buttonStatus[mode] = this.buttonStatus[mode] === 0 ? 1 : 0;
+    }
   }
 
   checkCompletes(hasCompletes) {

@@ -16,123 +16,179 @@
 <body>
   <!--info -->
   <script id="info-template" type="text/x-handlebars-template">
-    <div id="info-wrapper">
-      <div class="{{workMode}}-mode no-select">{{infoText}}</div>
-      <button class="main-btn btn no-margin no-padding noHover" id="changetheme">{{#if
-          (eq theme "dark")
-        }}&#x263C;{{else}} &#x263E;{{/if}}
-      </button>
-    </div>
-  </script>
+      <div id="info-wrapper">
+        <div class="{{workMode}}-mode no-select">{{infoText}}</div>
+        <button
+          class="main-btn btn no-margin no-padding noHover"
+          id="changetheme"
+        >{{#if (eq theme "dark")}}&#x263C;{{else}}&#x263E;{{/if}}
+        </button>
+      </div>
+    </script>
   <!-- loading Window -->
   <script id="loading-template" type="text/x-handlebars-template">
-    <div class="dotdotUp">{{beforeText}}</div>
-    <div>{{text}}</div>
-    <div class="dotdot-down ">{{addText}}</div>
-  </script>
+      <div class="dotdotUp">{{beforeText}}</div>
+      <div>{{text}}</div>
+      <div class="dotdot-down">{{addText}}</div>
+    </script>
   <!-- top Buttons -->
   <script id="headerbuttons-template" type="text/x-handlebars-template">
-    <div class="header-buttons-wrapper">
-      <button class="main-btn btn animated btn-big" id="create-new-task">create</button>
-      <div class="toggle">
-        <button id="toggle-filter-div" class="main btn-small btn "></button>
-        {{#if hasCompleteTasks}}
-        <button id="completed-filter" class="main btn-small btn hide">{{completeButtonText}}</button>
-        {{/if}}
-      </div>
-      <div class="filter-buttons-div">
-        <div class="content">
-          {{filterButtons}}
-        </div>
-      </div>
-    </div>
-  </script>
-  <!-- task list -->
-  <script id="tasks-template" type="text/x-handlebars-template">
-    {{#if (noteq task.hideTask true)}}
-      <div class="task {{#if task.complete}}completed{{/if}}">
-        <input class="task-title  items no-input" disabled value="{{task.title}}" placeholder="no title"  pattern="[A-Za-z]{3}" title="Three letter country code">
-        <input class="task-description items no-input text-center" disabled value="{{task.description}}" placeholder="no description">
-        <div class="task-importance items">
-          {{#times task.importance}}
-          ❄
-          {{/times}}
-        </div>
-        <input class="task-duedate items no-input"  disabled  value="{{task.dueDate}}"
-         >
-        <input data-id="{{task.id}}" id="complete_{{index}}" type="checkbox" class="checkbox-round task-complete" {{#if task.complete}}checked{{/if}}>
-        <div class="task-remove"><button id="removeTask_{{index}}" class="btn-small btn animated removeTask " data-id="{{task.id}}">remove</button></div>
-        <div class="task-edit"><button id="editTask_{{index}}" class="btn-small btn animated editTask " data-id="{{task.id}}">edit</button></div>
-      </div>
-    {{/if}}
-  </script>
-  <!-- create / edit task -->
-  <script id="form-template" type="text/x-handlebars-template">
-    <div class="form-wrapper ">
-      <div class="form-title">{{title}}</div>
-      <form id="form-create" >
-        <div class="form-input">
-          <input id="title"
-            value="{{editTask.title}}"
-            type="text"
-            name="title"
-            placeholder="{{formData.createText}}"
-          />
-        </div>
-        <div class="form-input">
-          <textarea
-          rows="1" cols="50"
-            type="text"
-            name="description"
-            placeholder="{{formData.description}}"
-          />{{editTask.description}}</textarea>
-        </div>
-        <div class="form-input">
-          <div id="range-important">
-            {{#times 10}}
-              {{#if ../editTask}}
-                <input {{#if (bigger  ../editTask.importance this) }} checked {{/if}} type="checkbox"
-              class="importance importance_{{add this 1}}  checkbox-round task-complete">
-              {{else}}
-                <input {{#if (eq this 0) }} checked {{/if}} type="checkbox"
-              class="importance importance_{{add this 1}}  checkbox-round task-complete">
-              {{/if}}
-            {{/times}}
-            {{#if editTask}}
-              <input hidden id="importance" name="importance" value="{{editTask.importance}}">
-            {{else}}
-              <input hidden id="importance" name="importance" value="1">
-            {{/if}}
-          </div>
-        </div>
-
-        <div class="form-input complete-div">
-            <div class="form-input ">
-              <label for="complete">complete:</label>
-              <input class="checkbox-not-so-round task-complete" type="checkbox" {{#if editTask.complete}}checked{{/if}}
-                name="complete" id="complete" value="true">
-            </div>
-          <input
-            value="{{editTask.dueDate}}"
-            type="date"
-            name="dueDate"
-            id="input-date-picker"
-          />
-
-        </div>
-        <div class="form-input-button">
-          {{#if editTask}}
-            <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
-            <button class="form-edit btn btn-small" type="submit">edit</button>
-          {{else}}
-            <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
-            <button class="form-edit btn btn-small" type="submit">create</button>
+      <div class="header-buttons-wrapper">
+        <button
+          class="main-btn btn animated btn-big"
+          id="create-new-task"
+        >create</button>
+        <div class="toggle">
+          <button id="toggle-filter-div" class="main btn-small btn"></button>
+          {{#if hasCompleteTasks}}
+            <button
+              id="completed-filter"
+              class="main btn-small btn hide"
+            >{{completeButtonText}}</button>
           {{/if}}
         </div>
+        <div class="filter-buttons-div">
+          <div class="content">
+            {{filterButtons}}
+          </div>
+        </div>
+      </div>
+    </script>
+  <!-- task list -->
+  <script id="tasks-template" type="text/x-handlebars-template">
+      {{#if (noteq task.hideTask true)}}
+        <div class="task {{#if task.complete}}completed{{/if}}">
+          <input class="task-title  items no-input" disabled value="{{task.title}}" placeholder="no title"  pattern="[A-Za-z]{3}" title="Three letter country code">
+          <div class="description-wrapper">
+            <textarea class="task-description items no-input text-center" disabled value="{{task.description}}" placeholder="no description">{{task.description}}</textarea>
+          </div>
+          <!-- <div class="task-importance items">
+            {{#times task.importance}}
+            ❄
+            {{/times}}
+          </div> -->
+{{#if task.complete}}
+<div class="task-importent-card task-importent-card-success no-select importance">
+</div>
 
-      </form>
-    </div>
-  </script>
+{{else}}
+  <div class="task-importent-card task-importent-card-{{task.importance}} no-select importance">
+</div>{{/if}}
+
+          <input class="task-duedate items no-input"  disabled  value="{{task.dueDate}}"
+           >
+          <input data-id="{{task.id}}" id="complete_{{index}}" type="checkbox" class="checkbox-round complete task-complete" {{#if task.complete}}checked{{/if}}>
+          <div class="task-remove"><button id="removeTask_{{index}}" class="btn-small btn animated removeTask " data-id="{{task.id}}">remove</button></div>
+          <div class="task-edit"><button id="editTask_{{index}}" class="btn-small btn animated editTask " data-id="{{task.id}}">edit</button></div>
+        </div>
+      {{/if}}
+    </script>
+  <!-- create / edit task -->
+  <script id="form-template" type="text/x-handlebars-template">
+          <div class="form-wrapper ">
+            <div class="form-title">{{title}}</div>
+            <!-- <img src="../public/assets/create_title.png" class="form-logo-titel"> -->
+            <form id="form-create" >
+              <div class="form-input ">
+                <div class="iscomplete-wrapper">
+                  <!-- <label for="complete">complete:</label> -->
+                  <input class="checkbox-round complete" type="checkbox" {{#if editTask.complete}}checked{{/if}} name="complete"
+                    id="complete" value="true">
+                </div>
+              </div>
+              <div class="form-input">
+                <input id="title"
+                  class="shine"
+                  value="{{editTask.title}}"
+                  type="text"
+                  name="title"
+                  placeholder="{{formData.createText}}"
+                  maxlength="20"
+                  pattern="[A-Za-z*-.,?0-9\x22 \/_]{3,20}"
+                  title="min:3 , max:20 chars - and no special symbols",
+                  required
+                />
+              </div>
+              <div class="form-input">
+                <textarea
+                  rows="1" cols="50"
+                  type="text"
+                  name="description"
+                  maxlength="2000"
+                  class="shine"
+                  placeholder="{{formData.description}}"
+                />{{editTask.description}}</textarea>
+              </div>
+              <div class="form-input">
+                <div class="importent-wrapper no-outline">
+                  {{#if editTask.importance}}
+                    <div class="importent-card importent-card-0 no-select importance {{#if (eq editTask.importance " 0")}} active {{/if}}">
+                      <div class="content">
+                        INFO
+                      </div>
+                      <div class="info">
+                        dient rein informativ
+                      </div>
+                    </div>
+                  {{else}}
+                    <div class="importent-card importent-card-0 no-select importance active">
+                      <div class="content">
+                        INFO
+                      </div>
+                      <div class="info">
+                        dient rein informativ
+                      </div>
+                    </div>
+                  {{/if}}
+                  <div class="importent-card importent-card-1 no-select importance {{#if (eq editTask.importance "1")}} active {{/if}}">
+                    <div class="content">
+                      dringend, nicht wichtig
+                    </div>
+                    <div class="info">
+                      delegieren / automatisieren
+                    </div>
+                  </div>
+                  <div class="importent-card importent-card-2 no-select importance {{#if (eq editTask.importance "2")}} active {{/if}}">
+                    <div class="content">
+                      Wichtig, nicht dringend
+                    </div>
+                    <div class="info">
+                      terminieren und erledigen
+                    </div>
+                  </div>
+                  <div class="importent-card importent-card-3 no-select importance {{#if (eq editTask.importance "3")}} active {{/if}}">
+                    <div class="content">
+                      Wichtig und dringend
+                    </div>
+                    <div class="info">
+                      Sofort erledigen
+                    </div>
+                  </div>
+                </div>
+                {{#if editTask}}
+                <input hidden id="importance" name="importance" value="{{editTask.importance}}">
+                {{else}}
+                <input hidden id="importance" name="importance" value="0">
+                {{/if}}
+              </div>
+              <div class="form-input complete-div">
+                  <span class="datepicker-toggle">
+                    <span class="datepicker-toggle-button"></span>
+                    <input type="date" class="datepicker-input" name="dueDate"  value="{{editTask.dueDate}}">
+                  </span>
+              </div>
+              <div class="form-input-button">
+                {{#if editTask}}
+                  <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
+                  <button class="form-edit btn btn-small" type="submit">edit</button>
+                {{else}}
+                  <button class="form-cancel btn btn-small" type="button" id="cancel">cancel</button>
+                  <button class="form-edit btn btn-small" type="submit">create</button>
+                {{/if}}
+              </div>
+            </form>
+          </div>
+    </script>
   <div class="container">
     <div hidden id="login"></div>
     <div id="info"></div>
@@ -143,6 +199,12 @@
     <lottie-player id="lottie-player" class="hide"
       src="https://assets9.lottiefiles.com/packages/lf20_nxsyeqbd.json">"></lottie-player>
   </div>
+  <!-- <dialog id="alert-box">
+    <p>Are you sure to delete?</p>
+    <form method="dialog">
+      <button>OK</button>
+    </form>
+  </dialog> -->
 </body>
 
 </html>

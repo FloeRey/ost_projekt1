@@ -10,11 +10,12 @@
 
 @keyframes slide-fade-in {
   0% {
-    display: inline-block;
+    transform: translateX(100%);
     opacity: 0;
   }
 
   to {
+    transform: translateX(0%);
     opacity: 1;
   }
 }
@@ -22,10 +23,12 @@
 @keyframes slide-fade-out {
   0% {
     opacity: 1;
+    transform: translateX(0);
   }
 
   100% {
     opacity: 0;
+    transform: translateX(-100%);
   }
 }
 

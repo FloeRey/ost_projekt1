@@ -5,6 +5,7 @@ import TaskService from "../services/task.service.js";
 import headerButtonsModel from "../models/headerButtons.model.js";
 import HeaderButtonsView from "../views/headerButtons.view.js";
 import PubSub from "../utils/pubSub.js";
+import UserService from "../services/userService.js";
 
 export default class HeaderbuttonsComponent extends BaseComponent {
   constructor(app) {
@@ -28,8 +29,30 @@ export default class HeaderbuttonsComponent extends BaseComponent {
 
   initialize() {
     this.headerButtonsModel.checkCompletes(this.taskService.hasCompleteOne);
-    this.sortByDefault();
+    this.checkFilter();
     this.render();
+  }
+
+  checkFilter() {
+    if (Object.keys(UserService.userData.filter_settings).length !== 0) {
+      this.headerButtonsModel.sort(
+        UserService.userData.filter_settings.activeFilter,
+        UserService.userData.filter_settings.activeDirection
+      );
+      this.headerButtonsModel.toggle(
+        "completed-filter",
+        UserService.userData.filter_settings.buttonStatus
+      );
+      this.taskService.toggleCompleteTasks(
+        this.headerButtonsModel.buttonStatus["completed-filter"]
+      );
+      this.pubSub.publish(
+        "changesFromHeaderButtons",
+        this.headerButtonsModel.buttonStatus["completed-filter"]
+      );
+    } else {
+      this.sortByDefault();
+    }
   }
 
   updateFormFromTasks = () => {
@@ -41,7 +64,7 @@ export default class HeaderbuttonsComponent extends BaseComponent {
   };
 
   sortByName() {
-    this.headerButtonsModel.sort("name_filter");
+    this.headerButtonsModel.sort("name-filter");
     this.taskService.sort(
       this.headerButtonsModel.activeFilter,
       this.headerButtonsModel.activeDirection
@@ -58,8 +81,17 @@ export default class HeaderbuttonsComponent extends BaseComponent {
     );
   }
 
+  sortByNoDate() {
+    this.headerButtonsModel.sort("noDate-filter");
+    this.taskService.sort(
+      this.headerButtonsModel.activeFilter,
+      this.headerButtonsModel.activeDirection
+    );
+    this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
+  }
+
   sortByDueDate() {
-    this.headerButtonsModel.sort("date_filter");
+    this.headerButtonsModel.sort("date-filter");
     this.taskService.sort(
       this.headerButtonsModel.activeFilter,
       this.headerButtonsModel.activeDirection
@@ -75,22 +107,25 @@ export default class HeaderbuttonsComponent extends BaseComponent {
       case "create-new-task":
         this.statusService.createNewTask();
         break;
-      case "name_filter":
+      case "name-filter":
         this.sortByName();
         break;
-      case "date_filter":
+      case "noDate-filter":
+        this.sortByNoDate();
+        break;
+      case "date-filter":
         this.sortByDueDate();
         break;
-      case "creationDate_filter":
-        this.headerButtonsModel.sort("creationDate_filter");
+      case "creationDate-filter":
+        this.headerButtonsModel.sort("creationDate-filter");
         this.taskService.sort(
           this.headerButtonsModel.activeFilter,
           this.headerButtonsModel.activeDirection
         );
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
         break;
-      case "importance_filter":
-        this.headerButtonsModel.sort("importance_filter");
+      case "importance-filter":
+        this.headerButtonsModel.sort("importance-filter");
         this.taskService.sort(
           this.headerButtonsModel.activeFilter,
           this.headerButtonsModel.activeDirection
@@ -98,20 +133,21 @@ export default class HeaderbuttonsComponent extends BaseComponent {
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
         break;
       case "completed-filter":
-        this.headerButtonsModel.toggle("completed_filter");
+        this.headerButtonsModel.toggle("completed-filter");
         this.taskService.toggleCompleteTasks(
-          this.headerButtonsModel.buttonStatus.completed_filter
+          this.headerButtonsModel.buttonStatus["completed-filter"]
         );
-
         this.HeaderButtonsView.updateFilter(this.headerButtonsModel);
-
         this.pubSub.publish(
           "changesFromHeaderButtons",
-          this.headerButtonsModel.buttonStatus.completed_filter
+          this.headerButtonsModel.buttonStatus["completed-filter"]
         );
         break;
       default:
         break;
+    }
+    if (e.target.id.search(/-filter$/i) !== -1) {
+      UserService.updateFilter(this.headerButtonsModel);
     }
   }
 
@@ -122,7 +158,6 @@ export default class HeaderbuttonsComponent extends BaseComponent {
 
   hideButtons() {
     this.app.events.pageChanged(this, false);
-    // this.HeaderButtonsView.hide();
   }
 
   ObsStatus(data) {

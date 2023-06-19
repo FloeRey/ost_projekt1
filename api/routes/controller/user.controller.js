@@ -14,19 +14,26 @@ class UserController {
     this.validation = "string";
   }
 
+  async updateFilter(req, res) {
+    try {
+      const auth = req.header("Authorization");
+      if (!auth) throw new Error("you are wrong here");
+      const fitlerData = {
+        buttonStatus: req.body.buttonStatus,
+        activeFilter: req.body.activeFilter,
+        activeDirection: req.body.activeDirection,
+      };
+
+      await UserService.updateFilter(auth, fitlerData);
+      res.send(send("updated"));
+    } catch (e) {
+      console.log(e);
+      res.status(404).send(sendError(e));
+    }
+  }
+
   async loginUser(req, res) {
     try {
-      // if (!req.body.name || !req.body.password) {
-      //   throw new Error("[msg] fill out name and password");
-      // }
-      // if (
-      //   !(
-      //     Validator.typeName(typeof req.body.name) ||
-      //     Validator.typePassword(typeof req.body.password)
-      //   )
-      // ) {
-      //   throw new Error(settings.defaultError);
-      // }
       const loginData = {
         name: req.body.name,
         pw: req.body.password,

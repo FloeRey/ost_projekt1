@@ -9,7 +9,7 @@ import TasksComponent from "./components/tasks.component.js";
 import FormComponent from "./components/form.component.js";
 import LoginComp from "./components/login.component.js";
 import UserService from "./services/userService.js";
-import { env } from "../../new_env.js";
+import { env } from "../../env.js";
 import Events from "./global/globalEvents.js";
 
 class App {

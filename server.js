@@ -33,12 +33,6 @@ app.use("/api/task", taskRouter);
 routes.push(new TaskRouter(taskRouter));
 routes.push(new UserRoutes(userRoutes));
 
-/*
-init()
-  .then(() => startServer())
-  .catch(() => "fail connection to db, check credentials");
-*/
-
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
   // eslint-disable-next-line no-console

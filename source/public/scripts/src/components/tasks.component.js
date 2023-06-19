@@ -26,6 +26,7 @@ export default class TasksComponent extends BaseComponent {
       "changesFromHeaderButtons",
       this.updateFromHeaderButtons
     );
+    this.alertBox = document.querySelector("#alert-box");
     this.hideShowButton_Headerbuttons_status = 0;
   }
 
@@ -58,7 +59,6 @@ export default class TasksComponent extends BaseComponent {
   }
 
   renderTasks() {
-    console.log(this.taskService.allTask);
     this.app.events.pageChanged(this, true);
     this.view.renderTasks(this.taskService.allTask);
   }
@@ -67,7 +67,8 @@ export default class TasksComponent extends BaseComponent {
     try {
       await this.taskService.toggleComplete(taskId);
     } catch (e) {
-      alert("not updated db - local storage updated");
+      // eslint-disable-next-line no-console
+      console.warn(e);
     }
     this.taskService.toggleCompleteTasks(
       this.hideShowButton_Headerbuttons_status

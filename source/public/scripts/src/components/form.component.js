@@ -19,12 +19,12 @@ export default class FormComponent extends BaseComponent {
     this.container.addEventListener("submit", this);
     this.container.addEventListener("click", this);
     this.datePicker = document.querySelector("#input-date-picker");
+    this.importance_regex = /importent-card-[0-9]{1,2}/;
   }
 
   OnSubmit(e) {
     e.preventDefault();
     this.formData = document.getElementById("form-create");
-
     this.uploadData();
   }
 
@@ -41,6 +41,7 @@ export default class FormComponent extends BaseComponent {
       }
       this.statusService.homeView();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn(e);
     }
   }
@@ -55,16 +56,31 @@ export default class FormComponent extends BaseComponent {
 
     if (e.target.classList.contains("importance")) {
       const list = e.target.classList.value;
-      this.handleImportance(list);
+      this.handleImportance(list, e.target);
+    } else if (
+      e.target.classList.contains("content") &&
+      e.target.parentNode &&
+      e.target.parentNode.classList.contains("importance")
+    ) {
+      const list = e.target.parentNode.classList.value;
+      this.handleImportance(list, e.target.parentNode);
+    } else if (
+      e.target.classList.contains("info") &&
+      e.target.parentNode &&
+      e.target.parentNode.classList.contains("importance")
+    ) {
+      const list = e.target.parentNode.classList.value;
+      this.handleImportance(list, e.target.parentNode);
     }
   }
 
-  handleImportance(list) {
-    let match = list.match(/importance_[0-9]{1,2}/);
-    match = match[0].replace("importance_", "");
-    Array.from(document.querySelectorAll(".importance")).map(
-      (e, i) => (e.checked = i < match)
+  handleImportance(list, elem) {
+    let match = list.match(this.importance_regex);
+    match = match[0].replace("importent-card-", "");
+    Array.from(document.querySelectorAll(".importance")).map((e) =>
+      e.classList.remove("active")
     );
+    elem.classList.add("active");
     document.querySelector("#importance").value = match;
   }
 
@@ -75,7 +91,6 @@ export default class FormComponent extends BaseComponent {
 
   hideForm() {
     this.app.events.pageChanged(this, false);
-    // this.formView.hide();
   }
 
   ObsStatus(data) {

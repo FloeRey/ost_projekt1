@@ -12,4 +12,9 @@ export default class InfoView {
       theme: model.userData.theme,
     });
   }
+
+  hide() {
+    this.container.innerHTML = "";
+  }
+
 }

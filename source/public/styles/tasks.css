@@ -11,12 +11,12 @@
   display: grid;
   grid-template: auto 60px 160px 40px / 25% 25% 25% auto;
   grid-template-areas:
-    "complete dueDate importance importance"
+    "complete dueDate dueDate importance"
     "title title title title"
     "description description description description"
     "remove remove edit edit ";
   gap: 2px;
-  background-color: var(--bg-light);
+  background: var(--my-gradient-light);
   padding: 10px;
   border-radius: 10px;
   color: var(--color-dark);
@@ -25,11 +25,13 @@
   max-width: 800px;
 }
 
-.task input {
+.task input,
+.task textarea {
   color: var(--dark);
 }
 
-.darktheme .task input {
+.darktheme .task input,
+.darktheme .task textarea {
   color: var(--color-light);
 }
 
@@ -43,7 +45,7 @@
 
 .darktheme .task {
   color: var(--light);
-  background-color: var(--dark);
+  background: var(--dark);
 }
 
 .task.completed {
@@ -58,14 +60,6 @@
   box-shadow: white 1px 1px 1px;
 }
 
-.checkbox-round:checked {
-  background-color: #c3e01a !important;
-}
-
-.darktheme .checkbox-round:checked {
-  background-color: rgb(17, 196, 4) !important;
-}
-
 .task-title {
   grid-area: title;
   font-size: 1.5rem;
@@ -74,12 +68,91 @@
   width: 80%;
   letter-spacing: 2px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.427);
+  font-family: Roboto, sans-serif;
+}
+
+.task-importent-card {
+  position: relative;
+  color: var(--color-light);
+  border-radius: 20px;
+  font-size: 11px;
+  padding: 10px 0;
+  max-width: 100px;
+}
+
+.task-importent-card::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-importent-card-success {
+  background: var(--color-success);
+}
+
+.task-importent-card-success::after {
+  content: "success";
+}
+
+.task-importent-card-0 {
+  background: var(--card-color-0);
+}
+
+.task-importent-card-0::after {
+  content: "info";
+}
+
+.task-importent-card-1 {
+  background: var(--card-color-1);
+}
+
+.task-importent-card-1::after {
+  content: "dringend \A nicht wichtig";
+  white-space: pre;
+}
+
+.task-importent-card-2 {
+  background: var(--card-color-2);
+}
+
+.task-importent-card-2::after {
+  content: "wichtig \A nicht dringend";
+  white-space: pre;
+}
+
+.task-importent-card-3 {
+  background: var(--card-color-3);
+  content: "";
+}
+
+.task-importent-card-3::after {
+  content: "wichtig \A dringend";
+  white-space: pre;
+}
+
+.description-wrapper {
+  padding: 20px 0;
+  grid-area: description;
+  max-height: 200px;
 }
 
 .task-description {
-  grid-area: description;
-  max-height: 200px;
-  padding: 20px 0;
+  width: 80%;
+  height: 100%;
+  font-weight: 100;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  resize: none;
+  font-family: "Encode Sans SC", sans-serif;
+}
+
+.task-description::-webkit-scrollbar {
+  display: none;
 }
 
 .task-importance {

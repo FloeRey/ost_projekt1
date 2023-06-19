@@ -13,7 +13,7 @@ export default class _TaskData_ {
     this.importance = importance;
     this.description = description;
     this.generateDate = generateDate;
-    this.dueDate = dueDate;
+    this.dueDate = dueDate || null;
     this.complete = complete;
   }
 

@@ -36,6 +36,12 @@
   --color-input-light: rgba(246, 246, 246, 0.87);
   --color-input-dark: rgba(52, 51, 51, 0.87);
   --bg-input-dark: #374151;
+  --card-color-0: rgb(117, 117, 117);
+  --card-color-1: rgb(204, 184, 31);
+  --card-color-2: rgb(24, 218, 24);
+  --card-color-3: rgb(242, 15, 76);
+  --my-gradient-light: linear-gradient(to right, #c0a5a5, #676767);
+  --my-gradient-dark: linear-gradient(to right, #374151, #717171);
 }
 
 * {
@@ -58,8 +64,10 @@ body {
   margin: 0;
   font-family: "Fira sans", sans-serif;
   font-size: 16px;
-  overflow-x: hidden;
   background-color: var(--body-bg-light);
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body.darktheme {
@@ -70,6 +78,12 @@ input,
 textarea,
 button {
   font-size: inherit;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .container {

@@ -1,4 +1,4 @@
-import { URLS, settings } from "../../../new_env.js";
+import { URLS, settings } from "../../../env.js";
 import { createJSONfromFormData } from "../utils/utils.js";
 
 import _UserData_ from "./utils/userData.js";
@@ -8,14 +8,48 @@ class UserService {
 
   constructor() {
     this.userData = new _UserData_();
+    this.saved_header_model = {
+      buttonStatus: {},
+    };
+    this.filterSettings = {
+      buttonStatus: {},
+    };
   }
-
-  /** // TS ?? //
-   * @param {number} id
-   */
 
   setGuestMode() {
     this.#id = settings.guestId;
+  }
+
+  async updateFilter(headerModel) {
+    try {
+      this.filterSettings = {
+        buttonStatus: headerModel.buttonStatus["completed-filter"],
+        activeFilter: headerModel.activeFilter,
+        activeDirection: headerModel.activeDirection,
+      };
+      if (!this.waitTimeForUpdateFilter) {
+        this.waitTimeForUpdateFilter = true;
+        if (
+          JSON.stringify(this.filterSettings) !==
+          JSON.stringify(this.saved_header_model)
+        ) {
+          await this.httpRequest(
+            "POST",
+            URLS.users.updateFilter,
+            this.filterSettings
+          );
+        }
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn("save filter settings not works");
+    }
+    this.saved_header_model = {
+      activeFilter: headerModel.activeFilter,
+      buttonStatus: headerModel.buttonStatus["completed-filter"],
+      activeDirection: headerModel.activeDirection,
+    };
+    this.waitTimeForUpdateFilter = false;
   }
 
   async getGuestMode() {
@@ -40,16 +74,15 @@ class UserService {
   }
 
   async httpRequest(method, path, data) {
-    const headers = new Headers({
+    this.headers = new Headers({
       "content-type": "application/json",
+      Authorization: this.myId,
     });
-
     const response = await fetch(path, {
       method,
-      headers,
+      headers: this.headers,
       body: JSON.stringify(data),
     });
-
     if (response.ok) {
       return response.json();
     }

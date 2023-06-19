@@ -1,15 +1,6 @@
 #form {
-  color: var(--color-dark);
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#form-create {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: auto;
+  transition: all 1s linear;
 }
 
 .form-wrapper {
@@ -17,6 +8,16 @@
   padding: 20px 0;
   min-height: calc(100vh - var(--header-size) - 20px);
   height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#form-create {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #form .btn-small {
@@ -28,30 +29,31 @@
   color: white;
 }
 
-#form-create input {
-  background-color: var(--color-input-light);
+#form-create input:not(.complete) {
+  border-radius: 20px;
   color: var(--color-dark);
   font-size: 1em;
   text-align: center;
+  background-color: var(--bg-light);
 }
 
 #form-create textarea {
+  border-radius: 20px;
   margin: auto;
   max-height: 400px;
   max-width: 80vw;
-  min-height: 200px;
+  min-height: 160px;
   min-width: 40vw;
   text-align: center;
-  background-color: var(--color-input-light);
+  background-color: var(--bg-light);
   color: var(--color-dark);
 }
 
 .darktheme #form {
-  /* background-color: var(--bg-dark); */
   color: var(--color-light);
 }
 
-.darktheme #form-create input {
+.darktheme #form-create input:not(.complete) {
   background-color: var(--color-input-dark);
   color: var(--color-light);
 }
@@ -72,8 +74,112 @@
   border: outset rgb(242, 199, 135) 2px;
 }
 
+.datepicker-toggle {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.datepicker-toggle-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/kalender.gif");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.datepicker-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.datepicker-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
 .darktheme #input-date-picker {
   border: outset white 2px;
+}
+
+.iscomplete-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.importent-wrapper {
+  margin: auto 10px;
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+}
+
+.importent-card {
+  width: 100px;
+  padding: 10px 4px;
+  margin: 2px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 20px;
+  border: solid 3px rgba(255, 192, 203, 0);
+}
+
+.importent-card.active {
+  box-shadow: rgb(57, 57, 57) 10px 10px 20px;
+  border: solid 3px pink;
+}
+
+.darktheme .importent-card.active {
+  box-shadow: white 10px 10px 20px;
+}
+
+.importent-card .content {
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.importent-card .info {
+  margin: 10px 0;
+  font-style: italic;
+  font-size: 0.8rem;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.importent-card-0 {
+  background: var(--card-color-0);
+}
+
+.importent-card-1 {
+  background: var(--card-color-1);
+}
+
+.importent-card-2 {
+  background: var(--card-color-2);
+}
+
+.importent-card-3 {
+  background: var(--card-color-3);
 }
 
 .form-title {
@@ -82,6 +188,12 @@
   margin: 40px auto;
   position: relative;
   width: fit-content;
+  font-weight: bold;
+  color: var(--color-dark);
+}
+
+.darktheme .form-title {
+  color: var(--color-light);
 }
 
 .form-title::before {
@@ -120,7 +232,7 @@
 }
 
 .complete-div {
-  margin-top: 10px;
+  margin: 20px 0;
 }
 
 .form-edit.btn-small {
@@ -160,4 +272,11 @@
   position: relative;
   margin: 0;
   margin-left: 6px;
+}
+
+@media (min-width: 400px) {
+  .importent-card {
+    padding: 10px;
+    margin: 10px;
+  }
 }

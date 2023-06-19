@@ -4,6 +4,10 @@ import UserService from "../services/userService.js";
 class LoginComp {
   constructor() {
     this.login = document.querySelector("#login");
+  }
+
+  init(app) {
+    this.login.style.display = "flex";
     this.login.innerHTML = `
       <div id="login-wrapper">
       <form id='login-form'>  <div><input name='name' type='text' placeholder='name' autocomplete='username'></div><div><input name='password' type='password' placeholder='password' autocomplete='current-password' > </div> <div><input name='key' placeholder='key'><hr></div><div class='buttons'>
@@ -11,9 +15,6 @@ class LoginComp {
       <button type='button' class='btn btn-login success' id='submit' >login</button></div> </form >
       <div id='info-login'>  </div ></div>
     `;
-  }
-
-  init(app) {
     this.submitButton = document.querySelector("#submit");
     this.offline = document.querySelector("#offline");
     this.info = document.querySelector("#info-login");

@@ -11,14 +11,12 @@ export default class InfoComponent extends BaseComponent {
     this.taskService = TaskService;
     this.statusService = StatusService;
     this.workMode = this.taskService.workMode;
-
+    this.statusService.addObserver(this);
     this.container = this.getElement();
     this.taskService.addObserver(this);
     this.template = this.template();
-
     this.model = new InfoModel(userService.getData);
     this.view = new InfoView(this.container, this.template);
-
     this.container.addEventListener("click", this);
   }
 
@@ -27,7 +25,12 @@ export default class InfoComponent extends BaseComponent {
   }
 
   render() {
+    this.app.events.pageChanged(this, true);
     this.view.render(this.workMode, this.model);
+  }
+
+  hide() {
+    this.app.events.pageChanged(this, false);
   }
 
   OnclickButton(e) {
@@ -42,5 +45,10 @@ export default class InfoComponent extends BaseComponent {
   changeTasksMode(workMode) {
     this.workMode = workMode;
     this.render();
+  }
+
+  ObsStatus(data) {
+    if (data.createTask) this.hide();
+    else this.render();
   }
 }
